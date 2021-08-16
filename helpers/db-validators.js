@@ -1,5 +1,4 @@
-const Role = require('../models/role');
-const User = require('../models/user');
+const { Role, User, Category } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -25,6 +24,22 @@ const isValidRole = async(rol = '') => {
     }
 };
 
+/**
+ * Verifica si una categoria existe en la base de datos según su identificador (id).
+ * @param {string} id Identificador de la categoria a comprobar.
+ */
+ const existCategoryById = async( id ) => {
+    // Verificar si existe en la BD.
+    const exist = await Category.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`La categoria no existe: ${ id }`);
+    }
+}
+
+
+
+
 const existeUsuarioPorId = async( id ) => {
 
     // Verificar si el correo existe
@@ -37,6 +52,7 @@ const existeUsuarioPorId = async( id ) => {
 module.exports = {
     isValidRole,
     emailExist,
+    existCategoryById,
     existeUsuarioPorId
 }
 

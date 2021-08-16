@@ -1,24 +1,34 @@
 const { response } = require('express')
 
+/**
+ * Verifica si el usuario es administrador.
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+const isAdminRole = ( req, res = response, next ) => {
 
-const esAdminRole = ( req, res = response, next ) => {
-
-    if ( !req.usuario ) {
+    if ( !req.user ) 
+    {
         return res.status(500).json({
             msg: 'Se quiere verificar el role sin validar el token primero'
         });
     }
 
-    const { rol, nombre } = req.usuario;
+    const { rol, name } = req.user;
     
     if ( rol !== 'ADMIN_ROLE' ) {
         return res.status(401).json({
-            msg: `${ nombre } no es administrador - No puede hacer esto`
+            msg: `${ name } no es administrador - No puede hacer esto`
         });
     }
 
     next();
 }
+
+
+
 
 
 const tieneRole = ( ...roles  ) => {
@@ -44,6 +54,6 @@ const tieneRole = ( ...roles  ) => {
 
 
 module.exports = {
-    esAdminRole,
+    isAdminRole,
     tieneRole
 }

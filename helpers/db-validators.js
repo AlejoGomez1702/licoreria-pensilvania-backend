@@ -1,4 +1,4 @@
-const { Role, User, Category } = require('../models');
+const { Role, User, Category, Alcohol, Unit } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -37,6 +37,32 @@ const isValidRole = async(rol = '') => {
     }
 }
 
+/**
+ * Verifica si un % de volumen alcoholico existe en la base de datos según su identificador (id).
+ * @param {string} id Identificador de % alcohol a comprobar.
+ */
+ const existAlcoholById = async( id ) => {
+    // Verificar si existe en la BD.
+    const exist = await Alcohol.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`El % de volumen alcoholico no existe: ${ id }`);
+    }
+}
+
+/**
+ * Verifica si una unidad de medida existe en la base de datos según su identificador (id).
+ * @param {string} id Identificador de la categoria a comprobar.
+ */
+ const existUnitById = async( id ) => {
+    // Verificar si existe en la BD.
+    const exist = await Unit.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`La unida de medida no existe: ${ id }`);
+    }
+}
+
 
 
 
@@ -53,6 +79,10 @@ module.exports = {
     isValidRole,
     emailExist,
     existCategoryById,
+    existAlcoholById,
+    existUnitById,
+
+
     existeUsuarioPorId
 }
 

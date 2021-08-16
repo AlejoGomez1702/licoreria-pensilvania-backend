@@ -27,16 +27,18 @@ const ProductSchema = Schema({
         type: Number,
         default: 0,        
     },
-    // // Unidades de media | debe ser otra colección en la BD. 
-    // measurement_units: {
-    //     type: String,
-    //     required: [true, 'La unidad de medida es obligatoria']
-    // },
-    // // Porcentaje de volumen alcoholico | debe ser otra colección en la BD. 
-    // alcohol_volume: {
-    //     type: Number,
-    //     required: [true, 'El % de volumen alcoholico es requerido']
-    // },
+    // Unidades de media
+    unit: {
+        type: Schema.Types.ObjectId,
+        ref: 'Unit',
+        required: true
+    },
+    // Porcentaje de volumen alcoholico
+    alcohol: {
+        type: Schema.Types.ObjectId,
+        ref: 'Alcohol',
+        required: true
+    },
     // Usuario que creó el producto
     user: {
         type: Schema.Types.ObjectId,

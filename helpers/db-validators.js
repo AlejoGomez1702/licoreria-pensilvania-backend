@@ -1,17 +1,17 @@
 const Role = require('../models/role');
-const User = require('../models/usuario');
+const User = require('../models/user');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
  * @param {string} email 
  */
- const emailExist = async( email = '' ) => {
+const emailExist = async( email = '' ) => {
     // Verificar si el email existe
-    const exist = await Usuario.findOne({ email });
+    const exist = await User.findOne({ email });
     if ( exist ) {
         throw new Error(`El email: ${ email }, ya está registrado`);
     }
-}
+};
 
 /**
  * Verifica si el usuario intenta registrarse con un rol válido.
@@ -23,7 +23,7 @@ const isValidRole = async(rol = '') => {
     if ( !exist ) {
         throw new Error(`El rol ${ rol } no está registrado en la BD`);
     }
-}
+};
 
 const existeUsuarioPorId = async( id ) => {
 

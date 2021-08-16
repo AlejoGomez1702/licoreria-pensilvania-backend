@@ -8,8 +8,8 @@ const User = require('../models/user');
  * @param {Request} req 
  * @param {Response} res 
  */
- const createUser = async(req, res = response) => {
-         
+const createUser = async(req, res = response) => {
+
     const { name, email, password, rol } = req.body;
     const user = new User({ name, email, password, rol });
 
@@ -23,7 +23,7 @@ const User = require('../models/user');
     res.json({
         user
     });
-}
+};
 
 const usuariosGet = async(req = request, res = response) => {
 
@@ -74,13 +74,10 @@ const usuariosDelete = async(req, res = response) => {
     res.json(usuario);
 }
 
-
-
-
 module.exports = {
     usuariosGet,
     createUser,
     usuariosPut,
     usuariosPatch,
     usuariosDelete,
-}
+};

@@ -1,4 +1,5 @@
 const { response } = require('express');
+const { stringCapitalize } = require('../helpers/string-capitalize');
 const { Category } = require('../models');
 
 /**
@@ -9,7 +10,7 @@ const { Category } = require('../models');
  */
 const createCategory = async(req, res = response ) => {
 
-    const name = req.body.name.toUpperCase();
+    const name = stringCapitalize(req.body.name);
 
     const categoryDB = await Category.findOne({ name });
 
@@ -34,61 +35,83 @@ const createCategory = async(req, res = response ) => {
     res.status(201).json(category);
 };
 
+/**
+ * Obtiene todas las categorias de productos de la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const getAllCategories = async(req, res = response ) => {
 
-// const obtenerCategorias = async(req, res = response ) => {
+    const { limit = 5, from = 0 } = req.query;
+    const query = { state: true };
 
-//     const { limite = 5, desde = 0 } = req.query;
-//     const query = { estado: true };
+    const [ total, categories ] = await Promise.all([
+        Category.countDocuments(query),
+        Category.find(query)
+            .populate('user', 'name')
+            .skip( Number( from ) )
+            .limit(Number( limit ))
+    ]);
 
-//     const [ total, categorias ] = await Promise.all([
-//         Categoria.countDocuments(query),
-//         Categoria.find(query)
-//             .populate('usuario', 'nombre')
-//             .skip( Number( desde ) )
-//             .limit(Number( limite ))
-//     ]);
+    res.json({
+        total,
+        categories
+    });
+};
 
-//     res.json({
-//         total,
-//         categorias
-//     });
-// }
+/**
+ * Obtiene una categoria de productos de la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const getCategoryById = async(req, res = response ) => {
 
-// const obtenerCategoria = async(req, res = response ) => {
+    const { id } = req.params;
+    const category = await Category.findById( id )
+                            .populate('user', 'name');
 
-//     const { id } = req.params;
-//     const categoria = await Categoria.findById( id )
-//                             .populate('usuario', 'nombre');
+    res.json( category );
+};
 
-//     res.json( categoria );
+/**
+ * Actualiza la información de una categoria de productos de la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const updateCategoryById = async( req, res = response ) => {
 
-// }
+    const { id } = req.params;
+    const { state, user, ...data } = req.body;
 
+    data.name = stringCapitalize(data.name);
+    data.user = req.user._id;
 
+    const category = await Category.findByIdAndUpdate(id, data, { new: true });
 
-// const actualizarCategoria = async( req, res = response ) => {
+    res.json( category );
+}
 
-//     const { id } = req.params;
-//     const { estado, usuario, ...data } = req.body;
+/**
+ * Elimina una categoria de productos de la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const deleteCategoryById = async(req, res =response ) => {
 
-//     data.nombre  = data.nombre.toUpperCase();
-//     data.usuario = req.usuario._id;
+    const { id } = req.params;
+    const categoryDeleted = await Category.findByIdAndUpdate( id, { estado: false }, {new: true });
 
-//     const categoria = await Categoria.findByIdAndUpdate(id, data, { new: true });
-
-//     res.json( categoria );
-
-// }
-
-// const borrarCategoria = async(req, res =response ) => {
-
-//     const { id } = req.params;
-//     const categoriaBorrada = await Categoria.findByIdAndUpdate( id, { estado: false }, {new: true });
-
-//     res.json( categoriaBorrada );
-// }
-
+    res.json( categoryDeleted );
+}
 
 module.exports = {
-    createCategory
+    createCategory,
+    getAllCategories,
+    getCategoryById,
+    updateCategoryById,
+    deleteCategoryById
 };

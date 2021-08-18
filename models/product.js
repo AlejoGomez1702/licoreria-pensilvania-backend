@@ -50,12 +50,18 @@ const ProductSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Category',
         required: true
+    },
+    // Inventario al que pertenece el producto
+    inventory: {
+        type: Schema.Types.ObjectId,
+        ref: 'Inventory',
+        required: true
     }
 });
 
 ProductSchema.methods.toJSON = function() {
     const { __v, state, _id, ...data  } = this.toObject();
-    data.uid = _id;
+    data.id = _id;
     return data;
 }
 

@@ -30,11 +30,17 @@ const UserSchema = Schema({
         type: Boolean,
         default: false
     },
+    // Establecimiento al que pertenece el usuario
+    establishment: {
+        type: Schema.Types.ObjectId,
+        ref: 'establishment',
+        required: true
+    }
 });
 
 UserSchema.methods.toJSON = function() {
     const { __v, password, _id, ...user  } = this.toObject();
-    user.uid = _id;
+    user.id = _id;
     return user;
 }
 

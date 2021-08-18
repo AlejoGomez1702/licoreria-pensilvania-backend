@@ -13,16 +13,16 @@ const { generateJWT } = require('../helpers/generate-jwt');
  */
 const login = async(req, res = response) => {
 
-    const { email, password } = req.body;
+    const { email, password, remember } = req.body;
 
     try 
     {      
         // Verificar si el email existe
-        const user = await User.findOne({ email });
+        const user = await User.findOne( { $or: [{ email }, { username: email }] } );
         if ( !user ) //El usuario no existe.
         {
             return res.status(400).json({
-                msg: 'El email ingresado NO se encuentra registrado!'
+                error: 'El email/username ingresado NO se encuentra registrado!'
             });
         }
 
@@ -30,7 +30,7 @@ const login = async(req, res = response) => {
         if ( !user.state ) 
         {
             return res.status(400).json({
-                msg: 'El usuario NO se encuentra activo en el sistema!'
+                error: 'El usuario NO se encuentra activo en el sistema!'
             });
         }
 
@@ -39,12 +39,16 @@ const login = async(req, res = response) => {
         if ( !validPassword ) // Contraseña inválida
         {
             return res.status(400).json({
-                msg: 'La contraseña NO es correcta!'
+                error: 'La contraseña NO es correcta!'
             });
         }
 
         // Generar el JWT
-        const token = await generateJWT( user.id );
+        const payload = {
+            id: user.id,
+            establishment: user.establishment._id
+        };
+        const token = await generateJWT( payload, remember );
 
         res.json({
             user,

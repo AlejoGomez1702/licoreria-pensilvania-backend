@@ -44,7 +44,9 @@ const createCategory = async(req, res = response ) => {
 const getAllCategories = async(req, res = response ) => {
 
     const { limit = 5, from = 0 } = req.query;
-    const query = { state: true };
+    console.log(limit);
+    // const query = { state: true };
+    const query = {  };
 
     const [ total, categories ] = await Promise.all([
         Category.countDocuments(query),
@@ -100,10 +102,10 @@ const updateCategoryById = async( req, res = response ) => {
  * @param {*} res 
  * @returns 
  */
-const deleteCategoryById = async(req, res =response ) => {
+const deleteCategoryById = async(req, res = response ) => {
 
     const { id } = req.params;
-    const categoryDeleted = await Category.findByIdAndUpdate( id, { estado: false }, {new: true });
+    const categoryDeleted = await Category.findByIdAndUpdate( id, { state: false }, {new: true });
 
     res.json( categoryDeleted );
 }

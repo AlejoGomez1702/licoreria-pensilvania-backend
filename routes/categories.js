@@ -24,7 +24,7 @@ const router = Router();
 router.get('/', [
     validateJWT,
     isActiveUser
-], getAllCategories);
+], getAllCategories );
 
 /**
  * Obtener una categoría de productos especifica en la BD.

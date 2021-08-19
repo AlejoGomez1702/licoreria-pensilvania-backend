@@ -62,7 +62,6 @@ class Server
         this.app.use( this.paths.products, require('../routes/products'));
         this.app.use( this.paths.alcohols, require('../routes/alcohols'));
         this.app.use( this.paths.units, require('../routes/units'));
-
     }
 
     listen() 

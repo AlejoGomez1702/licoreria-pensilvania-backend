@@ -23,7 +23,27 @@ const ProductSchema = Schema({
         required: true
     },
 
-    price: {
+    sale_price: {
+        type: Number,
+        default: 0,        
+    },
+
+    purchase_price: {
+        type: Number,
+        default: 0,        
+    },
+
+    barcode: {
+        type: String,   
+        default: '' 
+    },
+
+    stock: {
+        type: Number,
+        default: 0,        
+    },
+
+    current_existence: {
         type: Number,
         default: 0,        
     },

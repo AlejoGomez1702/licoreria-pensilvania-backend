@@ -22,7 +22,8 @@ class Server
             categories: '/api/categories',
             users:      '/api/users',    
             products:   '/api/products',
-            alcohols:   '/api/alcohols'        
+            alcohols:   '/api/alcohols',
+            units:      '/api/units'      
         };
 
         // Conectar a base de datos
@@ -60,6 +61,8 @@ class Server
         this.app.use( this.paths.categories, require('../routes/categories'));
         this.app.use( this.paths.products, require('../routes/products'));
         this.app.use( this.paths.alcohols, require('../routes/alcohols'));
+        this.app.use( this.paths.units, require('../routes/units'));
+
     }
 
     listen() 

@@ -59,7 +59,7 @@ const isValidRole = async(rol = '') => {
     const exist = await Unit.findById(id);
     if ( !exist ) 
     {
-        throw new Error(`La unida de medida no existe: ${ id }`);
+        throw new Error(`La unidad de medida no existe: ${ id }`);
     }
 }
 

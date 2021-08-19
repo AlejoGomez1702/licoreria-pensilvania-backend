@@ -4,6 +4,8 @@ const Category = require('./category');
 const Product = require('./product');
 const Alcohol = require('./alcohol');
 const Unit = require('./unit');
+const Establishment = require('./establishment');
+const Inventory = require('./inventory');
 
 module.exports = {
     User,
@@ -11,5 +13,7 @@ module.exports = {
     Category,
     Product,
     Alcohol,
-    Unit
+    Unit,
+    Establishment,
+    Inventory
 };

@@ -37,7 +37,7 @@ const UserSchema = Schema({
     // Establecimiento al que pertenece el usuario
     establishment: {
         type: Schema.Types.ObjectId,
-        ref: 'establishment',
+        ref: 'Establishment',
         required: true
     }
 });

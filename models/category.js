@@ -13,16 +13,16 @@ const CategorySchema = Schema({
         required: true
     },
 
-    // Usuario que creó la categoria
-    user: {
+    // Establecimiento que creó la categoria
+    establishment: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Establishment',
         required: true
     }
 });
 
 CategorySchema.methods.toJSON = function() {
-    const { __v, _id, user, ...data  } = this.toObject();
+    const { __v, _id, ...data  } = this.toObject();
     data.id = _id;
     return data;
 }

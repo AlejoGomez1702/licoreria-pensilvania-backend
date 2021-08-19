@@ -11,20 +11,22 @@ const { Category } = require('../models');
 const createCategory = async(req, res = response ) => {
 
     const name = stringCapitalize(req.body.name);
+    const establishment = req.user.establishment;
+    const query = { $and: [{ name }, { establishment }] };
 
-    const categoryDB = await Category.findOne({ name });
+    const categoryDB = await Category.findOne( query );
 
     if ( categoryDB ) 
     {
         return res.status(400).json({
-            msg: `La categoria ${ categoryDB.name } ya existe!`
+            error: `La categoria ${ categoryDB.name } ya existe!`
         });
     }
 
     // Generar la data a guardar
     const data = {
         name,
-        user: req.user._id
+        establishment: req.user.establishment
     }
 
     const category = new Category( data );
@@ -36,24 +38,22 @@ const createCategory = async(req, res = response ) => {
 };
 
 /**
- * Obtiene todas las categorias de productos de la base de datos.
+ * Obtiene todas las categorias de productos registradas en un establecimiento.
  * @param {*} req 
  * @param {*} res 
  * @returns 
  */
 const getAllCategories = async(req, res = response ) => {
-
     const { limit = 5, from = 0 } = req.query;
-    console.log(limit);
-    // const query = { state: true };
-    const query = {  };
+    const { establishment } = req.user;
+    const query = { $and: [{ 'state': true }, { establishment }] };
 
     const [ total, categories ] = await Promise.all([
         Category.countDocuments(query),
         Category.find(query)
-            .populate('user', 'name')
+            .populate('establishment', 'name')
             .skip( Number( from ) )
-            .limit(Number( limit ))
+            .limit( Number( limit ) )
     ]);
 
     res.json({
@@ -71,8 +71,10 @@ const getAllCategories = async(req, res = response ) => {
 const getCategoryById = async(req, res = response ) => {
 
     const { id } = req.params;
-    const category = await Category.findById( id )
-                            .populate('user', 'name');
+    const establishment = req.user.establishment;
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
+    const category = await Category.findOne( query )
+                            .populate('establishment', 'name');
 
     res.json( category );
 };
@@ -87,14 +89,16 @@ const updateCategoryById = async( req, res = response ) => {
 
     const { id } = req.params;
     const { state, user, ...data } = req.body;
+    const establishment = req.user.establishment;
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
     data.name = stringCapitalize(data.name);
     data.user = req.user._id;
 
-    const category = await Category.findByIdAndUpdate(id, data, { new: true });
+    const category = await Category.findOneAndUpdate(query, data, { new: true });
 
     res.json( category );
-}
+};
 
 /**
  * Elimina una categoria de productos de la base de datos.
@@ -105,10 +109,12 @@ const updateCategoryById = async( req, res = response ) => {
 const deleteCategoryById = async(req, res = response ) => {
 
     const { id } = req.params;
-    const categoryDeleted = await Category.findByIdAndUpdate( id, { state: false }, {new: true });
-
+    const establishment = req.user.establishment;
+    const query = { $and: [{ '_id': id }, { establishment }] };
+    const categoryDeleted = await Category.findOneAndUpdate( query, { state: false }, {new: true });
+    console.log(categoryDeleted);
     res.json( categoryDeleted );
-}
+};
 
 module.exports = {
     createCategory,

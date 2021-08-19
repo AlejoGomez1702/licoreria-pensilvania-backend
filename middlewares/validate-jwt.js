@@ -17,21 +17,21 @@ const validateJWT = async( req = request, res = response, next ) => {
     if ( !token ) 
     {
         return res.status(401).json({
-            msg: 'No hay token en la petición'
+            error: 'No hay token en la petición'
         });
     }
 
     try 
     {        
-        const { uid } = jwt.verify( token, process.env.SECRETORPRIVATEKEY );
+        const { id } = jwt.verify( token, process.env.SECRETORPRIVATEKEY );
 
-        // leer el usuario que corresponde al uid
-        const user = await User.findById( uid );
+        // leer el usuario que corresponde al id
+        const user = await User.findById( id );
 
         if( !user ) // No existe el usuario con el token asociado.
         {
             return res.status(401).json({
-                msg: 'Token no válido - usuario no existe DB'
+                error: 'Token no válido - usuario no existe DB'
             })
         }
 
@@ -39,7 +39,7 @@ const validateJWT = async( req = request, res = response, next ) => {
         if ( !user.state ) 
         {
             return res.status(401).json({
-                msg: 'Token no válido - usuario inactivo'
+                error: 'Token no válido - usuario inactivo'
             })
         }
         
@@ -51,7 +51,7 @@ const validateJWT = async( req = request, res = response, next ) => {
     {
         // console.log(error);
         res.status(401).json({
-            msg: 'Token no válido',
+            error: 'Token no válido',
             error
         });
     }

@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { createCategory, getAllCategories, getCategoryById, updateCategoryById, deleteCategoryById } = require('../controllers/categories');
 const { existCategoryById } = require('../helpers/db-validators');
 
-const { validateJWT, validateFields, isAdminRole } = require('../middlewares');
+const { validateJWT, validateFields, isAdminRole, isActiveUser } = require('../middlewares');
 
 const router = Router();
 
@@ -21,7 +21,10 @@ const router = Router();
  * Obtener todas las categorías de productos en la BD.
  * {{ url }}/api/categories
  */
-router.get('/', getAllCategories);
+router.get('/', [
+    validateJWT,
+    isActiveUser
+], getAllCategories);
 
 /**
  * Obtener una categoría de productos especifica en la BD.

@@ -31,6 +31,7 @@ router.get('/', [
  * {{ url }}/api/categories/:id
  */
 router.get('/:id',[
+    validateJWT,
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existCategoryById ),
     validateFields

@@ -5,6 +5,8 @@ const { User, Product } = require('../models');
 const fs = require('fs');
 const path = require('path');
 uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+const cloudinary = require('cloudinary').v2
+cloudinary.config( process.env.CLOUDINARY_URL );
 
 /**
  * Sube un archivo.
@@ -126,8 +128,66 @@ uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
     res.sendFile( pathImage );
 };
 
+/**
+ * Actualiza la imagen de una colección Claudinary.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ const updateImageClaudinary = async(req, res = response ) => {
+
+    const { id, collection } = req.params;
+
+    let model;
+
+    switch ( collection ) 
+    {
+        case 'users':
+            model = await User.findById(id);
+            if ( !model ) {
+                return res.status(400).json({
+                    error: `No existe un usuario con el id ${ id }`
+                });
+            }
+        
+        break;
+
+        case 'products':
+            model = await Product.findById(id);
+            if ( !model ) {
+                return res.status(400).json({
+                    error: `No existe un producto con el id ${ id }`
+                });
+            }
+        
+        break;
+    
+        default:
+            return res.status(500).json({ error: 'Se me olvidó validar esto'});
+    }
+
+    // Limpiar imágenes previas
+    if ( model.img ) {
+        const nameArr = model.img.split('/');
+        const name    = nameArr[ nameArr.length - 1 ];
+        const [ public_id ] = name.split('.');
+        cloudinary.uploader.destroy( public_id );
+    }
+
+
+    const { tempFilePath } = req.files.file;
+    const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+    model.img = secure_url;
+
+    await model.save();
+
+
+    res.json( model );
+};
+
 module.exports = {
     subirFile,
     updateImage,
-    showImage
+    showImage,
+    updateImageClaudinary
 };

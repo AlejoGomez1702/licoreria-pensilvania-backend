@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { subirFile, updateImage, showImage } = require('../controllers/uploads');
+const { subirFile, updateImage, showImage, updateImageClaudinary } = require('../controllers/uploads');
 const { collectionsValids } = require('../helpers');
 const { validateFields, validateFile, validateJWT } = require('../middlewares');
 
@@ -25,7 +25,7 @@ const router = Router();
     check('id', 'No es un id de mongo válido!').isMongoId(),
     check('collection').custom( c => collectionsValids( c, ['users', 'products'] ) ),
     validateFields
-], updateImage );
+], updateImageClaudinary );
 
 /**
  * Busca una imagen en concreto.

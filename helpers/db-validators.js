@@ -89,6 +89,23 @@ const isValidRole = async(rol = '') => {
     }
 }
 
+/**
+ * Valida una coleccion permitida para subir una imagen.
+ * @param {*} collection 
+ * @param {*} collections 
+ * @returns 
+ */
+const collectionsValids = ( collection = '', collections = [] ) => {
+
+    const include = collections.includes( collection );
+    if( !include )
+    {
+        throw new Error(`La colleción ${collection} NO es permitida, ${collections}`);
+    }
+
+    return true;
+};
+
 
 
 
@@ -110,7 +127,7 @@ module.exports = {
     existUnitById,
     existProductById,
     existInventoryById,
-
+    collectionsValids,
 
     existeUsuarioPorId
 }

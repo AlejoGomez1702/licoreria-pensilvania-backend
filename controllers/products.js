@@ -1,6 +1,5 @@
 const { response } = require('express');
-const { stringCapitalize } = require('../helpers/string-capitalize');
-const { Product, Inventory } = require('../models');
+const { Product } = require('../models');
 
 /**
  * Crea un nuevo producto en la base de datos.

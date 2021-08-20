@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const { dbConnection } = require('./database');
+const fileUpload = require('express-fileupload');
 
 /**
  * Contiene todo lo necesario para ejecutarse el servidor con el servicio.
@@ -23,7 +24,8 @@ class Server
             users:      '/api/users',    
             products:   '/api/products',
             alcohols:   '/api/alcohols',
-            units:      '/api/units'      
+            units:      '/api/units',
+            uploads:    '/api/uploads',      
         };
 
         // Conectar a base de datos
@@ -49,8 +51,12 @@ class Server
         // Lectura y parseo del body
         this.app.use( express.json() );
 
-        // Directorio Público
-        // this.app.use( express.static('public') );
+        // Subida de archivos 
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true
+        }));
 
     }
 
@@ -62,6 +68,7 @@ class Server
         this.app.use( this.paths.products, require('../routes/products'));
         this.app.use( this.paths.alcohols, require('../routes/alcohols'));
         this.app.use( this.paths.units, require('../routes/units'));
+        this.app.use( this.paths.uploads, require('../routes/uploads'));
     }
 
     listen() 

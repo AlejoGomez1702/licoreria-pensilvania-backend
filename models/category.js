@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const CategorySchema = Schema({
     name: {
         type: String,
+        trim: true,
         required: [true, 'El nombre es obligatorio'],
         unique: true
     },
@@ -23,7 +24,7 @@ const CategorySchema = Schema({
         ref: 'Establishment',
         required: true
     }
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 CategorySchema.methods.toJSON = function() {
     const { __v, _id, ...data  } = this.toObject();

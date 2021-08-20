@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const EstablishmentSchema = Schema({
     name: {
         type: String,
+        trim: true,
         required: [true, 'El nombre es obligatorio'],
         unique: true
     },
@@ -15,15 +16,17 @@ const EstablishmentSchema = Schema({
 
     cellphone: {
         type: String,
+        trim: true,
         required: [true, 'El número telefonico es obligatorio'],
         unique: true
     },
 
     email: {
         type: String,
+        trim: true,
         unique: true
     }
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 EstablishmentSchema.methods.toJSON = function() {
     const { __v, _id, ...data  } = this.toObject();

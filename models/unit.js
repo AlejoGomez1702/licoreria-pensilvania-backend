@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const UnitSchema = Schema({
     unit: {
         type: String,
+        trim: true,
         required: [true, 'La unidad de medida es obligatoria']
     },
     ml: {
@@ -20,7 +21,7 @@ const UnitSchema = Schema({
         ref: 'Establishment',
         required: true
     }
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 UnitSchema.methods.toJSON = function() {
     const { __v, _id, state, ...data  } = this.toObject();

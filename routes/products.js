@@ -23,6 +23,7 @@ router.post('/', [
     check('inventory','No existe el inventario especificado').isMongoId(),
     check('inventory').custom( existInventoryById ),
     isAdminRole,
+    isActiveUser,
     validateExistProduct,
     validateFields
 ], createProduct );
@@ -67,6 +68,8 @@ router.post('/', [
     check('inventory','No existe el inventario especificado').isMongoId(),
     check('inventory').custom( existInventoryById ),
     validateExistProduct,
+    isAdminRole,
+    isActiveUser,
     validateFields
 ], updateProductById );
 
@@ -78,6 +81,7 @@ router.post('/', [
     validateJWT,
     validateInventory,
     isAdminRole,
+    isActiveUser,
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     validateFields,

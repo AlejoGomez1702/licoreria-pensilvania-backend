@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const InventorySchema = Schema({
     description: {
         type: String,
+        trim: true,
         default: 'Inventario de licores'
     },
 
@@ -12,7 +13,7 @@ const InventorySchema = Schema({
         ref: 'Establishment',
         required: true
     }    
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 InventorySchema.methods.toJSON = function() {
     const { __v, _id, ...data  } = this.toObject();

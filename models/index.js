@@ -6,6 +6,7 @@ const Alcohol = require('./alcohol');
 const Unit = require('./unit');
 const Establishment = require('./establishment');
 const Inventory = require('./inventory');
+const Provider = require('./provider');
 
 module.exports = {
     User,
@@ -15,5 +16,6 @@ module.exports = {
     Alcohol,
     Unit,
     Establishment,
-    Inventory
+    Inventory,
+    Provider
 };

@@ -1,4 +1,4 @@
-const { Role, User, Category, Alcohol, Unit, Product, Inventory } = require('../models');
+const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -90,6 +90,19 @@ const isValidRole = async(rol = '') => {
 }
 
 /**
+ * Verifica si proveedor existe en la base de datos según su identificador (id).
+ * @param {string} id Identificador del proveedor a comprobar.
+ */
+ const existProviderById = async( id ) => {
+    // Verificar si existe en la BD.
+    const exist = await Provider.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`El proveedor no existe: ${ id }`);
+    }
+}
+
+/**
  * Valida una coleccion permitida para subir una imagen.
  * @param {*} collection 
  * @param {*} collections 
@@ -101,6 +114,26 @@ const collectionsValids = ( collection = '', collections = [] ) => {
     if( !include )
     {
         throw new Error(`La colleción ${collection} NO es permitida, ${collections}`);
+    }
+
+    return true;
+};
+
+/**
+ * Valida que los productos que se le van asignar al proveedor existan.
+ * @param {*} product 
+ * @param {*} products 
+ * @returns 
+ */
+ const productsValids = async ( products = [] ) => {
+
+    for (const product of products) 
+    {
+        const productDB = await Product.findById( product );
+        if( !productDB )
+        {
+            throw new Error(`El producto ${product} NO se puede asignar`);
+        }
     }
 
     return true;
@@ -127,7 +160,9 @@ module.exports = {
     existUnitById,
     existProductById,
     existInventoryById,
+    existProviderById,
     collectionsValids,
+    productsValids,
 
     existeUsuarioPorId
 }

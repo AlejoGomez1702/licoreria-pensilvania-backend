@@ -3,19 +3,23 @@ const { Schema, model } = require('mongoose');
 const UserSchema = Schema({
     name: {
         type: String,
+        trim: true,
         required: [true, 'El nombre es obligatorio']
     },
     username: {
         type: String,
+        trim: true,
         unique: true
     },
     email: {
         type: String,
+        trim: true,
         required: [true, 'El correo es obligatorio'],
         unique: true
     },
     password: {
         type: String,
+        trim: true,
         required: [true, 'La contraseña es obligatoria'],
     },
     img: {
@@ -23,6 +27,7 @@ const UserSchema = Schema({
     },
     rol: {
         type: String,
+        trim: true,
         required: true,
         emun: ['ADMIN_ROLE', 'USER_ROLE']
     },
@@ -40,7 +45,7 @@ const UserSchema = Schema({
         ref: 'Establishment',
         required: true
     }
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 UserSchema.methods.toJSON = function() {
     const { __v, password, _id, ...user  } = this.toObject();

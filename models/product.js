@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const ProductSchema = Schema({
     name: {
         type: String,
+        trim: true,
         required: [true, 'El nombre es obligatorio'],
         unique: true
     },
@@ -18,6 +19,7 @@ const ProductSchema = Schema({
 
     description: {
         type: String,
+        trim: true,
         default: ''
     },
 
@@ -39,6 +41,7 @@ const ProductSchema = Schema({
 
     barcode: {
         type: String,   
+        trim: true,
         default: '' 
     },
 
@@ -80,8 +83,15 @@ const ProductSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Inventory',
         required: true
-    }
-});
+    },
+    // Proveedores que tiene el producto
+    providers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Provider',
+        default: [],
+        required: true
+    }],
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 ProductSchema.methods.toJSON = function() {
     const { __v, state, _id, ...data  } = this.toObject();

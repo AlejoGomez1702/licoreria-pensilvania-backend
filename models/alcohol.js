@@ -16,7 +16,7 @@ const AlcoholSchema = Schema({
         ref: 'Establishment',
         required: true
     }
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 AlcoholSchema.methods.toJSON = function() {
     const { __v, _id, state, ...data  } = this.toObject();

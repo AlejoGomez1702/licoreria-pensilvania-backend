@@ -9,6 +9,12 @@ const validateFile = require('./validate-file');
 // Validaciones para categorias de productos
 const validateCreateCategory = require('./categories/validate-create-category');
 
+// Validaciones para las unidades de medida de los productos
+const validateCreateUnit = require('./units/validate-create-unit');
+
+// Validaciones para los %s de alcohol de los productos
+const validateCreateAlcohol = require('./alcohols/validate-create-alcohol');
+
 module.exports = {
     ...validateFields,
     ...validateJWT,
@@ -17,5 +23,7 @@ module.exports = {
     ...validateInventory,
     ...validateExistProduct,
     ...validateFile,
-    ...validateCreateCategory
-}
+    ...validateCreateCategory,
+    ...validateCreateUnit,
+    ...validateCreateAlcohol
+};

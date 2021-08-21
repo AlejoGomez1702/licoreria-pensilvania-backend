@@ -9,24 +9,10 @@ const { Unit } = require('../models');
  */
 const createUnit = async(req, res = response ) => {
 
-    const unitName = req.body.unit;
-    const ml = Number( req.body.ml );
-    const establishment = req.user.establishment;
-    const query = { $and: [{ ml },{ unit: unitName }, { establishment }] };
-
-    const unitDB = await Unit.findOne( query );
-
-    if ( unitDB ) 
-    {
-        return res.status(400).json({
-            error: `La unidad de medida: ${ unitDB.unit } X ${ unitDB.ml } ya existe!`
-        });
-    }
-
     // Generar la data a guardar
     const data = {
-        unit: unitName,
-        ml,
+        unit: req.body.unit,
+        ml: Number( req.body.ml ),
         establishment: req.user.establishment
     }
 
@@ -45,10 +31,10 @@ const createUnit = async(req, res = response ) => {
  * @returns 
  */
 const getAllUnits = async(req, res = response ) => {
+    
     const { limit = 5, from = 0 } = req.query;
     const { establishment } = req.user;
     const query = { $and: [{ state: true }, { establishment }] };
-    // const query = {  };
 
     const [ total, units ] = await Promise.all([
         Unit.countDocuments(query),

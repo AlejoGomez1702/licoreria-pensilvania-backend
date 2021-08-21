@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { createUnit, getAllUnits, getUnitById, updateUnitById, deleteUnitById } = require('../controllers/units');
 const { existUnitById } = require('../helpers/db-validators');
 
-const { validateJWT, validateFields, isAdminRole, isActiveUser } = require('../middlewares');
+const { validateJWT, validateFields, isAdminRole, isActiveUser, validateCreateUnit } = require('../middlewares');
 
 const router = Router();
 
@@ -15,6 +15,7 @@ const router = Router();
     validateJWT,
     check('unit','La unidad de medida es obligatoria').not().isEmpty().isString(),
     check('ml','La cantidad de ml es obligatoria').not().isEmpty().isNumeric(),
+    validateCreateUnit,
     validateFields
 ], createUnit );
 
@@ -47,6 +48,7 @@ router.put('/:id',[
     check('unit','La unidad de medida es obligatoria').not().isEmpty().isString(),
     check('ml','La cantidad de ml es obligatoria').not().isEmpty().isNumeric(),
     check('id').custom( existUnitById ),
+    validateCreateUnit,
     validateFields
 ], updateUnitById );
 

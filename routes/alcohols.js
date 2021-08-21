@@ -4,6 +4,7 @@ const { createAlcohol, getAllAlcohols, getAlcoholById, updateAlcoholById, delete
 const { existAlcoholById } = require('../helpers/db-validators');
 
 const { validateJWT, validateFields, isAdminRole, isActiveUser } = require('../middlewares');
+const { validateCreateAlcohol } = require('../middlewares/alcohols/validate-create-alcohol');
 
 const router = Router();
 
@@ -14,6 +15,7 @@ const router = Router();
  router.post('/', [ 
     validateJWT,
     check('alcohol','El % de alcohol es obligatorio').not().isEmpty().isNumeric(),
+    validateCreateAlcohol,
     validateFields
 ], createAlcohol );
 
@@ -45,6 +47,7 @@ router.put('/:id',[
     validateJWT,
     check('alcohol','El % de alcohol es obligatorio').not().isEmpty().isNumeric(),
     check('id').custom( existAlcoholById ),
+    validateCreateAlcohol,
     validateFields
 ], updateAlcoholById );
 

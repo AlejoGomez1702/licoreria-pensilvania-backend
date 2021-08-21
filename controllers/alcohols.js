@@ -9,22 +9,9 @@ const { Alcohol } = require('../models');
  */
 const createAlcohol = async(req, res = response ) => {
 
-    const volAlcohol = Number( req.body.alcohol );
-    const establishment = req.user.establishment;
-    const query = { $and: [{ volAlcohol }, { establishment }] };
-
-    const alcoholDB = await Alcohol.findOne( query );
-
-    if ( alcoholDB ) 
-    {
-        return res.status(400).json({
-            error: `El % de alcohol: ${ alcoholDB.alcohol } ya existe!`
-        });
-    }
-
     // Generar la data a guardar
     const data = {
-        alcohol: volAlcohol,
+        alcohol: Number( req.body.alcohol ),
         establishment: req.user.establishment
     }
 

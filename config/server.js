@@ -26,7 +26,8 @@ class Server
             alcohols:   '/api/alcohols',
             units:      '/api/units',
             uploads:    '/api/uploads',   
-            providers:  '/api/providers'   
+            providers:  '/api/providers',
+            searchs:    '/api/searchs'   
         };
 
         // Conectar a base de datos
@@ -71,6 +72,7 @@ class Server
         this.app.use( this.paths.units, require('../routes/units'));
         this.app.use( this.paths.uploads, require('../routes/uploads'));
         this.app.use( this.paths.providers, require('../routes/providers'));
+        this.app.use( this.paths.searchs, require('../routes/searchs'));
     }
 
     listen() 

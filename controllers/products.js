@@ -44,6 +44,9 @@ const createProduct = async(req, res = response ) => {
         Product.countDocuments(query),
         Product.find(query)
             .populate('inventory', 'description')
+            .populate('category', 'name')
+            .populate('alcohol', 'alcohol')
+            .populate('unit', 'unit')
             .skip( Number( from ) )
             .limit( Number( limit ) )
     ]);

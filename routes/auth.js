@@ -12,6 +12,6 @@ router.post('/login',[
     check('password', 'La contraseña es obligatoria').not().isEmpty().isLength({ min: 8 }),
     check('remember', 'Recordar usuario es obligatorio').not().isEmpty(),
     validateFields
-], login);
+], login );
 
 module.exports = router;

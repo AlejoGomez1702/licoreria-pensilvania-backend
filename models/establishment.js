@@ -14,6 +14,10 @@ const EstablishmentSchema = Schema({
         required: true
     },
 
+    img: {
+        type: String,
+    },
+
     cellphone: {
         type: String,
         trim: true,

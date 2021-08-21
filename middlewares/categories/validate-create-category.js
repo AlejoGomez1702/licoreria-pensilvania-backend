@@ -67,6 +67,14 @@ const validateCreateCategory = async( req = request, res = response, next ) => {
             }
         }
 
+        // // Limpiar imágenes previas
+        // if ( model.img ) {
+        //     const nameArr = model.img.split('/');
+        //     const name    = nameArr[ nameArr.length - 1 ];
+        //     const [ public_id ] = name.split('.');
+        //     cloudinary.uploader.destroy( public_id );
+        // }
+
         next();
     } 
     catch (error) 

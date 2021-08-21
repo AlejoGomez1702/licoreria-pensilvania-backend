@@ -14,7 +14,7 @@ const router = Router();
  router.post('/', [ 
     validateJWT,
     check('unit','La unidad de medida es obligatoria').not().isEmpty().isString(),
-    check('ml','La cantidad de ml es obligatoria').not().isEmpty().isNumeric(),
+    check('ml','La cantidad de ml es obligatoria').not().isEmpty().isFloat({ min: 0, max: 10000 }),
     validateCreateUnit,
     validateFields
 ], createUnit );
@@ -46,7 +46,7 @@ router.get('/:id',[
 router.put('/:id',[
     validateJWT,
     check('unit','La unidad de medida es obligatoria').not().isEmpty().isString(),
-    check('ml','La cantidad de ml es obligatoria').not().isEmpty().isNumeric(),
+    check('ml','La cantidad de ml es obligatoria').not().isEmpty().isFloat({ min: 0, max: 10000 }),
     check('id').custom( existUnitById ),
     validateCreateUnit,
     validateFields

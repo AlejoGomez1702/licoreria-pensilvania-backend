@@ -14,7 +14,7 @@ const router = Router();
  */
  router.post('/', [ 
     validateJWT,
-    check('alcohol','El % de alcohol es obligatorio').not().isEmpty().isNumeric(),
+    check('alcohol','El % de alcohol es obligatorio').not().isEmpty().isFloat({ min: 0, max: 100 }),
     validateCreateAlcohol,
     validateFields
 ], createAlcohol );
@@ -45,7 +45,7 @@ router.get('/:id',[
  */
 router.put('/:id',[
     validateJWT,
-    check('alcohol','El % de alcohol es obligatorio').not().isEmpty().isNumeric(),
+    check('alcohol','El % de alcohol es obligatorio').not().isEmpty().isFloat({ min: 0, max: 100 }),
     check('id').custom( existAlcoholById ),
     validateCreateAlcohol,
     validateFields

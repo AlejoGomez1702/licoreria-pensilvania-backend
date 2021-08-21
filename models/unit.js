@@ -8,7 +8,9 @@ const UnitSchema = Schema({
     },
     ml: {
         type: Number,
-        required: [true, 'La Cantidad de mililitros(ml) es obligatoria']
+        required: [true, 'La Cantidad de mililitros(ml) es obligatoria'],
+        min: 0,
+        max: 10000
     },
     state: {
         type: Boolean,

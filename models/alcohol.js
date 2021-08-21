@@ -3,7 +3,9 @@ const { Schema, model } = require('mongoose');
 const AlcoholSchema = Schema({
     alcohol: {
         type: Number,
-        required: [true, 'El volumen alcoholico es obligatorio']
+        required: [true, 'El volumen alcoholico es obligatorio'],
+        min: 0,
+        max: 100
     },
     state: {
         type: Boolean,

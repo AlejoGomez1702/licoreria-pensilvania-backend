@@ -1,6 +1,7 @@
 const { response } = require('express');
 const { stringCapitalize } = require('../helpers/string-capitalize');
 const { Category } = require('../models');
+const { deletePreviusImage } = require('../helpers');
 
 /**
  * Crea una nueva categoria en la base de datos.
@@ -85,8 +86,11 @@ const updateCategoryById = async( req, res = response ) => {
     data.name = stringCapitalize(data.name);
     data.user = req.user._id;
 
-    const category = await Category.findOneAndUpdate(query, data, { new: true });
+    const previus = await Category.findOne( query );
+    deletePreviusImage( previus );
 
+    const category = await Category.findOneAndUpdate(query, data, { new: true });
+    
     res.json( category );
 };
 

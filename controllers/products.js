@@ -92,7 +92,7 @@ const createProduct = async(req, res = response ) => {
 
     data.user = req.user._id;
 
-    const product = await Product.findOneAndUpdate(query, data, { new: true });
+    const product = await Product.findOneAndUpdate(query, data, { new: true });    
 
     res.json( product );
 };

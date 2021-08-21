@@ -21,8 +21,7 @@ const validateExistProduct = async( req = request, res = response, next ) => {
             { category: req.body.category },
             { alcohol: req.body.alcohol },
             { unit: req.body.unit },
-            { inventory },
-            { features: req.body.features }
+            { inventory }
         ]}; 
     
         const productDB = await Product.findOne( query );

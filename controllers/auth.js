@@ -67,6 +67,16 @@ const login = async(req, res = response) => {
     }   
 };
 
+const getLoggedUser = (req, res = response) => {
+
+    const user = req.user;
+
+    return res.json({
+        user
+    });
+};
+
 module.exports = {
-    login
+    login,
+    getLoggedUser
 };

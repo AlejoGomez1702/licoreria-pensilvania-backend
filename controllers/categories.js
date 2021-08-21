@@ -10,22 +10,11 @@ const { Category } = require('../models');
  */
 const createCategory = async(req, res = response ) => {
 
-    const name = stringCapitalize(req.body.name);
-    const establishment = req.user.establishment;
-    const query = { $and: [{ name }, { establishment }] };
-
-    const categoryDB = await Category.findOne( query );
-
-    if ( categoryDB ) 
-    {
-        return res.status(400).json({
-            error: `La categoria ${ categoryDB.name } ya existe!`
-        });
-    }
-
+    // Mediante middlewares se hacen todas las validaciones.
     // Generar la data a guardar
     const data = {
-        name,
+        name: req.body.name,
+        img: req.body.img,
         establishment: req.user.establishment
     }
 
@@ -44,6 +33,7 @@ const createCategory = async(req, res = response ) => {
  * @returns 
  */
 const getAllCategories = async(req, res = response ) => {
+
     const { limit = 5, from = 0 } = req.query;
     const { establishment } = req.user;
     const query = { $and: [{ 'state': true }, { establishment }] };
@@ -112,7 +102,7 @@ const deleteCategoryById = async(req, res = response ) => {
     const establishment = req.user.establishment;
     const query = { $and: [{ '_id': id }, { establishment }] };
     const categoryDeleted = await Category.findOneAndUpdate( query, { state: false }, {new: true });
-    console.log(categoryDeleted);
+
     res.json( categoryDeleted );
 };
 

@@ -6,6 +6,9 @@ const validateInventory = require('./validate-inventory');
 const validateExistProduct = require('./validate-exist-product');
 const validateFile = require('./validate-file');
 
+// Validaciones para categorias de productos
+const validateCreateCategory = require('./categories/validate-create-category');
+
 module.exports = {
     ...validateFields,
     ...validateJWT,
@@ -13,5 +16,6 @@ module.exports = {
     ...validateStatusUser,
     ...validateInventory,
     ...validateExistProduct,
-    ...validateFile
+    ...validateFile,
+    ...validateCreateCategory
 }

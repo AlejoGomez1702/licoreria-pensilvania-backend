@@ -14,6 +14,7 @@ const validCollections = [
  */
 const searchProducts = async( term = '', res = response ) => {
 
+    // Buscar por ID
     const isMongoID = ObjectId.isValid( term );
 
     if ( isMongoID ) // Si se esta buscando por ID
@@ -24,6 +25,7 @@ const searchProducts = async( term = '', res = response ) => {
         });
     }
 
+    // Buscar por coincidencia
     const regex = new RegExp( term, 'i' );
     
     const productsMatch = await Product.find({
@@ -108,7 +110,26 @@ const search = ( req, res = response ) => {
     }
 };
 
+/**
+ * Busca un producto en la base de datos con el código de barras.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ const searchBarcode = async( req, res = response ) => {
+    
+    // Buscar por código de barras
+    const productBarcode = await Product.findOne({ barcode: term });
+    if( productBarcode )
+    {
+        return res.json({
+            product: ( product ) ? [ product ] : {}
+        });
+    }
+};
+
 
 module.exports = {
-    search
-}
+    search,
+    searchBarcode
+};

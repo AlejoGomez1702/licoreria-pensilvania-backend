@@ -3,7 +3,8 @@ const { check } = require('express-validator');
 const { createCategory, getAllCategories, getCategoryById, updateCategoryById, deleteCategoryById } = require('../controllers/categories');
 const { existCategoryById } = require('../helpers/db-validators');
 
-const { validateJWT, validateFields, isAdminRole, isActiveUser } = require('../middlewares');
+const { validateJWT, validateFields, isAdminRole, isActiveUser, validateImageCategory } = require('../middlewares');
+const { validateCreateCategory } = require('../middlewares');
 
 const router = Router();
 
@@ -14,6 +15,8 @@ const router = Router();
  router.post('/', [ 
     validateJWT,
     check('name','El nombre es obligatorio').not().isEmpty(),
+    validateCreateCategory,
+    validateImageCategory,
     validateFields
 ], createCategory );
 
@@ -32,6 +35,7 @@ router.get('/', [
  */
 router.get('/:id',[
     validateJWT,
+    isActiveUser,
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existCategoryById ),
     validateFields
@@ -45,6 +49,7 @@ router.put('/:id',[
     validateJWT,
     check('name','El nombre es obligatorio').not().isEmpty(),
     check('id').custom( existCategoryById ),
+    validateImageCategory,
     validateFields
 ], updateCategoryById );
 

@@ -10,6 +10,7 @@ const CategorySchema = Schema({
 
     img: {
         type: String,
+        default: ''
     },
 
     state: {

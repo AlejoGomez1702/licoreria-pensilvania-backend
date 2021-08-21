@@ -18,7 +18,9 @@ const login = async(req, res = response) => {
     try 
     {      
         // Verificar si el email existe
-        const user = await User.findOne( { $or: [{ email }, { username: email }] } );
+        const user = await User.findOne( { $or: [{ email }, { username: email }] } )
+                                .populate('establishment');
+
         if ( !user ) //El usuario no existe.
         {
             return res.status(400).json({

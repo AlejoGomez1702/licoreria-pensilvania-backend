@@ -181,7 +181,6 @@ cloudinary.config( process.env.CLOUDINARY_URL );
 
     await model.save();
 
-
     res.json( model );
 };
 

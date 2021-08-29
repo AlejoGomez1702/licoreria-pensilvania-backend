@@ -114,10 +114,46 @@ const createProduct = async(req, res = response ) => {
     res.json( productDeleted );
 };
 
+/**
+ * Obtiene todas las caracteristicas de los productos registrados en un establecimiento.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ const getAllFeatures = async(req, res = response ) => {
+
+    // const { limit = 100, from = 0 } = req.query;
+    // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
+    const inventory = req.inventory;
+    // Saqueme los productos de ese inventario que esten activos
+    const query = { $and : [{inventory}, {state: true}] };
+    const featuresData = await Product.find( query ).select('features');
+
+    let features = [];
+    for (const feature of featuresData) 
+    {
+        const featuresEspecifics = feature.features;
+        for (const f of featuresEspecifics) 
+        {
+            features.push( f );
+        }        
+    }
+
+    features = [...new Set( features )];
+
+    res.json({
+        features
+    });
+};
+
+
 module.exports = {
     createProduct,
     getAllProducts,
     getProductById,
     updateProductById,
-    deleteProductById
+    deleteProductById,
+    // *** Especiales ***//
+    getAllFeatures
+
 };

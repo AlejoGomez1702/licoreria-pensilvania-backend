@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct } = require('../middlewares');
-const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById } = require('../controllers/products');
+const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById, getAllFeatures } = require('../controllers/products');
 const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById } = require('../helpers/db-validators');
 
 const router = Router();
@@ -86,5 +86,20 @@ router.post('/', [
     check('id').custom( existProductById ),
     validateFields,
 ], deleteProductById );
+
+// **************************************************************************************************** //
+// ********* ENDPOINTS ESPECIALES ********* ENDPOINTS ESPECIALES********* ENDPOINTS ESPECIALES********* //
+// **************************************************************************************************** //
+
+/**
+ * Obtiene las caracteristicas registradas en los productos
+ * {{ url }}/api/products/features
+ */
+router.get('/all/features', [
+    validateJWT,
+    validateInventory,
+    isActiveUser
+], getAllFeatures );
+
 
 module.exports = router;

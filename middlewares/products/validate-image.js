@@ -1,3 +1,7 @@
+// Nube de almacenamiento de imagenes
+const cloudinary = require('cloudinary').v2
+cloudinary.config( process.env.CLOUDINARY_URL );
+
 /**
  * Realiza la validacion para que se pueda crear una categoria
  * @param {*} req 
@@ -8,12 +12,12 @@
  const validateImageUploadProduct = async( req = request, res = response, next ) => {
     try 
     {        
-        console.log("Validacionnnnn de  files");
-        console.log(req.body);
+        // console.log("Validacionnnnn de  files");
+        // console.log(req.body);
         // Verificar si se desea crear la categoria con imagen.
         if( req.files )
         {
-            console.log("siiiiii hay files");
+            // console.log("siiiiii hay files");
             const { tempFilePath } = req.files.img;        
             if( tempFilePath )
             {
@@ -29,7 +33,10 @@
         }
         else
         {
-            console.log("noooooo hay files");
+            res.status(401).json({
+                error: 'Debe subir la imagen del producto'
+                // error
+            });
         }
 
         // // Limpiar imágenes previas
@@ -45,7 +52,8 @@
     catch (error) 
     {
         res.status(401).json({
-            error: 'Error validando imagen del producto',
+            error: 'Error validando imagen del producto'
+            // error
         });
     }
 };

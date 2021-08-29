@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct, validateImageUpload } = require('../middlewares');
+const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct, validateImageUploadProduct } = require('../middlewares');
 const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById, getAllFeatures } = require('../controllers/products');
 const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById } = require('../helpers/db-validators');
 
@@ -23,7 +23,7 @@ router.post('/', [
     isAdminRole,
     isActiveUser,
     validateExistProduct,
-    validateImageUpload,
+    validateImageUploadProduct,
     validateFields
 ], createProduct );
 

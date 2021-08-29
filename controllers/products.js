@@ -9,7 +9,7 @@ const { Product } = require('../models');
  */
 const createProduct = async(req, res = response ) => {
 
-    const { state, user, ...body } = req.body;
+    const { state, user, file, ...body } = req.body;
 
     // Generar la data a guardar
     const data = {

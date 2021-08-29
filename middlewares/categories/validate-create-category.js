@@ -50,9 +50,12 @@ const validateCreateCategory = async( req = request, res = response, next ) => {
  const validateImageUpload = async( req = request, res = response, next ) => {
     try 
     {        
+        console.log("Validacionnnnn de  files");
+        console.log(req.body);
         // Verificar si se desea crear la categoria con imagen.
         if( req.files )
         {
+            console.log("siiiiii hay files");
             const { tempFilePath } = req.files.img;        
             if( tempFilePath )
             {
@@ -65,6 +68,10 @@ const validateCreateCategory = async( req = request, res = response, next ) => {
                     error: 'No existe el path temporal en la imagen',
                 });
             }
+        }
+        else
+        {
+            console.log("noooooo hay files");
         }
 
         // // Limpiar imágenes previas

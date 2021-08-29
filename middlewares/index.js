@@ -15,6 +15,8 @@ const validateCreateUnit = require('./units/validate-create-unit');
 // Validaciones para los %s de alcohol de los productos
 const validateCreateAlcohol = require('./alcohols/validate-create-alcohol');
 
+const validateImageUploadProduct = require('./products/validate-image');
+
 module.exports = {
     ...validateFields,
     ...validateJWT,
@@ -25,5 +27,6 @@ module.exports = {
     ...validateFile,
     ...validateCreateCategory,
     ...validateCreateUnit,
-    ...validateCreateAlcohol
+    ...validateCreateAlcohol,
+    ...validateImageUploadProduct
 };

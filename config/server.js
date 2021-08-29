@@ -51,7 +51,7 @@ class Server
         this.app.use( cors() );
 
         // Lectura y parseo del body
-        this.app.use( express.json() );
+        this.app.use( express.json({limit: '20mb'}) );
 
         // Subida de archivos 
         this.app.use(fileUpload({

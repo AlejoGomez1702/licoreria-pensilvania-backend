@@ -47,7 +47,7 @@ const validateCreateCategory = async( req = request, res = response, next ) => {
  * @param {*} next 
  * @returns 
  */
- const validateImageCategory = async( req = request, res = response, next ) => {
+ const validateImageUpload = async( req = request, res = response, next ) => {
     try 
     {        
         // Verificar si se desea crear la categoria con imagen.
@@ -88,5 +88,5 @@ const validateCreateCategory = async( req = request, res = response, next ) => {
 
 module.exports = {
     validateCreateCategory,
-    validateImageCategory
+    validateImageUpload
 };

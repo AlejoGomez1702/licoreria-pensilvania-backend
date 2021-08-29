@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct } = require('../middlewares');
+const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct, validateImageUpload } = require('../middlewares');
 const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById, getAllFeatures } = require('../controllers/products');
 const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById } = require('../helpers/db-validators');
 
@@ -20,11 +20,10 @@ router.post('/', [
     check('alcohol').custom( existAlcoholById ),
     check('unit','No existe la unida de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    check('inventory','No existe el inventario especificado').isMongoId(),
-    check('inventory').custom( existInventoryById ),
     isAdminRole,
     isActiveUser,
     validateExistProduct,
+    validateImageUpload,
     validateFields
 ], createProduct );
 

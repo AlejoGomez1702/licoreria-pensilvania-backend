@@ -14,6 +14,7 @@ const createProduct = async(req, res = response ) => {
     // Generar la data a guardar
     const data = {
         ...body,
+        inventory: req.inventory,
         user: req.user._id
     }
 

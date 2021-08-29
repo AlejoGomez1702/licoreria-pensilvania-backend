@@ -15,6 +15,7 @@ const ProductSchema = Schema({
 
     img: {
         type: String,
+        required: [true, 'La imagen del producto es obligatoria'],
     },
 
     description: {

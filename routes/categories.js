@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { createCategory, getAllCategories, getCategoryById, updateCategoryById, deleteCategoryById } = require('../controllers/categories');
 const { existCategoryById } = require('../helpers/db-validators');
 
-const { validateJWT, validateFields, isAdminRole, isActiveUser, validateImageCategory } = require('../middlewares');
+const { validateJWT, validateFields, isAdminRole, isActiveUser, validateImageUpload } = require('../middlewares');
 const { validateCreateCategory } = require('../middlewares');
 
 const router = Router();
@@ -16,7 +16,7 @@ const router = Router();
     validateJWT,
     check('name','El nombre es obligatorio').not().isEmpty(),
     validateCreateCategory,
-    validateImageCategory,
+    validateImageUpload,
     validateFields
 ], createCategory );
 
@@ -49,7 +49,7 @@ router.put('/:id',[
     validateJWT,
     check('name','El nombre es obligatorio').not().isEmpty(),
     check('id').custom( existCategoryById ),
-    validateImageCategory,
+    validateImageUpload,
     validateFields
 ], updateCategoryById );
 

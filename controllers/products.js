@@ -136,7 +136,10 @@ const createProduct = async(req, res = response ) => {
         const featuresEspecifics = feature.features;
         for (const f of featuresEspecifics) 
         {
-            features.push( f );
+            if(f)
+            {
+                features.push( f );
+            }                
         }        
     }
 

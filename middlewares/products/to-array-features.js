@@ -11,7 +11,7 @@ const { stringCapitalize } = require("../../helpers/string-capitalize");
     try 
     {        
         const featuresString = req.body.features;
-        const featuresArr = featuresString.split(',');
+        let featuresArr = featuresString.split(',');
         featuresArr = featuresArr.map(feature => {
             return stringCapitalize( feature );
         });
@@ -21,8 +21,9 @@ const { stringCapitalize } = require("../../helpers/string-capitalize");
     } 
     catch (error) 
     {
+        console.log(error);
         res.status(401).json({
-            error: 'Error validando imagen del producto'
+            error: 'Error validando caracteristicas del producto'
         });
     }
 };

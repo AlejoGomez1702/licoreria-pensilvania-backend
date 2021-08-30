@@ -51,9 +51,10 @@ cloudinary.config( process.env.CLOUDINARY_URL );
     } 
     catch (error) 
     {
+        console.log(error);
         res.status(401).json({
-            error: 'Error validando imagen del producto'
-            // error
+            // error: 'Error validando imagen del producto'
+            error
         });
     }
 };

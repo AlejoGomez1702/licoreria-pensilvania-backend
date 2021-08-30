@@ -24,9 +24,9 @@ router.post('/', [
     isAdminRole,
     isActiveUser,
     toArrayFeatures,
-    validateExistProduct,
-    validateImageUploadProduct,
-    validateFields
+    validateExistProduct,    
+    validateFields,
+    validateImageUploadProduct // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
 ], createProduct );
 
 /**

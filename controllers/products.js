@@ -34,7 +34,7 @@ const createProduct = async(req, res = response ) => {
  */
  const getAllProducts = async(req, res = response ) => {
 
-    const { limit = 5, from = 0 } = req.query;
+    const { limit = 1000, from = 0 } = req.query;
     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
     const inventory = req.inventory;
     // Saqueme los productos de ese inventario que esten activos

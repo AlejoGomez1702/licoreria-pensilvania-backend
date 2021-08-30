@@ -28,6 +28,19 @@ const validateExistProduct = async( req = request, res = response, next ) => {
          
         if ( productDB ) 
         {
+            // console.log('Verificando includes');
+            // Verificando que tenga exactamente las mismas caracteristicas
+            const reqFeatures = req.body.features;
+            const featuresDB = productDB.features;
+            for (const feature of reqFeatures) 
+            {
+                if( !featuresDB.includes( feature ) )
+                {
+                    next();
+                    return;
+                }                
+            }
+
             return res.status(400).json({
                 error: `El producto ya existe!`
             });

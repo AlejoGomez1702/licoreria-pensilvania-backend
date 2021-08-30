@@ -1,3 +1,5 @@
+const { stringCapitalize } = require("../../helpers/string-capitalize");
+
 /**
  * Realiza la validacion para que se pueda crear una categoria
  * @param {*} req 
@@ -10,6 +12,9 @@
     {        
         const featuresString = req.body.features;
         const featuresArr = featuresString.split(',');
+        featuresArr = featuresArr.map(feature => {
+            return stringCapitalize( feature );
+        });
         req.body.features = featuresArr;
 
         next();

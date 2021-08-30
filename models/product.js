@@ -4,8 +4,7 @@ const ProductSchema = Schema({
     name: {
         type: String,
         trim: true,
-        required: [true, 'El nombre es obligatorio'],
-        unique: true
+        required: [true, 'El nombre es obligatorio']
     },
     // Caracteristicas como por ejemplo los años de añejamiento, ediciones especiales, etc... 
     features: {

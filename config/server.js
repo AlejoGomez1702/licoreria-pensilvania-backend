@@ -49,7 +49,10 @@ class Server
     {
         // CORS
         const corsOptions = {
-            origin: ["https://licoreriapensilvania.com"],
+            origin: [
+                'https://licoreriapensilvania.com', 
+                'http://localhost:4200'
+            ],
         }
         this.app.use( cors( corsOptions ) );
 

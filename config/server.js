@@ -48,7 +48,10 @@ class Server
     middlewares() 
     {
         // CORS
-        this.app.use( cors() );
+        const corsOptions = {
+            origin: ["https://licoreriapensilvania.com"],
+        }
+        this.app.use( cors( corsOptions ) );
 
         // Lectura y parseo del body
         this.app.use( express.json({limit: '20mb'}) );

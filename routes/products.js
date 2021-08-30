@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct, validateImageUploadProduct } = require('../middlewares');
 const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById, getAllFeatures } = require('../controllers/products');
 const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById } = require('../helpers/db-validators');
+const { toArrayFeatures } = require('../middlewares/products/to-array-features');
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.post('/', [
     check('unit').custom( existUnitById ),
     isAdminRole,
     isActiveUser,
+    toArrayFeatures,
     validateExistProduct,
     validateImageUploadProduct,
     validateFields
@@ -69,6 +71,7 @@ router.post('/', [
     validateExistProduct,
     isAdminRole,
     isActiveUser,
+    validateImageUploadProduct,
     validateFields
 ], updateProductById );
 

@@ -34,12 +34,15 @@ const createProduct = async(req, res = response ) => {
  */
  const getAllProducts = async(req, res = response ) => {
 
-    const { limit = 1000, from = 0 } = req.query;
+    const { limit = 1000, from = 0, category = '' } = req.query;
     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
     const inventory = req.inventory;
     // Saqueme los productos de ese inventario que esten activos
-    const query = { $and : [{inventory}, {state: true}] };
-    // const products = await Product.find( quey );
+    let query = { $and : [{inventory}, {state: true}] };
+    if( category ) // si se desean buscar productos por categoria.
+    {
+        query = { $and : [{inventory}, {state: true}, {category}] };
+    }
 
     const [ total, products ] = await Promise.all([
         Product.countDocuments(query),

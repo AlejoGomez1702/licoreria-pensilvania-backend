@@ -34,9 +34,9 @@ router.post('/', [
  * {{ url }}/api/products
  */
  router.get('/', [
-    validateJWT,
-    validateInventory,
-    isActiveUser
+    // validateJWT,
+    // validateInventory,
+    // isActiveUser
 ], getAllProducts );
 
 /**

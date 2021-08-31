@@ -36,7 +36,8 @@ const createProduct = async(req, res = response ) => {
 
     const { limit = 1000, from = 0, category = '' } = req.query;
     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
-    const inventory = req.inventory;
+    // const inventory = req.inventory;
+    const inventory = '611d49ba779e79be7ea589a2';
     // Saqueme los productos de ese inventario que esten activos
     let query = { $and : [{inventory}, {state: true}] };
     if( category ) // si se desean buscar productos por categoria.

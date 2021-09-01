@@ -25,8 +25,8 @@ const router = Router();
  * {{ url }}/api/categories
  */
 router.get('/', [
-    validateJWT,
-    isActiveUser
+    // validateJWT,
+    // isActiveUser
 ], getAllCategories );
 
 /**

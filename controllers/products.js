@@ -34,7 +34,7 @@ const createProduct = async(req, res = response ) => {
  */
  const getAllProducts = async(req, res = response ) => {
 
-    const { limit = 1000, from = 0, category = '' } = req.query;
+    const { limit = 10, from = 0, category = '' } = req.query;
     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
     // const inventory = req.inventory;
     const inventory = '611d49ba779e79be7ea589a2';
@@ -52,8 +52,8 @@ const createProduct = async(req, res = response ) => {
             .populate('category', 'name')
             .populate('alcohol', 'alcohol')
             .populate('unit', 'unit')
-            .skip( Number( from ) )
-            .limit( Number( limit ) )
+            .skip( Number( from ) )  // desde donde
+            .limit( Number( limit ) ) // Cuantos
     ]);
 
     res.json({

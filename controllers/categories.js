@@ -36,7 +36,8 @@ const createCategory = async(req, res = response ) => {
 const getAllCategories = async(req, res = response ) => {
 
     const { limit = 5, from = 0 } = req.query;
-    const { establishment } = req.user;
+    // const { establishment } = req.user;
+    const establishment = '611d475c779e79be7ea58995';
     const query = { $and: [{ 'state': true }, { establishment }] };
 
     const [ total, categories ] = await Promise.all([

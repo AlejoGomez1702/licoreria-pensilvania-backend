@@ -22,7 +22,8 @@ class Server
             auth:       '/api/auth',
             categories: '/api/categories',
             users:      '/api/users',    
-            products:   '/api/products',
+            // products:   '/api/products',
+            spirits:    '/api/spirits',
             alcohols:   '/api/alcohols',
             units:      '/api/units',
             uploads:    '/api/uploads',   
@@ -73,7 +74,8 @@ class Server
         this.app.use( this.paths.users, require('../routes/users'));
         this.app.use( this.paths.auth, require('../routes/auth'));
         this.app.use( this.paths.categories, require('../routes/categories'));
-        this.app.use( this.paths.products, require('../routes/products'));
+        // this.app.use( this.paths.products, require('../routes/products'));
+        this.app.use( this.paths.spirits, require('../routes/products/spirits'));
         this.app.use( this.paths.alcohols, require('../routes/alcohols'));
         this.app.use( this.paths.units, require('../routes/units'));
         this.app.use( this.paths.uploads, require('../routes/uploads'));

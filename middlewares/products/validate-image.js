@@ -12,8 +12,6 @@ cloudinary.config( process.env.CLOUDINARY_URL );
  const validateImageUploadProduct = async( req = request, res = response, next ) => {
     try 
     {        
-        // console.log("Validacionnnnn de  files");
-        // console.log(req.body);
         // Verificar si se desea crear la categoria con imagen.
         if( req.files )
         {
@@ -35,7 +33,6 @@ cloudinary.config( process.env.CLOUDINARY_URL );
         {
             res.status(401).json({
                 error: 'Debe subir la imagen del producto'
-                // error
             });
         }
 

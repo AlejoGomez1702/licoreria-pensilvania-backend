@@ -1,7 +1,7 @@
 const { response } = require('express')
 
 /**
- * Verifica si el usuario es administrador.
+ * Verifica si el usuario esta activo en el sistema.
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -17,7 +17,7 @@ const isActiveUser = ( req, res = response, next ) => {
     }
 
     next();
-}
+};
 
 module.exports = {
     isActiveUser

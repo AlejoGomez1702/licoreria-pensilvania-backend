@@ -1,4 +1,4 @@
-const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider } = require('../models');
+const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Spirit } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -63,16 +63,29 @@ const isValidRole = async(rol = '') => {
     }
 }
 
+// /**
+//  * Verifica si un producto existe en la base de datos según su identificador (id).
+//  * @param {string} id Identificador del producto a comprobar.
+//  */
+//  const existProductById = async( id ) => {
+//     // Verificar si existe en la BD.
+//     const exist = await Product.findById(id);
+//     if ( !exist ) 
+//     {
+//         throw new Error(`El producto no existe: ${ id }`);
+//     }
+// }
+
 /**
- * Verifica si un producto existe en la base de datos según su identificador (id).
+ * Verifica si un licor existe en la base de datos según su identificador (id).
  * @param {string} id Identificador del producto a comprobar.
  */
- const existProductById = async( id ) => {
+ const existSpiritById = async( id ) => {
     // Verificar si existe en la BD.
-    const exist = await Product.findById(id);
+    const exist = await Spirit.findById(id);
     if ( !exist ) 
     {
-        throw new Error(`El producto no existe: ${ id }`);
+        throw new Error(`El licor no existe: ${ id }`);
     }
 }
 
@@ -158,7 +171,7 @@ module.exports = {
     existCategoryById,
     existAlcoholById,
     existUnitById,
-    existProductById,
+    existSpiritById,
     existInventoryById,
     existProviderById,
     collectionsValids,

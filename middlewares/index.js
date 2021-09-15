@@ -1,5 +1,5 @@
 const validateFields = require('./validate-fields');
-const validateJWT = require('../middlewares/validate-jwt');
+const validateJWT = require('./auth/validate-jwt');
 const validateRoles = require('./validate-roles');
 const validateStatusUser = require('./validate-state-user');
 const validateInventory = require('./validate-inventory');
@@ -16,6 +16,7 @@ const validateCreateUnit = require('./units/validate-create-unit');
 const validateCreateAlcohol = require('./alcohols/validate-create-alcohol');
 
 const validateImageUploadProduct = require('./products/validate-image');
+const validatePublicData = require('./auth/validate-public-data');
 
 module.exports = {
     ...validateFields,
@@ -28,5 +29,6 @@ module.exports = {
     ...validateCreateCategory,
     ...validateCreateUnit,
     ...validateCreateAlcohol,
-    ...validateImageUploadProduct
+    ...validateImageUploadProduct,
+    ...validatePublicData
 };

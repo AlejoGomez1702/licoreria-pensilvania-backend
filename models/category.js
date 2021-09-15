@@ -24,7 +24,14 @@ const CategorySchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Establishment',
         required: true
-    }
+    },
+
+    // Categoria padre de esta categoria
+    supercategory: {
+        type: String,
+        required: [true, 'La supercategoria es obligatoria']
+    },
+
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 CategorySchema.methods.toJSON = function() {

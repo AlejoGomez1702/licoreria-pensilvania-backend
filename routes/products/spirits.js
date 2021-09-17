@@ -3,12 +3,12 @@ const { check } = require('express-validator');
 
 const { 
     validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, 
-    validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment
+    validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment, validateImageEditProduct
 } = require('../../middlewares');
 
 const { existSpiritById, existCategoryById, existAlcoholById, existUnitById } = require('../../helpers/db-validators');
 const { toArrayFeatures } = require('../../middlewares/products/to-array-features');
-const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit } = require('../../controllers/products/spirits');
+const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById } = require('../../controllers/products/spirits');
 const { validateExistSpirit } = require('../../middlewares/products/validate-exist-spirit');
 
 const router = Router();
@@ -56,28 +56,25 @@ router.post('/', [
 ], getSpiritById );
 
 /**
- * Actualizar un producto especifico de la BD.
- * {{ url }}/api/products/:id
+ * Actualizar un licor especifico de la BD.
+ * {{ url }}/api/spirits/:id
  */
-//  router.put('/:id',[
-//     validateJWT,
-//     validateInventory,
-//     check('id').custom( existProductById ),
-//     check('name','El nombre es obligatorio').not().isEmpty(),
-//     check('category','No existe la categoria especificada').isMongoId(),
-//     check('category').custom( existCategoryById ),
-//     check('alcohol','No existe el volumen alcoholico especificado').isMongoId(),
-//     check('alcohol').custom( existAlcoholById ),
-//     check('unit','No existe la unida de medida especificada').isMongoId(),
-//     check('unit').custom( existUnitById ),
-//     check('inventory','No existe el inventario especificado').isMongoId(),
-//     check('inventory').custom( existInventoryById ),
-//     validateExistProduct,
-//     isAdminRole,
-//     isActiveUser,
-//     validateImageUploadProduct,
-//     validateFields
-// ], updateSpiritById );
+ router.put('/:id',[
+    validateJWT,
+    check('id').custom( existSpiritById ),
+    check('name','El nombre es obligatorio').not().isEmpty(),
+    check('category','No existe la categoria especificada').isMongoId(),
+    check('category').custom( existCategoryById ),
+    check('alcohol','No existe el volumen alcoholico especificado').isMongoId(),
+    check('alcohol').custom( existAlcoholById ),
+    check('unit','No existe la unida de medida especificada').isMongoId(),
+    check('unit').custom( existUnitById ),
+    validateExistSpirit,
+    isActiveUser,
+    validateImageEditProduct,
+    validateImageUploadProduct,
+    validateFields
+], updateSpiritById );
 
 /**
  * Eliminar un productos especifico de la BD.

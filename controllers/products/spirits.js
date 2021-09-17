@@ -78,25 +78,22 @@ const createSpirit = async (req, res = response ) => {
 };
 
 /**
- * Actualiza la información de un producto en la base de datos.
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * Actualiza la información de un licor en la base de datos.
  */
-//  const updateSpiritById = async( req, res = response ) => {
+ const updateSpiritById = async( req, res = response ) => {
 
-//     const { id } = req.params;
-//     const { state, user, ...data } = req.body;
-//     const inventory = req.inventory;
-//     // Actualiceme el producto cuyo id coincida, peertenezca al inventario del usuario y este activo
-//     const query = { $and: [{ '_id': id }, { inventory }, { 'state': true }] };
+    const { id } = req.params;
+    const { state, user, ...data } = req.body;
+    const { establishment } = req.user;
+    // Actualiceme el licor cuyo id coincida, peertenezca al inventario del usuario y este activo
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
-//     data.user = req.user._id;
+    data.user = req.user._id;
 
-//     const product = await Product.findOneAndUpdate(query, data, { new: true });    
+    const spirit = await Spirit.findOneAndUpdate(query, data, { new: true });    
 
-//     res.json( product );
-// };
+    res.json( spirit );
+};
 
 /**
  * Elimina un producto de la base de datos.
@@ -155,7 +152,7 @@ module.exports = {
     createSpirit,
     getAllSpirits,
     getSpiritById,
-    // updateSpiritById,
+    updateSpiritById,
     // deleteSpiritById,
     // // *** Especiales ***//
     getAllSpiritsFeatures

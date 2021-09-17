@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Unit } = require('../models');
+const { Unit } = require('../../models');
 
 /**
  * Crea una nueva unidad de medida en la base de datos.

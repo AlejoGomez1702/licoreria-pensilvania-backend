@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createUnit, getAllUnits, getUnitById, updateUnitById, deleteUnitById } = require('../controllers/units');
+const { createUnit, getAllUnits, getUnitById, updateUnitById, deleteUnitById } = require('../controllers/products/units');
 const { existUnitById } = require('../helpers/db-validators');
 
 const { validateJWT, validateFields, isAdminRole, isActiveUser, validateCreateUnit } = require('../middlewares');

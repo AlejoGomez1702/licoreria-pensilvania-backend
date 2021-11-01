@@ -1,31 +1,23 @@
-// const { Router } = require('express');
-// const { check } = require('express-validator');
+const { Router } = require('express');
+const { check } = require('express-validator');
+const { createSale } = require('../controllers/sales');
+const { validateJWT, isActiveUser, validateFields } = require('../middlewares');
 // const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct } = require('../middlewares');
 // const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById } = require('../controllers/products');
 // const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById } = require('../helpers/db-validators');
 
-// const router = Router();
+const router = Router();
 
-// /**
-//  * Crear una nueva venta en la BD.
-//  * {{ url }}/api/sales
-//  */
-// router.post('/', [ 
-//     validateJWT,
-//     check('name','El nombre es obligatorio').not().isEmpty(),
-//     check('category','No existe la categoria especificada').isMongoId(),
-//     check('category').custom( existCategoryById ),
-//     check('alcohol','No existe el volumen alcoholico especificado').isMongoId(),
-//     check('alcohol').custom( existAlcoholById ),
-//     check('unit','No existe la unida de medida especificada').isMongoId(),
-//     check('unit').custom( existUnitById ),
-//     check('inventory','No existe el inventario especificado').isMongoId(),
-//     check('inventory').custom( existInventoryById ),
-//     isAdminRole,
-//     isActiveUser,
-//     validateExistProduct,
-//     validateFields
-// ], createProduct );
+/**
+ * Crear una nueva venta en la BD.
+ * {{ url }}/api/sales
+ */
+router.post('/', [ 
+    validateJWT,
+    isActiveUser,
+    check('products').not().isEmpty(),
+    validateFields
+], createSale );
 
 // // /**
 // //  * Obtener todos los productos de la BD.
@@ -86,4 +78,4 @@
 // //     validateFields,
 // // ], deleteProductById );
 
-// module.exports = router;
+module.exports = router;

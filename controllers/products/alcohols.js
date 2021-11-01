@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Alcohol } = require('../models');
+const { Alcohol } = require('../../models');
 
 /**
  * Crea un nuevo % de alcohol en la base de datos.

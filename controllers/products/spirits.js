@@ -5,8 +5,6 @@ const { Spirit } = require('../../models');
  * Crea un nuevo licor en la base de datos.
  */
 const createSpirit = async (req, res = response ) => {
-// console.log('entra al controller');
-// res.status(200).json( {error: 'jajajaja'} );
     const { state, user, file, ...body } = req.body;
 
     // Generar la data a guardar

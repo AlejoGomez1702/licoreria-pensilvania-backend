@@ -1,7 +1,7 @@
 const { response } = require('express');
-const { stringCapitalize } = require('../helpers/string-capitalize');
-const { Category } = require('../models');
-const { deletePreviusImage } = require('../helpers');
+const { stringCapitalize } = require('../../helpers/string-capitalize');
+const { Category } = require('../../models');
+const { deletePreviusImage } = require('../../helpers');
 
 /**
  * Crea una nueva categoria en la base de datos.

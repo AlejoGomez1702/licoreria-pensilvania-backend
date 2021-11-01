@@ -1,6 +1,6 @@
 const { response, request } = require('express');
-const { Category } = require('../../models');
-const { stringCapitalize } = require('../../helpers/string-capitalize');
+const { Category } = require('../../../models');
+const { stringCapitalize } = require('../../../helpers/string-capitalize');
 // Nube de almacenamiento de imagenes
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );

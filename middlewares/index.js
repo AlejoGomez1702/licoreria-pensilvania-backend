@@ -3,17 +3,17 @@ const validateJWT = require('./auth/validate-jwt');
 const validateRoles = require('./validate-roles');
 const validateStatusUser = require('./validate-state-user');
 const validateInventory = require('./validate-inventory');
-const validateExistProduct = require('./validate-exist-product');
+const validateExistProduct = require('./products/validate-exist-product');
 const validateFile = require('./validate-file');
 
 // Validaciones para categorias de productos
-const validateCreateCategory = require('./categories/validate-create-category');
+const validateCreateCategory = require('./products/categories/validate-create-category');
 
 // Validaciones para las unidades de medida de los productos
-const validateCreateUnit = require('./units/validate-create-unit');
+const validateCreateUnit = require('./products/units/validate-create-unit');
 
 // Validaciones para los %s de alcohol de los productos
-const validateCreateAlcohol = require('./alcohols/validate-create-alcohol');
+const validateCreateAlcohol = require('./products/alcohols/validate-create-alcohol');
 
 const validateImageUploadProduct = require('./products/validate-image');
 const validatePublicData = require('./auth/validate-public-data');

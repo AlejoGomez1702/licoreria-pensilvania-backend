@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const { Unit } = require('../../models');
+const { Unit } = require('../../../models');
 
 /**
  * Realiza la validacion para que se pueda crear una categoria

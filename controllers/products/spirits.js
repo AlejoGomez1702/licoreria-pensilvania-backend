@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Spirit, Product, Alcohol } = require('../../models');
+const { Spirit, Product } = require('../../models');
 
 /**
  * Crea un nuevo licor en la base de datos.
@@ -45,11 +45,10 @@ const createSpirit = async (req, res = response ) => {
     }
 
     const [ total, spirits ] = await Promise.all([
-        Spirit.countDocuments(query),
-        Spirit.find(query)
+        Product.countDocuments(query),
+        Product.find(query)
             .populate('establishment', 'name')
             .populate('category', 'name')
-            .populate('alcohol', 'alcohol')
             .populate('unit', 'unit')
             .skip( Number( from ) )  // desde donde
             .limit( Number( limit ) ) // Cuantos

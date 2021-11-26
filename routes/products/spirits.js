@@ -38,7 +38,7 @@ router.post('/', [
  * {{ url }}/api/spirits
  */
  router.get('/', [
-    validatePublicData,
+    // validatePublicData,
     validateJWTEstablishment
 ], getAllSpirits );
 

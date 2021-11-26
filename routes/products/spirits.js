@@ -3,7 +3,11 @@ const { check } = require('express-validator');
 
 const { 
     validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, 
+<<<<<<< HEAD
     validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
+=======
+    validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment, validateImageEditProduct
+>>>>>>> e5a7df9ae1539b1f940a5da42071944b9649f4eb
 } = require('../../middlewares');
 
 const { existSpiritById, existCategoryById, existAlcoholById, existUnitById } = require('../../helpers/db-validators');
@@ -19,6 +23,7 @@ const router = Router();
  */
 router.post('/', [ 
     validateJWT,
+<<<<<<< HEAD
     isActiveUser,
     check('name','El nombre es obligatorio').not().isEmpty(),
     check('category','No existe la categoria especificada').isMongoId(),
@@ -28,6 +33,18 @@ router.post('/', [
     check('unit').custom( existUnitById ),       
     validateExistSpirit,
     capitalizeProductName,
+=======
+    check('name','El nombre es obligatorio').not().isEmpty(),
+    check('category','No existe la categoria especificada').isMongoId(),
+    check('category').custom( existCategoryById ),
+    check('alcohol','No existe el volumen alcoholico especificado').isMongoId(),
+    check('alcohol').custom( existAlcoholById ),
+    check('unit','No existe la unida de medida especificada').isMongoId(),
+    check('unit').custom( existUnitById ),
+    isActiveUser,
+    toArrayFeatures,
+    validateExistSpirit,    
+>>>>>>> e5a7df9ae1539b1f940a5da42071944b9649f4eb
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -103,6 +120,9 @@ router.get('/all/features', [
 ], getAllSpiritsFeatures );
 
 
+<<<<<<< HEAD
 // router.get('/script/script', runScript);
 
+=======
+>>>>>>> e5a7df9ae1539b1f940a5da42071944b9649f4eb
 module.exports = router;

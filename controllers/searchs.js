@@ -1,11 +1,7 @@
 const { response } = require('express');
 const { ObjectId } = require('mongoose').Types;
-<<<<<<< HEAD
 // const { Product } = require('../models');
 const { Spirit } = require('../models'); 
-=======
-const { Product } = require('../models');
->>>>>>> e5a7df9ae1539b1f940a5da42071944b9649f4eb
 
 const validCollections = [
     'products'

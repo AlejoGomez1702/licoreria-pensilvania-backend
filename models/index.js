@@ -1,7 +1,7 @@
 const User = require('./user');
 const Role = require('./role');
 const Category = require('./products/category');
-// const Product = require('./product');
+const Product = require('./products/product');
 // ************** PRODUCTS **************** //
 const Spirit = require('./products/spirit');
 
@@ -16,7 +16,7 @@ module.exports = {
     User,
     Role,
     Category,
-    // Product,
+    Product,
     // ************** PRODUCTS **************** //
     Spirit,
     Alcohol,

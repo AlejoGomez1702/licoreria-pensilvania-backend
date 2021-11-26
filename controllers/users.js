@@ -10,8 +10,8 @@ const User = require('../models/user');
  */
 const createUser = async(req, res = response) => {
 
-    const { name, email, password, rol } = req.body;
-    const user = new User({ name, email, password, rol });
+    const { name, email, password, rol, username, establishment } = req.body;
+    const user = new User({ name, email, password, rol, username, establishment });
 
     // Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();

@@ -1,6 +1,6 @@
 const { response, request } = require('express');
 const { stringCapitalize } = require('../../helpers/string-capitalize');
-const { Spirit } = require('../../models');
+const { Product } = require('../../models');
 
 /**
  * Realiza la validacion de que exista ya un licor que se intenta crear
@@ -14,7 +14,7 @@ const validateExistSpirit = async( req = request, res = response, next ) => {
         let fields = [
             { name: req.body.name },
             { category: req.body.category },
-            { alcohol: req.body.alcohol },
+            { vol_alcohol: req.body.vol_alcohol },
             { unit: req.body.unit },
             { establishment }
         ];
@@ -31,22 +31,10 @@ const validateExistSpirit = async( req = request, res = response, next ) => {
         // console.log('Body de la petición');
         // console.log( query );
     
-        const spiritDB = await Spirit.findOne( query );
+        const spiritDB = await Product.findOne( query );
          
         if ( spiritDB ) 
         {
-            // Verificando que tenga exactamente las mismas caracteristicas
-            const reqFeatures = req.body.features;
-            const featuresDB = spiritDB.features;
-            for (const feature of reqFeatures) 
-            {
-                if( !featuresDB.includes( feature ) )
-                {
-                    next();
-                    return;
-                }                
-            }
-
             if( !req.body.img )
             {
                 next();

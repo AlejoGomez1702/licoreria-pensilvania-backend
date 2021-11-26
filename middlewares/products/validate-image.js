@@ -12,24 +12,28 @@ const { Spirit } = require('../../models');
  */
  const validateImageUploadProduct = async( req = request, res = response, next ) => {
     try 
-    {   
+    {
         if( req.body.img )
         {
+            if(req.body.img === 'null')
+            {
+                const { img, ...data } = req.body;
+                req.body = data;
+            }
+
             next();
             return;
         }     
 
         if( req.files )
         {
-            // console.log("siiiiii hay files");
-            // console.log(req.files);
             const { tempFilePath } = req.files.img;
             if( tempFilePath )
             {
-                // console.log(tempFilePath);
+                console.log("llega paso 1");
                 const { url } = await cloudinary.uploader.upload( tempFilePath );
-                // console.log(url);
                 req.body.img = url;
+                console.log("llega paso 2");
             }
             else
             {
@@ -52,7 +56,6 @@ const { Spirit } = require('../../models');
         console.log(error);
         res.status(401).json({
             error: 'Error validando imagen del producto'
-            // error
         });
     }
 };

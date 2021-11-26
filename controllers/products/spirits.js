@@ -1,11 +1,12 @@
 const { response } = require('express');
-const { Spirit } = require('../../models');
+const { Spirit, Product, Alcohol } = require('../../models');
 
 /**
  * Crea un nuevo licor en la base de datos.
  */
 const createSpirit = async (req, res = response ) => {
-    const { state, user, file, ...body } = req.body;
+    const { state, user, establishment, file, ...body } = req.body;
+    body.vol_alcohol = Number( body.vol_alcohol );
 
     // Generar la data a guardar
     const data = {
@@ -14,7 +15,7 @@ const createSpirit = async (req, res = response ) => {
         user: req.user._id
     };
 
-    const spirit = new Spirit( data );
+    const spirit = new Product( data );
 
     try 
     {
@@ -146,13 +147,48 @@ const createSpirit = async (req, res = response ) => {
 };
 
 
+// const runScript = async(req, res = response) => {
+//     let fullProducts = [];
+//     const products = await Product.find({});
+
+//     for (const product of products) 
+//     {
+//         const { features, ...data } = product._doc;
+//         const alcoholId = data.alcohol;
+//         const alcohol2 = await Alcohol.findById(alcoholId);
+//         const alcoholName = alcohol2.alcohol;
+
+//         const { alcohol, ...other } = data;
+//         other.vol_alcohol = alcoholName;
+
+//         // console.log(alcoholName);
+
+//         fullProducts.push(other);
+//     }
+
+//     await Product.deleteMany();
+
+//     for (const product of fullProducts) 
+//     {
+//         const newProduct = new Product(product);
+//         await newProduct.save();
+//         console.log(newProduct);        
+//     }
+
+//     res.json({
+//         full: fullProducts
+//     });
+
+// }
+
 module.exports = {
     createSpirit,
     getAllSpirits,
     getSpiritById,
     updateSpiritById,
     // deleteSpiritById,
-    // // *** Especiales ***//
-    getAllSpiritsFeatures
+    // *** Especiales ***//
+    getAllSpiritsFeatures,
+    // runScript
 
 };

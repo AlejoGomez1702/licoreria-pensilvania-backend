@@ -16,6 +16,7 @@ const validateCreateUnit = require('./products/units/validate-create-unit');
 const validateCreateAlcohol = require('./products/alcohols/validate-create-alcohol');
 
 const validateImageUploadProduct = require('./products/validate-image');
+const capitalizeProductName = require('./products/capitalize-product-name');
 const validatePublicData = require('./auth/validate-public-data');
 
 module.exports = {
@@ -30,5 +31,6 @@ module.exports = {
     ...validateCreateUnit,
     ...validateCreateAlcohol,
     ...validateImageUploadProduct,
-    ...validatePublicData
+    ...validatePublicData,
+    ...capitalizeProductName
 };

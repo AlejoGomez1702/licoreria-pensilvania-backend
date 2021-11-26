@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { 
     validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, 
-    validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment, validateImageEditProduct
+    validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
 } = require('../../middlewares');
 
 const { existSpiritById, existCategoryById, existAlcoholById, existUnitById } = require('../../helpers/db-validators');
@@ -19,16 +19,15 @@ const router = Router();
  */
 router.post('/', [ 
     validateJWT,
+    isActiveUser,
     check('name','El nombre es obligatorio').not().isEmpty(),
     check('category','No existe la categoria especificada').isMongoId(),
     check('category').custom( existCategoryById ),
-    check('alcohol','No existe el volumen alcoholico especificado').isMongoId(),
-    check('alcohol').custom( existAlcoholById ),
-    check('unit','No existe la unida de medida especificada').isMongoId(),
-    check('unit').custom( existUnitById ),
-    isActiveUser,
-    toArrayFeatures,
-    validateExistSpirit,    
+    check('vol_alcohol','Debe especificar un % de volumen alcoholico').not().isEmpty().isFloat({min: 0, max: 100}),
+    check('unit','No existe la unidad de medida especificada').isMongoId(),
+    check('unit').custom( existUnitById ),       
+    validateExistSpirit,
+    capitalizeProductName,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -103,5 +102,7 @@ router.get('/all/features', [
     validateJWTEstablishment
 ], getAllSpiritsFeatures );
 
+
+// router.get('/script/script', runScript);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Spirit } = require('../models');
+const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Spirit, Establishment } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -116,6 +116,18 @@ const isValidRole = async(rol = '') => {
 }
 
 /**
+ * Verifica si el establecimiento existe en la base de datos según su identificador (id).
+ * @param {string} id Identificador del establecimiento a comprobar.
+ */
+ const existEstablishmentById = async( id ) => {
+    const exist = await Establishment.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`El establecimiento no existe: ${ id }`);
+    }
+};
+
+/**
  * Valida una coleccion permitida para subir una imagen.
  * @param {*} collection 
  * @param {*} collections 
@@ -174,6 +186,7 @@ module.exports = {
     existSpiritById,
     existInventoryById,
     existProviderById,
+    existEstablishmentById,
     collectionsValids,
     productsValids,
 

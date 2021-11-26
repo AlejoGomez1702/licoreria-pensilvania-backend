@@ -9,7 +9,7 @@ const {
 } = require('../middlewares');
 
 
-const { isValidRole, emailExist, existeUsuarioPorId } = require('../helpers/db-validators');
+const { isValidRole, emailExist, existeUsuarioPorId, existEstablishmentById } = require('../helpers/db-validators');
 
 const { usuariosGet,
         usuariosPut,
@@ -34,8 +34,9 @@ router.post('/',[
     check('password', 'El password debe de ser más de 8 digitos').isLength({ min: 8 }),
     check('email', 'El correo no es válido').isEmail(),
     check('email').custom( emailExist ),
-    // check('rol', 'No es un rol válido').isIn(['ADMIN_ROLE','USER_ROLE']),
-    check('rol').custom( isValidRole ), 
+    check('rol').custom( isValidRole ),
+    check('establishment').isMongoId(),
+    check('establishment').custom( existEstablishmentById ),
     validateFields
 ], createUser);
 

@@ -10,6 +10,7 @@ const { existSpiritById, existCategoryById, existAlcoholById, existUnitById } = 
 const { toArrayFeatures } = require('../../middlewares/products/to-array-features');
 const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById } = require('../../controllers/products/spirits');
 const { validateExistSpirit } = require('../../middlewares/products/validate-exist-spirit');
+const { validateSpiritQuery, validateSpiritByIdQuery } = require('../../middlewares/products/spirits/validate-query');
 
 const router = Router();
 
@@ -39,7 +40,8 @@ router.post('/', [
  */
  router.get('/', [
     // validatePublicData,
-    validateJWTEstablishment
+    validateJWTEstablishment,
+    validateSpiritQuery
 ], getAllSpirits );
 
 /**
@@ -49,8 +51,9 @@ router.post('/', [
  router.get('/:id',[
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existSpiritById ),
-    validatePublicData,
-    validateJWTEstablishment,    
+    // validatePublicData,
+    validateJWTEstablishment,
+    validateSpiritByIdQuery,
     validateFields
 ], getSpiritById );
 

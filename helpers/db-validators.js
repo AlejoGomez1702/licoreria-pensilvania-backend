@@ -1,4 +1,4 @@
-const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Spirit, Establishment } = require('../models');
+const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Establishment } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -82,7 +82,7 @@ const isValidRole = async(rol = '') => {
  */
  const existSpiritById = async( id ) => {
     // Verificar si existe en la BD.
-    const exist = await Spirit.findById(id);
+    const exist = await Product.findById(id);
     if ( !exist ) 
     {
         throw new Error(`El licor no existe: ${ id }`);

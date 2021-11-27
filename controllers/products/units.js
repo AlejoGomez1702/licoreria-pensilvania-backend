@@ -33,8 +33,8 @@ const createUnit = async(req, res = response ) => {
 const getAllUnits = async(req, res = response ) => {
     
     const { limit = 5, from = 0 } = req.query;
-    const { establishment } = req.user;
-    const query = { $and: [{ state: true }, { establishment }] };
+    // const { establishment } = req.user;
+    const query = { $and: [{ state: true }] };
 
     const [ total, units ] = await Promise.all([
         Unit.countDocuments(query),

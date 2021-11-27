@@ -37,13 +37,13 @@ const getAllCategories = async(req, res = response ) => {
 
     const { limit = 5, from = 0 } = req.query;
     // const { establishment } = req.user;
-    const establishment = '611d475c779e79be7ea58995';
-    const query = { $and: [{ 'state': true }, { establishment }] };
+    // const establishment = '611d475c779e79be7ea58995';
+    const query = { $and: [{ 'state': true }] };
 
     const [ total, categories ] = await Promise.all([
         Category.countDocuments(query),
         Category.find(query)
-            .populate('establishment', 'name')
+            // .populate('establishment', 'name')
             .skip( Number( from ) )
             .limit( Number( limit ) )
     ]);

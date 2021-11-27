@@ -34,15 +34,10 @@ const createSpirit = async (req, res = response ) => {
  */
  const getAllSpirits = async(req, res = response ) => {
 
-    const { limit = 10, from = 0, category = '' } = req.query;
+    const { limit = 10, from = 0 } = req.query;
     // Establecimiento del que se desea obtener los licores
-    const establishment = req.establishmentId;
-    // Saqueme los productos de ese establecimiento que esten activos
-    let query = { $and : [{establishment}, {state: true}] };
-    if( category ) // si se desean buscar licores por categoria.
-    {
-        query = { $and : [{establishment}, {state: true}, {category}] };
-    }
+    const query = req.querySpirit;
+    // console.log(query);
 
     const [ total, spirits ] = await Promise.all([
         Product.countDocuments(query),
@@ -65,12 +60,14 @@ const createSpirit = async (req, res = response ) => {
  */
  const getSpiritById = async(req, res = response ) => {
 
-    const { id } = req.params;
-    const establishment = req.establishmentId;
+    // const { id } = req.params;
+    // const establishment = req.establishmentId;
     // Saqueme el licor de ese establecimiento que este activo cuyo id concuerde.
-    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
-    const spirit = await Spirit.findOne( query )
-                            .populate('establishment', 'name');
+    const query = req.querySpirit;
+    const spirit = await Product.findOne( query )
+                            .populate('establishment', 'name')
+                            .populate('category', 'name')
+                            .populate('unit', 'unit');
 
     res.json( spirit );
 };

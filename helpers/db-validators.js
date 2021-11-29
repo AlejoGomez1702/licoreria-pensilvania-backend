@@ -80,7 +80,7 @@ const isValidRole = async(rol = '') => {
  * Verifica si un licor existe en la base de datos según su identificador (id).
  * @param {string} id Identificador del producto a comprobar.
  */
- const existSpiritById = async( id ) => {
+ const existProductById = async( id ) => {
     // Verificar si existe en la BD.
     const exist = await Product.findById(id);
     if ( !exist ) 
@@ -183,7 +183,7 @@ module.exports = {
     existCategoryById,
     existAlcoholById,
     existUnitById,
-    existSpiritById,
+    existProductById,
     existInventoryById,
     existProviderById,
     existEstablishmentById,

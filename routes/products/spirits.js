@@ -2,13 +2,13 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { 
-    validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, 
-    validateExistProduct, validateImageUploadProduct, validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
+    validateJWT, validateFields, isAdminRole, isActiveUser, validateImageUploadProduct,
+    validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
 } = require('../../middlewares');
 
-const { existSpiritById, existCategoryById, existAlcoholById, existUnitById } = require('../../helpers/db-validators');
-const { toArrayFeatures } = require('../../middlewares/products/to-array-features');
-const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById } = require('../../controllers/products/spirits');
+const { existProductById, existCategoryById, existAlcoholById, existUnitById } = require('../../helpers/db-validators');
+// const { toArrayFeatures } = require('../../middlewares/products/to-array-features');
+const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById, deleteSpiritById } = require('../../controllers/products/spirits');
 const { validateExistSpirit } = require('../../middlewares/products/validate-exist-spirit');
 const { validateSpiritQuery, validateSpiritByIdQuery } = require('../../middlewares/products/spirits/validate-query');
 
@@ -50,7 +50,7 @@ router.post('/', [
  */
  router.get('/:id',[
     check('id', 'No es un id de Mongo válido').isMongoId(),
-    check('id').custom( existSpiritById ),
+    check('id').custom( existProductById ),
     // validatePublicData,
     validateJWTEstablishment,
     validateSpiritByIdQuery,
@@ -63,16 +63,16 @@ router.post('/', [
  */
  router.put('/:id',[
     validateJWT,
-    check('id').custom( existSpiritById ),
+    isActiveUser,
+    isAdminRole,
+    check('id').custom( existProductById ),
     check('name','El nombre es obligatorio').not().isEmpty(),
     check('category','No existe la categoria especificada').isMongoId(),
     check('category').custom( existCategoryById ),
-    check('alcohol','No existe el volumen alcoholico especificado').isMongoId(),
-    check('alcohol').custom( existAlcoholById ),
+    check('vol_alcohol','Debe especificar un % de volumen alcoholico').not().isEmpty().isFloat({min: 0, max: 100}),
     check('unit','No existe la unida de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    validateExistSpirit,
-    isActiveUser,
+    validateExistSpirit,    
     validateImageEditProduct,
     validateImageUploadProduct,
     validateFields
@@ -82,15 +82,14 @@ router.post('/', [
  * Eliminar un productos especifico de la BD.
  * {{ url }}/api/products/:id
  */
-//  router.delete('/:id',[
-//     validateJWT,
-//     validateInventory,
-//     isAdminRole,
-//     isActiveUser,
-//     check('id', 'No es un id de Mongo válido').isMongoId(),
-//     check('id').custom( existProductById ),
-//     validateFields,
-// ], deleteSpiritById );
+ router.delete('/:id',[
+    validateJWT,
+    isActiveUser,
+    isAdminRole,    
+    check('id', 'No es un id de Mongo válido').isMongoId(),
+    check('id').custom( existProductById ),
+    validateFields,
+], deleteSpiritById );
 
 // **************************************************************************************************** //
 // ********* ENDPOINTS ESPECIALES ********* ENDPOINTS ESPECIALES********* ENDPOINTS ESPECIALES********* //

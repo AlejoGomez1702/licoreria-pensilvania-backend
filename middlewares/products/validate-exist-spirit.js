@@ -27,9 +27,6 @@ const validateExistSpirit = async( req = request, res = response, next ) => {
         if( current_existence ) fields.push( {current_existence} );
 
         const query = { $and: fields}; 
-
-        // console.log('Body de la petición');
-        // console.log( query );
     
         const spiritDB = await Product.findOne( query );
          
@@ -55,7 +52,7 @@ const validateExistSpirit = async( req = request, res = response, next ) => {
             error: 'Error validando licor',
         });
     }
-}
+};
 
 module.exports = {
     validateExistSpirit

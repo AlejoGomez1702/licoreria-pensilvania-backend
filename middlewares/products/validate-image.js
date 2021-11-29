@@ -1,7 +1,7 @@
 // Nube de almacenamiento de imagenes
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );
-const { Spirit } = require('../../models');
+const { Spirit, Product } = require('../../models');
 
 /**
  * Realiza la validacion para que se pueda crear una categoria
@@ -30,10 +30,8 @@ const { Spirit } = require('../../models');
             const { tempFilePath } = req.files.img;
             if( tempFilePath )
             {
-                console.log("llega paso 1");
                 const { url } = await cloudinary.uploader.upload( tempFilePath );
                 req.body.img = url;
-                console.log("llega paso 2");
             }
             else
             {
@@ -68,7 +66,7 @@ const { Spirit } = require('../../models');
     {        
         if( req.files )
         {
-            const spirit = await Spirit.findById( req.params.id );
+            const spirit = await Product.findById( req.params.id );
 
             const nameArr = spirit.img.split('/');
             const name    = nameArr[ nameArr.length - 1 ];

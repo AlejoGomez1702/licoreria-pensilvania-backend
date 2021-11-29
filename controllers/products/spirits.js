@@ -85,7 +85,7 @@ const createSpirit = async (req, res = response ) => {
 
     data.user = req.user._id;
 
-    const spirit = await Spirit.findOneAndUpdate(query, data, { new: true });    
+    const spirit = await Product.findOneAndUpdate(query, data, { new: true });    
 
     res.json( spirit );
 };
@@ -96,16 +96,16 @@ const createSpirit = async (req, res = response ) => {
  * @param {*} res 
  * @returns 
  */
-//  const deleteSpiritById = async(req, res = response ) => {
+ const deleteSpiritById = async(req, res = response ) => {
 
-//     const { id } = req.params;
-//     const inventory = req.inventory;
-//     // Elimineme el producto cuyo id coincida, pertenezca al inventario del usuario y este activo
-//     const query = { $and: [{ '_id': id }, { inventory }, { 'state': true }] };
-//     const productDeleted = await Product.findOneAndUpdate( query, { state: false }, {new: true });
+    const { id } = req.params;
+    const establishment = req.user.establishment;
+    // Elimineme el producto cuyo id coincida, pertenezca al establecimiento del usuario y este activo
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
+    const productDeleted = await Product.findOneAndUpdate( query, { state: false }, {new: true });
 
-//     res.json( productDeleted );
-// };
+    res.json( productDeleted );
+};
 
 // **************************************************************************************************** //
 // ********* ENDPOINTS ESPECIALES ********* ENDPOINTS ESPECIALES********* ENDPOINTS ESPECIALES********* //
@@ -182,7 +182,7 @@ module.exports = {
     getAllSpirits,
     getSpiritById,
     updateSpiritById,
-    // deleteSpiritById,
+    deleteSpiritById,
     // *** Especiales ***//
     getAllSpiritsFeatures,
     // runScript

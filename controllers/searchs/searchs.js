@@ -1,4 +1,5 @@
 const { response } = require('express');
+const { Product } = require('../../models');
 const { searchSpirits } = require('./search-spirits');
 
 const validCollections = [
@@ -60,11 +61,10 @@ const search = ( req, res = response ) => {
     // Buscar por código de barras
     const { code } = req.params; 
 
-    // 1. Licores
-    const spiritMatch = await Spirit.findOne({ barcode: code }); 
-    if( spiritMatch )
+    const productMatch = await Product.findOne({ barcode: code, state: true }); 
+    if( productMatch )
     {
-        return res.json( spiritMatch );
+        return res.json( productMatch );
     }
     else
     {

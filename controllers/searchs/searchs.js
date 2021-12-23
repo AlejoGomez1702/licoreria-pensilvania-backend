@@ -61,7 +61,10 @@ const search = ( req, res = response ) => {
     // Buscar por código de barras
     const { code } = req.params; 
 
-    const productMatch = await Product.findOne({ barcode: code, state: true }); 
+    const productMatch = await Product.findOne({ barcode: code, state: true })
+                                                                            .populate('establishment', 'name')
+                                                                            .populate('category', 'name')
+                                                                            .populate('unit', 'unit'); 
     if( productMatch )
     {
         return res.json( productMatch );

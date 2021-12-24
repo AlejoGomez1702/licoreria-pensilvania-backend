@@ -13,7 +13,7 @@ const paths = {
 };
 
 const loadRoutes = ( app ) => {
-    app.use( paths.users, require('../routes/users'));
+    app.use( paths.users, require('../routes/users/users'));
     app.use( paths.auth, require('../routes/auth/auth'));
     app.use( paths.categories, require('../routes/products/categories'));
     // app.use( paths.products, require('../routes/products'));
@@ -21,7 +21,7 @@ const loadRoutes = ( app ) => {
     // app.use( paths.alcohols, require('../routes/products/alcohols'));
     app.use( paths.units, require('../routes/products/units'));
     app.use( paths.uploads, require('../routes/uploads'));
-    app.use( paths.providers, require('../routes/providers'));
+    app.use( paths.providers, require('../routes/users/providers'));
     app.use( paths.searchs, require('../routes/searchs'));
     app.use( paths.sales, require('../routes/sales'));
 };

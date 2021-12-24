@@ -6,16 +6,11 @@ const {
     validarJWT,
     esAdminRole,
     tieneRole
-} = require('../middlewares');
+} = require('../../middlewares');
 
 
-const { isValidRole, emailExist, existeUsuarioPorId, existEstablishmentById } = require('../helpers/db-validators');
-
-const { usuariosGet,
-        usuariosPut,
-        createUser,
-        usuariosDelete,
-        usuariosPatch } = require('../controllers/users');
+const { isValidRole, emailExist, existeUsuarioPorId, existEstablishmentById } = require('../../helpers/db-validators');
+const { createUser } = require('../../controllers/users/users');
 
 const router = Router();
 

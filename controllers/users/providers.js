@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Provider } = require('../models');
+const { Provider } = require('../../models');
 
 /**
  * Crea un nuevo proveedor en la base de datos.

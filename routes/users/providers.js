@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct } = require('../middlewares');
-const { createProvider, getAllProviders, getProviderById, updateProviderById, deleteProviderById, updateProviderProductsById } = require('../controllers/providers');
-const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById, existProviderById, productsValids } = require('../helpers/db-validators');
-const { validateExistProvider } = require('../middlewares/validate-exist-provider');
+const { validateJWT, validateFields, isAdminRole, isActiveUser, validateExistProduct } = require('../../middlewares');
+const { createProvider, getAllProviders, getProviderById, updateProviderById, deleteProviderById, updateProviderProductsById } = require('../../controllers/users/providers');
+const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById, existProviderById, productsValids } = require('../../helpers/db-validators');
+const { validateExistProvider } = require('../../middlewares/users/validate-exist-provider');
 
 const router = Router();
 

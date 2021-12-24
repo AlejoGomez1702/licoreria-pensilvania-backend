@@ -1,9 +1,9 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs')
 
-const User = require('../models/user');
+const User = require('../../models/users/user');
 
-const { generateJWT } = require('../helpers/generate-jwt');
+const { generateJWT } = require('../../helpers/generate-jwt');
 
 /**
  * Permite loguearse en el sistema a un usuario (JWT)

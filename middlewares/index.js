@@ -1,8 +1,8 @@
 const validateFields = require('./validate-fields');
 const validateJWT = require('./auth/validate-jwt');
-const validateRoles = require('./validate-roles');
-const validateStatusUser = require('./validate-state-user');
-const validateInventory = require('./validate-inventory');
+const validateRoles = require('./users/validate-roles');
+const validateStatusUser = require('./users/validate-state-user');
+// const validateInventory = require('./validate-inventory');
 const validateExistProduct = require('./products/validate-exist-product');
 const validateFile = require('./validate-file');
 
@@ -24,7 +24,7 @@ module.exports = {
     ...validateJWT,
     ...validateRoles,
     ...validateStatusUser,
-    ...validateInventory,
+    // ...validateInventory,
     ...validateExistProduct,
     ...validateFile,
     ...validateCreateCategory,

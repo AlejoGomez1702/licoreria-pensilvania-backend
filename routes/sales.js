@@ -2,9 +2,6 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { createSale } = require('../controllers/sales');
 const { validateJWT, isActiveUser, validateFields } = require('../middlewares');
-// const { validateJWT, validateFields, isAdminRole, isActiveUser, validateInventory, validateExistProduct } = require('../middlewares');
-// const { createProduct, getAllProducts, getProductById, updateProductById, deleteProductById } = require('../controllers/products');
-// const { existCategoryById, existAlcoholById, existUnitById, existProductById, existInventoryById } = require('../helpers/db-validators');
 
 const router = Router();
 
@@ -15,7 +12,7 @@ const router = Router();
 router.post('/', [ 
     validateJWT,
     isActiveUser,
-    check('products').not().isEmpty(),
+    check('products').not().isEmpty().isArray(),
     validateFields
 ], createSale );
 

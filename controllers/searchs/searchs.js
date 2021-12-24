@@ -60,8 +60,9 @@ const search = ( req, res = response ) => {
     
     // Buscar por código de barras
     const { code } = req.params; 
+    const establishment = req.establishmentId
 
-    const productMatch = await Product.findOne({ barcode: code, state: true })
+    const productMatch = await Product.findOne({ barcode: code, state: true, establishment })
                                                                             .populate('establishment', 'name')
                                                                             .populate('category', 'name')
                                                                             .populate('unit', 'unit'); 

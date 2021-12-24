@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 
-const User = require('../models/user');
+const User = require('../../models/users/user');
 
 /**
  * Crea un nuevo usuario en la base de datos.

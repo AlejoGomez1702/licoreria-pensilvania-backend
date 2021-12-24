@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Sale } = require('../models');
+const { Sale, Product } = require('../models');
 
 /**
  * Crea una nueva venta en la base de datos.
@@ -9,17 +9,35 @@ const { Sale } = require('../models');
  */
 const createSale = async(req, res = response ) => {
 
-    // Generar la data a guardar
+    const products = req.body.products;
+
     const data = {
-        products: req.body.products,
+        products,
         user: req.user._id,
         establishment: req.user.establishment
     }
 
     const sale = new Sale( data );
 
-    // Guardar DB
-    await sale.save();
+    // Refrescar el inventario, restando los productos de la venta.
+    try 
+    {
+        // Por cada uno de los productos de la venta
+        for (const product of products) 
+        {
+            const productDB = await Product.findById( product.product );
+            const updateData = { current_existence: (productDB.current_existence - product.count ) };
+            // Saqueme el producto del inventario y actualice la existencia
+            await Product.findByIdAndUpdate(product.product, updateData);
+        }
+
+        // Guardar DB
+        await sale.save();
+        
+    } catch (error) 
+    {
+        console.log(error);        
+    }
 
     res.status(201).json( sale );
 };

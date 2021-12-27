@@ -42,30 +42,34 @@ const createSale = async(req, res = response ) => {
     res.status(201).json( sale );
 };
 
-// /**
-//  * Obtiene todos los % de alcohol registrados en un establecimiento.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-// const getAllAlcohols = async(req, res = response ) => {
-//     const { limit = 5, from = 0 } = req.query;
-//     const { establishment } = req.user;
-//     const query = { $and: [{ 'state': true }, { establishment }] };
+/**
+ * Obtiene todas las ventas que tiene registradas el negocio del usuario logueado.
+ * Solo pueden mostrarsen a los administradores.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const getAllSales = async(req, res = response ) => {
+    const { limit = 10, from = 0 } = req.query;
+    const { establishment } = req.user;
 
-//     const [ total, alcohols ] = await Promise.all([
-//         Alcohol.countDocuments(query),
-//         Alcohol.find(query)
-//             .populate('establishment', 'name')
-//             .skip( Number( from ) )
-//             .limit( Number( limit ) )
-//     ]);
+    // Saqueme las ventas activas del establecimiento del usuario logueado
+    const query = { $and: [{ 'state': true }, { establishment }] };
 
-//     res.json({
-//         total,
-//         alcohols
-//     });
-// };
+    const [ total, sales ] = await Promise.all([
+        Sale.countDocuments(query),
+        Sale.find(query)
+                    .populate('establishment', 'name')
+                    .populate('user', 'name')
+                    .skip( Number( from ) )
+                    .limit( Number( limit ) )
+    ]);
+
+    res.json({
+        total,
+        sales
+    });
+};
 
 // /**
 //  * Obtiene un % de volumen alcoholico especifico de la base de datos.
@@ -122,6 +126,7 @@ const createSale = async(req, res = response ) => {
 
 module.exports = {
     createSale,
+    getAllSales
     // getAllAlcohols,
     // getAlcoholById,
     // updateAlcoholById,

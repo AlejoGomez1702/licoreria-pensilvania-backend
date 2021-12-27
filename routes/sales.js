@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createSale } = require('../controllers/sales');
-const { validateJWT, isActiveUser, validateFields } = require('../middlewares');
+const { createSale, getAllSales } = require('../controllers/sales');
+const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
 
 const router = Router();
 
@@ -16,15 +16,16 @@ router.post('/', [
     validateFields
 ], createSale );
 
-// // /**
-// //  * Obtener todos los productos de la BD.
-// //  * {{ url }}/api/products
-// //  */
-// //  router.get('/', [
-// //     validateJWT,
-// //     validateInventory,
-// //     isActiveUser
-// // ], getAllProducts );
+/**
+ * Obtener todas las ventas del negocio del usuario logueado.
+ * {{ url }}/api/products
+ */
+ router.get('/', [
+    validateJWT,
+    isActiveUser,
+    isAdminRole,
+    validateFields
+], getAllSales );
 
 // // /**
 // //  * Obtener un produto especifico de la BD.

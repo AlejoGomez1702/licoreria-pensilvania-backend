@@ -19,6 +19,12 @@ const SaleSchema = Schema({
         required: true
     },
 
+    state: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+
     // Negocio en el que se hizo la venta
     establishment: {
         type: Schema.Types.ObjectId,

@@ -1,10 +1,12 @@
 const paths = {
+    // Públicos para licoreriapensilvania.com
+    public:     '/api/public',
+
+
     auth:       '/api/auth',
     categories: '/api/categories',
     users:      '/api/users',    
-    // products:   '/api/products',
     spirits:    '/api/spirits',
-    // alcohols:   '/api/alcohols',
     units:      '/api/units',
     uploads:    '/api/uploads',   
     providers:  '/api/providers',
@@ -13,12 +15,14 @@ const paths = {
 };
 
 const loadRoutes = ( app ) => {
+    // Públicos para licoreriapensilvania.com
+    app.use( paths.public, require('../routes/licoreria-pensilvania/spirits-licoreria'));
+
+
     app.use( paths.users, require('../routes/users/users'));
     app.use( paths.auth, require('../routes/auth/auth'));
     app.use( paths.categories, require('../routes/products/categories'));
-    // app.use( paths.products, require('../routes/products'));
     app.use( paths.spirits, require('../routes/products/spirits'));
-    // app.use( paths.alcohols, require('../routes/products/alcohols'));
     app.use( paths.units, require('../routes/products/units'));
     app.use( paths.uploads, require('../routes/uploads'));
     app.use( paths.providers, require('../routes/users/providers'));

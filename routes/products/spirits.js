@@ -6,8 +6,7 @@ const {
     validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
 } = require('../../middlewares');
 
-const { existProductById, existCategoryById, existAlcoholById, existUnitById } = require('../../helpers/db-validators');
-// const { toArrayFeatures } = require('../../middlewares/products/to-array-features');
+const { existProductById, existCategoryById, existUnitById } = require('../../helpers/db-validators');
 const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById, deleteSpiritById } = require('../../controllers/products/spirits');
 const { validateExistSpirit } = require('../../middlewares/products/validate-exist-spirit');
 const { validateSpiritQuery, validateSpiritByIdQuery } = require('../../middlewares/products/spirits/validate-query');

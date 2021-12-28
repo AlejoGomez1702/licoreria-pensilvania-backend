@@ -1,13 +1,19 @@
 const { Router } = require('express');
-const { getMainSpirits } = require('../../controllers/licoreria-pensilvania/spirits-licoreria');
+const { getMainSpirits, getAllSpirits } = require('../../controllers/licoreria-pensilvania/spirits-licoreria');
 
 const router = Router();
 
 /**
  * Obtener los licores que se muestran en la página principal de licorería pensilvania.
- * {{ url }}/api/public/spirits
+ * {{ url }}/api/public/spirits/main
  */
  router.get('/spirits/main', getMainSpirits );
+
+/**
+ * Obtener todos los licores de licorería pensilvania.
+ * {{ url }}/api/public/spirits
+ */
+ router.get('/spirits', getAllSpirits );
 
 // /**
 //  * Crear un nuevo licor en la BD.

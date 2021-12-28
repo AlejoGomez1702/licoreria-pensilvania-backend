@@ -6,15 +6,17 @@ const { Product } = require('../../models');
  */
  const getMainSpirits = async(req, res = response ) => {
 
+    // Cantidad de productos al azar a crear
+    const count = 8;
     // Establecimiento del que se desea obtener los licores
     const establishment = '611d475c779e79be7ea58995';
-    const query = { establishment };
+    const query = { establishment, state: true };
     const total = await Product.countDocuments( query );
     let randomProducts = [];
     let randomNumber = 0;
     let auxProduct;
-    // Para generar 6 productos que se van a mostrar en la página principal.
-    for (let i = 0; i < 8; i++) 
+    // Para generar "count" productos que se van a mostrar en la página principal.
+    for (let i = 0; i < count; i++) 
     {
         randomNumber = Math.floor(Math.random() * total);
         auxProduct = await Product.findOne( query )
@@ -31,33 +33,30 @@ const { Product } = require('../../models');
     });
 };
 
-// /**
-//  * Crea un nuevo licor en la base de datos.
-//  */
-// const createSpirit = async (req, res = response ) => {
-//     const { state, user, establishment, file, ...body } = req.body;
-//     body.vol_alcohol = Number( body.vol_alcohol );
+/**
+ * Obtiene todos los licores de licoreria pensilvania.
+ */
+ const getAllSpirits = async(req, res = response ) => {
 
-//     // Generar la data a guardar
-//     const data = {
-//         ...body,
-//         establishment: req.user.establishment,
-//         user: req.user._id
-//     };
+    const { limit = 8, from = 0 } = req.query;
+    // Establecimiento del que se desea obtener los licores
+    const establishment = '611d475c779e79be7ea58995';
+    const query = { establishment, state: true };
 
-//     const spirit = new Product( data );
+    const [ total, spirits ] = await Promise.all([
+        Product.countDocuments(query),
+        Product.find(query)
+                        .populate('category', 'name')
+                        .populate('unit', 'unit')
+                        .skip( Number( from ) )  // desde donde
+                        .limit( Number( limit ) ) // Cuantos
+    ]);
 
-//     try 
-//     {
-//         // Guardar DB
-//         await spirit.save();
-//         res.status(201).json( spirit );
-//     } 
-//     catch (error) 
-//     {
-//         res.status(200).json( {error: 'No se pudo crear el licor en la base de datos'} );
-//     }    
-// };
+    res.json({
+        total,
+        spirits
+    });
+};
 
 // /**
 //  * Obtiene un licor de la base de datos.
@@ -182,5 +181,6 @@ const { Product } = require('../../models');
 // }
 
 module.exports = {
-    getMainSpirits
+    getMainSpirits,
+    getAllSpirits
 };

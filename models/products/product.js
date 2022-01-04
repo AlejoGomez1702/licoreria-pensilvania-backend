@@ -95,8 +95,11 @@ ProductSchema.methods.toJSON = function() {
     const { __v, state, _id, img, ...data  } = this.toObject();
     data.id = _id;
     // Convirtiendo http -> https
-    const secureImage = img.replace('http', 'https');
-    data.img = secureImage;
+    if( img )
+    {
+        const secureImage = img.replace('http', 'https');
+        data.img = secureImage;
+    }
 
     return data;
 }

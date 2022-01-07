@@ -20,6 +20,12 @@ const UnitSchema = Schema({
         min: 1,
         max: 1000
     },
+    
+    grams: {
+        type: Number,
+        min: 1,
+        max: 10000
+    },
 
     state: {
         type: Boolean,

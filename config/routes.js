@@ -3,15 +3,16 @@ const paths = {
     public:     '/api/public',
 
 
-    auth:       '/api/auth',
-    categories: '/api/categories',
-    users:      '/api/users',    
-    spirits:    '/api/spirits',
-    units:      '/api/units',
-    uploads:    '/api/uploads',   
-    providers:  '/api/providers',
-    searchs:    '/api/searchs',
-    sales:      '/api/sales'   
+    auth:               '/api/auth',
+    superCategories:    '/api/supercategories',
+    categories:         '/api/categories',
+    users:              '/api/users',    
+    spirits:            '/api/spirits',
+    units:              '/api/units',
+    uploads:            '/api/uploads',   
+    providers:          '/api/providers',
+    searchs:            '/api/searchs',
+    sales:              '/api/sales'   
 };
 
 const loadRoutes = ( app ) => {
@@ -21,6 +22,7 @@ const loadRoutes = ( app ) => {
 
     app.use( paths.users, require('../routes/users/users'));
     app.use( paths.auth, require('../routes/auth/auth'));
+    app.use( paths.superCategories, require('../routes/products/super-categories'));
     app.use( paths.categories, require('../routes/products/categories'));
     app.use( paths.spirits, require('../routes/products/spirits'));
     app.use( paths.units, require('../routes/products/units'));

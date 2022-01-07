@@ -7,15 +7,22 @@ const SuperCategorySchema = Schema({
         required: [true, 'El nombre es obligatorio'],
         unique: true
     },
-
-    img: {
+    icon: {
         type: String,
-        default: ''
+        required: [true, 'El icono de material es obligatorio'],
+    },
+    // Componente de Angular
+    component: {
+        type: String,
+        required: [true, 'El componente de Angular es obligatorio'],
+    },
+    img: {
+        type: String
     }
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
-CategorySchema.methods.toJSON = function() {
+SuperCategorySchema.methods.toJSON = function() {
     const { __v, _id, ...data  } = this.toObject();
     data.id = _id;
     return data;

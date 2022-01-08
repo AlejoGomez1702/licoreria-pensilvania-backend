@@ -82,12 +82,16 @@ const ProductSchema = Schema({
         ref: 'Category',
         required: true
     },
+    // SuperCategoria a la que pertenece el producto
+    supercategory: {
+        type: Schema.Types.ObjectId,
+        ref: 'SuperCategory',
+        required: [true, 'La supercategoria es obligatoria']
+    },
     // Proveedores que tiene el producto
     providers: [{
         type: Schema.Types.ObjectId,
-        ref: 'Provider',
-        default: [],
-        required: true
+        ref: 'Provider'
     }],
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 

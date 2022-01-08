@@ -9,21 +9,42 @@
     const { category = '', sercheable = false } = req.query;
     // Establecimiento del que se desea obtener los licores
     const establishment = req.establishmentId;
+
+    // ID de la supercategoria -> Licores
+    const supercategory = '61414fa3752e94b6aa171231';
+
     let query = {};
     if( sercheable ) // Se quiere buscar los productos de otros negocios.
     {
         query = { 
-            $and : [{state: true}],
-            establishment : { $ne: establishment }
+            $and : [
+                { state: true }, 
+                { establishment : { $ne: establishment } },
+                { supercategory }
+            ],            
         }
     }
     else
     {
         // Saqueme los productos de ese establecimiento que esten activos
-        query = { $and : [{establishment}, {state: true}] };
+        query = {
+            $and : [
+                { establishment },
+                { state: true },
+                { supercategory }
+            ]
+        };
+
         if( category ) // si se desean buscar licores por categoria.
         {
-            query = { $and : [{establishment}, {state: true}, {category}] };
+            query = {
+                $and : [
+                    { establishment }, 
+                    { state: true }, 
+                    { category }, 
+                    { supercategory }
+                ]
+            };
         }
     }
 

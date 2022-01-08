@@ -38,10 +38,11 @@ const createSpirit = async (req, res = response ) => {
     // Establecimiento del que se desea obtener los licores
     const query = req.querySpirit;
     // console.log(query);
+    // let spirits = [];
 
     const [ total, spirits ] = await Promise.all([
         Product.countDocuments(query),
-        Product.find(query)
+        Product.find(query)            
             .populate('establishment', 'name')
             .populate('category', 'name')
             .populate('unit', 'unit')

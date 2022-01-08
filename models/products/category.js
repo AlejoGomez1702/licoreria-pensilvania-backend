@@ -28,7 +28,8 @@ const CategorySchema = Schema({
 
     // Categoria padre de esta categoria
     supercategory: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'SuperCategory',
         required: [true, 'La supercategoria es obligatoria']
     },
 

@@ -9,6 +9,7 @@ const paths = {
     users:              '/api/users',    
     spirits:            '/api/spirits',
     cigarettes:         '/api/cigarettes',
+    drinks:             '/api/drinks',
     units:              '/api/units',
     uploads:            '/api/uploads',   
     providers:          '/api/providers',
@@ -27,6 +28,7 @@ const loadRoutes = ( app ) => {
     app.use( paths.categories, require('../routes/products/categories'));
     app.use( paths.spirits, require('../routes/products/spirits'));
     app.use( paths.cigarettes, require('../routes/products/cigarettes'));
+    app.use( paths.drinks, require('../routes/products/drinks'));
     app.use( paths.units, require('../routes/products/units'));
     app.use( paths.uploads, require('../routes/uploads'));
     app.use( paths.providers, require('../routes/users/providers'));

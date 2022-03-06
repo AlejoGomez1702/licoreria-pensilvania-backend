@@ -32,17 +32,18 @@ const createUnit = async(req, res = response ) => {
  */
 const getAllUnits = async(req, res = response ) => {
     
-    const { limit = 5, from = 0 } = req.query;
-    // const { establishment } = req.user;
-    const query = { $and: [{ state: true }] };
+    const query = req.queryWithSupercategory.query;
+    console.log("query", query);
 
     const [ total, units ] = await Promise.all([
         Unit.countDocuments(query),
         Unit.find(query)
-            .populate('establishment', 'name')
-            .skip( Number( from ) )
-            .limit( Number( limit ) )
+            // .populate('establishment', 'name')
+            .skip( Number( req.queryWithSupercategory.from ) )
+            .limit( Number( req.queryWithSupercategory.limit ) )
     ]);
+
+    console.log("resultado: ", units);
 
     res.json({
         total,

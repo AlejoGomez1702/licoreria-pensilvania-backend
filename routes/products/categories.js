@@ -5,6 +5,7 @@ const { existCategoryById } = require('../../helpers/db-validators');
 
 const { validateJWT, validateFields, isAdminRole, isActiveUser, validateImageUpload } = require('../../middlewares');
 const { validateCreateCategory } = require('../../middlewares');
+const { validateQuerySupercategories } = require('../../middlewares/products/supercategories/validate-query-supercategories');
 
 const router = Router();
 
@@ -25,8 +26,7 @@ const router = Router();
  * {{ url }}/api/categories
  */
 router.get('/', [
-    // validateJWT,
-    // isActiveUser
+    validateQuerySupercategories  // Validar el query que se ejecutará dependiendo los parametros.
 ], getAllCategories );
 
 /**

@@ -40,9 +40,10 @@ const UnitSchema = Schema({
     },
     // A que Supercategoria pertenece la unidad de medida
     supercategory: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'SuperCategory',
         required: [true, 'La supercategoria es obligatoria']
-    }
+    },
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 

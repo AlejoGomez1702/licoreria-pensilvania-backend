@@ -48,7 +48,7 @@
         }
     }
 
-    req.querySpirit = query;
+    req.queryProduct = query;
     next();
 };
 
@@ -72,7 +72,7 @@
         ]
     };
 
-    req.querySpirit = query;
+    req.queryProduct = query;
     next();
 };
 

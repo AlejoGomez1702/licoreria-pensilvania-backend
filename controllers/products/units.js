@@ -33,7 +33,6 @@ const createUnit = async(req, res = response ) => {
 const getAllUnits = async(req, res = response ) => {
     
     const query = req.queryWithSupercategory.query;
-    console.log("query", query);
 
     const [ total, units ] = await Promise.all([
         Unit.countDocuments(query),

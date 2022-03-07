@@ -27,7 +27,6 @@ router.post('/', [
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
     validateExistSpirit,
-    capitalizeProductName,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct

@@ -5,12 +5,12 @@
  * @param {*} next 
  * @returns 
  */
- const validateCigaretteQuery = async( req = request, res = response, next ) => {
+ const validateGroceryQuery = async( req = request, res = response, next ) => {
     const { category = '', sercheable = false } = req.query;
-    // Establecimiento del que se desea obtener los licores
+    // Establecimiento del que se desea obtener los comestibles
     const establishment = req.establishmentId;
-    // ID de la supercategoria -> Licores
-    const supercategory = '6141686c752e94b6aa17123f';
+    // ID de la supercategoria -> comestibles
+    const supercategory = '61d7b1a02c38bdb5f64dcfb0';
 
     let query = {};
     if( sercheable ) // Se quiere buscar los productos de otros negocios.
@@ -57,7 +57,7 @@
  * @param {*} next 
  * @returns 
  */
- const validateCigarreteByIdQuery = async( req = request, res = response, next ) => {
+ const validateGroceryByIdQuery = async( req = request, res = response, next ) => {
     const { sercheable = false } = req.query;
     const { id } = req.params;
     // Establecimiento del que se desea obtener los licores
@@ -75,6 +75,6 @@
 };
 
 module.exports = {
-    validateCigaretteQuery,
-    validateCigarreteByIdQuery
+    validateGroceryQuery,
+    validateGroceryByIdQuery
 };

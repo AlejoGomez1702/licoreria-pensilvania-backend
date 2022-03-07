@@ -38,21 +38,21 @@ const createSpirit = async (req, res = response ) => {
 
     const { limit = 10, from = 0 } = req.query;
     // Establecimiento del que se desea obtener los licores
-    const query = req.querySpirit;
+    const query = req.queryProduct;
     // console.log(query);
     // let spirits = [];
 
     const [ total, spirits ] = await Promise.all([
         Product.countDocuments(query),
         Product.find(query)            
-            .populate('establishment', 'name')
-            .populate('category', 'name')
-            .populate('unit', 'unit')
-            .skip( Number( from ) )  // desde donde
-            .limit( Number( limit ) ) // Cuantos
+                        .populate('establishment', 'name')
+                        .populate('category', 'name')
+                        .populate('unit', 'unit')
+                        .skip( Number( from ) )  // desde donde
+                        .limit( Number( limit ) ) // Cuantos
     ]);
 
-    res.json({
+    return res.json({
         total,
         spirits
     });
@@ -66,13 +66,13 @@ const createSpirit = async (req, res = response ) => {
     // const { id } = req.params;
     // const establishment = req.establishmentId;
     // Saqueme el licor de ese establecimiento que este activo cuyo id concuerde.
-    const query = req.querySpirit;
+    const query = req.queryProduct;
     const spirit = await Product.findOne( query )
                             .populate('establishment', 'name')
                             .populate('category', 'name')
                             .populate('unit', 'unit');
 
-    res.json( spirit );
+    return res.json( spirit );
 };
 
 /**

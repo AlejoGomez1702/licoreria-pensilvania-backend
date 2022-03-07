@@ -96,12 +96,12 @@ const validateJWT = async( req = request, res = response, next ) => {
             
             req.establishmentId = user.establishment;
             req.user = user;
-            next();
+            next(); return;            
         } 
         catch (error) 
         {
             // console.log(error);
-            res.status(401).json({
+            return res.status(401).json({
                 error: 'Token no válido',
                 error
             });

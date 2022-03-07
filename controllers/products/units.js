@@ -43,8 +43,6 @@ const getAllUnits = async(req, res = response ) => {
             .limit( Number( req.queryWithSupercategory.limit ) )
     ]);
 
-    console.log("resultado: ", units);
-
     res.json({
         total,
         units

@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Spirit, Product } = require('../../models');
+const { Product } = require('../../models');
 
 /**
  * Crea un nuevo licor en la base de datos.
@@ -12,7 +12,8 @@ const createSpirit = async (req, res = response ) => {
     const data = {
         ...body,
         establishment: req.user.establishment,
-        user: req.user._id
+        user: req.user._id,
+        supercategory: '61414fa3752e94b6aa171231'
     };
 
     const spirit = new Product( data );
@@ -21,11 +22,12 @@ const createSpirit = async (req, res = response ) => {
     {
         // Guardar DB
         await spirit.save();
-        res.status(201).json( spirit );
+        return res.status(201).json( spirit );
     } 
     catch (error) 
     {
-        res.status(200).json( {error: 'No se pudo crear el licor en la base de datos'} );
+        console.log(error)
+        return res.status(401).json( {error: 'No se pudo crear el licor en la base de datos'} );
     }    
 };
 
@@ -88,11 +90,12 @@ const createSpirit = async (req, res = response ) => {
 
     const spirit = await Product.findOneAndUpdate(query, data, { new: true });    
 
-    res.json( spirit );
+    return res.json( spirit );
 };
 
 /**
- * Elimina un producto de la base de datos.
+ * Elimina un licor de la base de datos.
+ * Se hace un borrado suave, se actualiza el campo state a false para indicar la eliminación.
  * @param {*} req 
  * @param {*} res 
  * @returns 
@@ -105,7 +108,7 @@ const createSpirit = async (req, res = response ) => {
     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
     const productDeleted = await Product.findOneAndUpdate( query, { state: false }, {new: true });
 
-    res.json( productDeleted );
+    return res.json( productDeleted );
 };
 
 // **************************************************************************************************** //

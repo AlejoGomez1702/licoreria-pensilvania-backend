@@ -85,7 +85,7 @@ const isValidRole = async(rol = '') => {
     const exist = await Product.findById(id);
     if ( !exist ) 
     {
-        throw new Error(`El licor no existe: ${ id }`);
+        throw new Error(`El producto no existe: ${ id }`);
     }
 }
 

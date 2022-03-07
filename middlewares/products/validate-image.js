@@ -1,10 +1,10 @@
-// Nube de almacenamiento de imagenes
-const cloudinary = require('cloudinary').v2
+const cloudinary = require('cloudinary').v2        // Nube de almacenamiento de imagenes
 cloudinary.config( process.env.CLOUDINARY_URL );
-const { Spirit, Product } = require('../../models');
+const { Product } = require('../../models');
 
 /**
- * Realiza la validacion para que se pueda crear una categoria
+ * Realiza la validación de la imagen, si se le envia archivo la sube a cloudinary
+ * de lo contrario ignora el campo imagen.
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -13,18 +13,6 @@ const { Spirit, Product } = require('../../models');
  const validateImageUploadProduct = async( req = request, res = response, next ) => {
     try 
     {
-        if( req.body.img )
-        {
-            if(req.body.img === 'null')
-            {
-                const { img, ...data } = req.body;
-                req.body = data;
-            }
-
-            next();
-            return;
-        }     
-
         if( req.files )
         {
             const { tempFilePath } = req.files.img;
@@ -35,14 +23,19 @@ const { Spirit, Product } = require('../../models');
             }
             else
             {
-                res.status(400).json({
+                return res.status(400).json({
                     error: 'No existe el path temporal en la imagen',
                 });
             }
         }
+        else if( !req.body.img || req.body.img )
+        {
+            next(); 
+            return;
+        }
         else
         {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'Debe subir la imagen del producto'
             });
         }
@@ -51,8 +44,7 @@ const { Spirit, Product } = require('../../models');
     } 
     catch (error) 
     {
-        console.log(error);
-        res.status(401).json({
+        return res.status(401).json({
             error: 'Error validando imagen del producto'
         });
     }
@@ -66,9 +58,9 @@ const { Spirit, Product } = require('../../models');
     {        
         if( req.files )
         {
-            const spirit = await Product.findById( req.params.id );
+            const product = await Product.findById( req.params.id );
 
-            const nameArr = spirit.img.split('/');
+            const nameArr = product.img.split('/');
             const name    = nameArr[ nameArr.length - 1 ];
             const [ public_id ] = name.split('.');
             cloudinary.uploader.destroy( public_id );
@@ -79,7 +71,7 @@ const { Spirit, Product } = require('../../models');
     {
         console.log(error);
         res.status(401).json({
-            error: 'Error validando imagen del producto',
+            error: 'Error eliminando antigua imagen del producto',
             data: error
         });
     }

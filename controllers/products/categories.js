@@ -36,7 +36,6 @@ const createCategory = async(req, res = response ) => {
 const getAllCategories = async(req, res = response ) => {
 
     const query = req.queryWithSupercategory.query;
-    console.log("querycategoryyy", query);
 
     const [ total, categories ] = await Promise.all([
         Category.countDocuments(query),

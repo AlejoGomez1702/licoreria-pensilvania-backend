@@ -63,13 +63,13 @@ router.post('/', [
  router.put('/:id',[
     validateJWT,
     isActiveUser,
-    isAdminRole,
+    isAdminRole,    // Solo el administrador puede modificar precios.
     check('id').custom( existProductById ),
     check('name','El nombre es obligatorio').not().isEmpty(),
     check('category','No existe la categoria especificada').isMongoId(),
     check('category').custom( existCategoryById ),
     check('vol_alcohol','Debe especificar un % de volumen alcoholico').not().isEmpty().isFloat({min: 0, max: 100}),
-    check('unit','No existe la unida de medida especificada').isMongoId(),
+    check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
     validateExistSpirit,    
     validateImageEditProduct,
@@ -84,7 +84,7 @@ router.post('/', [
  router.delete('/:id',[
     validateJWT,
     isActiveUser,
-    isAdminRole,    
+    isAdminRole,    // Solo el administrador puede eliminar productos. 
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     validateFields,

@@ -11,10 +11,17 @@ const createSale = async(req, res = response ) => {
 
     const products = req.body.products;
 
+    // Calculando el total de la venta
+    let total = 0;
+    products.forEach(p => {
+        total += p.count * p.sale_price;
+    });
+
     const data = {
         products,
         user: req.user._id,
-        establishment: req.user.establishment
+        establishment: req.user.establishment,
+        total
     }
 
     const sale = new Sale( data );
@@ -56,20 +63,54 @@ const getAllSales = async(req, res = response ) => {
     // Saqueme las ventas activas del establecimiento del usuario logueado
     const query = { $and: [{ 'state': true }, { establishment }] };
 
-    const [ total, sales ] = await Promise.all([
+    let [ total, sales, statistics ] = await Promise.all([
         Sale.countDocuments(query),
         Sale.find(query)
                     .populate('establishment', 'name')
                     .populate('user', 'name')
                     .skip( Number( from ) )
-                    .limit( Number( limit ) )
+                    .limit( Number( limit ) ),
+        // Agrupar las ventas por dias.
+        Sale.aggregate([
+            {
+                $match: query
+            },
+            {
+                $group: {
+                    _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
+                    totalAmount: { $sum: '$total' },  // Valor total de las ventas del dia
+                    count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
+                }
+            }
+        ])
     ]);
+
+    statistics = statistics.map(element => {
+        return {
+            totalAmount: element.totalAmount,
+            count: element.count,
+            ...element._id
+        };
+    });
+
 
     res.json({
         total,
-        sales
+        sales,
+        statistics
     });
 };
+
+// db.sesiones.aggregate(
+//     [
+//         {
+//             $group:
+//             {   _id:{nombre:"$nombre"},
+//                 num_km: {$sum:'$distKm'}
+//             }
+//         }
+//     ]
+// )
 
 // /**
 //  * Obtiene un % de volumen alcoholico especifico de la base de datos.

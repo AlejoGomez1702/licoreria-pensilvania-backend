@@ -25,6 +25,11 @@ const SaleSchema = Schema({
         required: true
     },
 
+    total: {
+        type: Number,
+        required: true
+    },
+
     // Negocio en el que se hizo la venta
     establishment: {
         type: Schema.Types.ObjectId,

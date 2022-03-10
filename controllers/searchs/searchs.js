@@ -1,10 +1,9 @@
 const { response } = require('express');
 const { Product } = require('../../models');
-const { searchSpirits } = require('./search-spirits');
+const { searchProducts } = require('./search-products');
 
 const validCollections = [
     'products',
-    'spirits'
 ];
 
 /**
@@ -27,13 +26,9 @@ const search = ( req, res = response ) => {
     switch (collection) 
     {
         case 'products':
-            searchProducts(term, res);
+            searchProducts(term, req, res);
         break;
 
-        case 'spirits':
-            const { other = false } = req.query;
-            searchSpirits(term, res, other, req.establishmentId);
-        break;
         // case 'categorias':
         //     buscarCategorias(termino, res);
         // break;
@@ -60,7 +55,7 @@ const search = ( req, res = response ) => {
     
     // Buscar por código de barras
     const { code } = req.params; 
-    const establishment = req.establishmentId
+    const establishment = req.establishmentId;
 
     const productMatch = await Product.findOne({ barcode: code, state: true, establishment })
                                                                             .populate('establishment', 'name')

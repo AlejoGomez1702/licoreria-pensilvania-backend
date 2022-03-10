@@ -1,13 +1,20 @@
+const { response } = require("express");
+const { request } = require("express");
+const { isValidObjectId } = require("mongoose");
+const { Product } = require("../../models");
+
 /**
- * Busca las coincidencias con un usuario en la base de datos.
- * @param {*} term 
+ * Busca las coincidencias con un producto en la base de datos.
+ * @param {*} term Frase que el usuario desea buscar.
  * @param {*} res 
  * @returns 
  */
- const searchProducts = async( term = '', res = response ) => {
+ const searchProducts = async( term = '', req = request, res = response ) => {
+
+    const supercategory = req.supercategory;
 
     // Buscar por ID
-    const isMongoID = ObjectId.isValid( term );
+    const isMongoID = isValidObjectId( term );
 
     if ( isMongoID ) // Si se esta buscando por ID
     {
@@ -17,20 +24,25 @@
         });
     }
 
+    const establishment = req.establishmentId;
+    let basicQuery = [{ state: true }, { establishment }];
+    
+    if( supercategory )
+    {
+        basicQuery = [{ state: true }, { establishment }, { supercategory }];
+    }
+    
     // Buscar por coincidencia
     const regex = new RegExp( term, 'i' );
     
     const productsMatch = await Product.find({
                                 $or: [
                                     { name: regex }, 
-                                    { description: regex },
-                                    { features: regex }
+                                    { description: regex }
                                 ],
-                                $and: [{ state: true }],                                
+                                $and: basicQuery,                                
                             })
-                            .populate('inventory', 'description')
                             .populate('category', 'name')
-                            .populate('alcohol', 'alcohol')
                             .populate('unit', 'unit');
 
     const querys = {
@@ -39,20 +51,16 @@
     };
 
     // Saqueme los productos que coinciden con la categoria 
-    let productsMatchCategory = await Product.find()
+    let productsMatchCategory = await Product.find( { $and: basicQuery } )
                                             .populate( querys.category )
-                                            .populate('inventory', 'description')
-                                            .populate('alcohol', 'alcohol')
                                             .populate('unit', 'unit');
     // Los que no coinciden se borran.
     productsMatchCategory = productsMatchCategory.filter( product => (product.category !== null) );
 
     // Saqueme los productos que coinciden con la unidad de medida
-    let productsMatchUnit = await Product.find()
+    let productsMatchUnit = await Product.find( { $and: basicQuery } )
                                             .populate( querys.unit )
-                                            .populate('inventory', 'description')
                                             .populate('category', 'name')
-                                            .populate('alcohol', 'alcohol');
     // Los que no coinciden se borran.               
     productsMatchUnit = productsMatchUnit.filter( product => (product.unit !== null) );    
                 
@@ -60,8 +68,9 @@
 
     const products = [ ...new Set(productsMatch) ];
 
-    res.json({
-        results: products
+    return res.json({
+        results: products,
+        total: products.length
     });
 };
 

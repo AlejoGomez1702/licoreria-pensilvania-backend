@@ -36,6 +36,11 @@ const ProductSchema = Schema({
         default: 0,        
     },
 
+    second_sale_price: {
+        type: Number,
+        default: 0,        
+    },
+
     purchase_price: {
         type: Number,
         default: 0,        

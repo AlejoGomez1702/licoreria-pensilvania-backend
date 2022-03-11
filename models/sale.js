@@ -5,6 +5,7 @@ const SaleSchema = Schema({
     products: {
         type: [{
             product: Schema.Types.ObjectId,
+            product_name: String,
             count: Number,
             purchase_price: Number,
             sale_price: Number
@@ -26,6 +27,11 @@ const SaleSchema = Schema({
     },
 
     total: {
+        type: Number,
+        required: true
+    },
+
+    total_inversion: {
         type: Number,
         required: true
     },

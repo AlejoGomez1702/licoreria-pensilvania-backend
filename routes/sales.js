@@ -1,7 +1,9 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createSale, getAllSales } = require('../controllers/sales');
-const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
+const { createSale, getAllSales, getSaleById } = require('../controllers/sales');
+const { existSaleById } = require('../helpers');
+const { validateJWT, isActiveUser, validateFields, isAdminRole, validateJWTEstablishment } = require('../middlewares');
+const { validateSaleByIdQuery } = require('../middlewares/validate-sale-query');
 
 const router = Router();
 
@@ -27,17 +29,18 @@ router.post('/', [
     validateFields
 ], getAllSales );
 
-// // /**
-// //  * Obtener un produto especifico de la BD.
-// //  * {{ url }}/api/products/:id
-// //  */
-// //  router.get('/:id',[
-// //     validateJWT,
-// //     validateInventory,
-// //     check('id', 'No es un id de Mongo válido').isMongoId(),
-// //     check('id').custom( existProductById ),
-// //     validateFields
-// // ], getProductById );
+/**
+ * Obtener una venta especifica de la BD.
+ * {{ url }}/api/sales/:id
+ */
+ router.get('/:id',[
+    check('id', 'No es un id de Mongo válido').isMongoId(),
+    check('id').custom( existSaleById ),
+    // validatePublicData,
+    validateJWTEstablishment,
+    validateSaleByIdQuery,
+    validateFields
+], getSaleById );
 
 // // /**
 // //  * Actualizar un producto especifico de la BD.

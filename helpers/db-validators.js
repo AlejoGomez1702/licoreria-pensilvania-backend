@@ -1,4 +1,4 @@
-const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Establishment } = require('../models');
+const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Establishment, Sale } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -86,6 +86,19 @@ const isValidRole = async(rol = '') => {
     if ( !exist ) 
     {
         throw new Error(`El producto no existe: ${ id }`);
+    }
+}
+
+/**
+ * Verifica si una venta existe en la base de datos según su identificador (id).
+ * @param {string} id 
+ */
+ const existSaleById = async( id ) => {
+    // Verificar si existe en la BD.
+    const exist = await Sale.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`La venta no existe: ${ id }`);
     }
 }
 
@@ -189,7 +202,8 @@ module.exports = {
     existEstablishmentById,
     collectionsValids,
     productsValids,
-
+    existSaleById,
+    
     existeUsuarioPorId
 }
 

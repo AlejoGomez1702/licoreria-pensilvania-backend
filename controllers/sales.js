@@ -17,11 +17,18 @@ const createSale = async(req, res = response ) => {
         total += p.count * p.sale_price;
     });
 
+    // Calculando la inversion total de la venta
+    let total_inversion = 0;
+    products.forEach(p => {
+        total_inversion += p.count * p.purchase_price;
+    });
+
     const data = {
         products,
         user: req.user._id,
         establishment: req.user.establishment,
-        total
+        total,
+        total_inversion
     }
 
     const sale = new Sale( data );
@@ -63,7 +70,7 @@ const getAllSales = async(req, res = response ) => {
     // Saqueme las ventas activas del establecimiento del usuario logueado
     const query = { $and: [{ 'state': true }, { establishment }] };
 
-    let [ total, sales, statistics ] = await Promise.all([
+    let [ total, sales, statistics, statisticsInversion ] = await Promise.all([
         Sale.countDocuments(query),
         Sale.find(query)
                     .populate('establishment', 'name')
@@ -82,6 +89,19 @@ const getAllSales = async(req, res = response ) => {
                     count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
                 }
             }
+        ]),
+        // Agrupar las ventas por dias y sacar la inversion.
+        Sale.aggregate([
+            {
+                $match: query
+            },
+            {
+                $group: {
+                    _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
+                    totalAmount: { $sum: '$total_inversion' },  // Valor total de las ventas del dia
+                    count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
+                }
+            }
         ])
     ]);
 
@@ -93,41 +113,36 @@ const getAllSales = async(req, res = response ) => {
         };
     });
 
+    statisticsInversion = statisticsInversion.map(element => {
+        return {
+            totalAmount: element.totalAmount,
+            count: element.count,
+            ...element._id
+        };
+    });
+
 
     res.json({
         total,
         sales,
-        statistics
+        statistics,
+        statisticsInversion
     });
 };
 
-// db.sesiones.aggregate(
-//     [
-//         {
-//             $group:
-//             {   _id:{nombre:"$nombre"},
-//                 num_km: {$sum:'$distKm'}
-//             }
-//         }
-//     ]
-// )
+/**
+ * Obtiene una venta de la base de datos.
+ */
+ const getSaleById = async(req, res = response ) => {
 
-// /**
-//  * Obtiene un % de volumen alcoholico especifico de la base de datos.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-// const getAlcoholById = async(req, res = response ) => {
+    // Saqueme la venta de ese establecimiento que este activo cuyo id concuerde.
+    const query = req.querySale;
+    const sale = await Sale.findOne( query )
+                            .populate('establishment', 'name')
+                            .populate('user', 'name');
 
-//     const { id } = req.params;
-//     const establishment = req.user.establishment;
-//     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
-//     const alcohol = await Alcohol.findOne( query )
-//                             .populate('establishment', 'name');
-
-//     res.json( alcohol );
-// };
+    return res.json( sale );
+};
 
 // /**
 //  * Actualiza un % de volumen alcoholico especifico de la base de datos.
@@ -167,9 +182,8 @@ const getAllSales = async(req, res = response ) => {
 
 module.exports = {
     createSale,
-    getAllSales
-    // getAllAlcohols,
-    // getAlcoholById,
+    getAllSales,
+    getSaleById
     // updateAlcoholById,
     // deleteAlcoholById
 };

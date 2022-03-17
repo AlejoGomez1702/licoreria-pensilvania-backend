@@ -10,12 +10,13 @@ const paths = {
     spirits:            '/api/spirits',
     cigarettes:         '/api/cigarettes',
     drinks:             '/api/drinks',
-    groceries:             '/api/groceries',
+    groceries:          '/api/groceries',
     units:              '/api/units',
     uploads:            '/api/uploads',   
     providers:          '/api/providers',
     searchs:            '/api/searchs',
-    sales:              '/api/sales'   
+    sales:              '/api/sales',
+    purchases:          '/api/purchases'   
 };
 
 const loadRoutes = ( app ) => {
@@ -36,6 +37,7 @@ const loadRoutes = ( app ) => {
     app.use( paths.providers, require('../routes/users/providers'));
     app.use( paths.searchs, require('../routes/searchs'));
     app.use( paths.sales, require('../routes/sales'));
+    app.use( paths.purchases, require('../routes/purchases'));
 };
 
 module.exports = {

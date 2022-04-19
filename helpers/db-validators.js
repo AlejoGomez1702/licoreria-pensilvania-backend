@@ -1,4 +1,4 @@
-const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Establishment, Sale } = require('../models');
+const { Role, User, Category, Alcohol, Unit, Product, Inventory, Provider, Establishment, Sale, Purchase } = require('../models');
 
 /**
  * Verifica si un correo electrónico ya se encuentra registrado en la BD.
@@ -103,6 +103,19 @@ const isValidRole = async(rol = '') => {
 }
 
 /**
+ * Verifica si una compra existe en la base de datos según su identificador (id).
+ * @param {string} id 
+ */
+ const existPurchaseById = async( id ) => {
+    // Verificar si existe en la BD.
+    const exist = await Purchase.findById(id);
+    if ( !exist ) 
+    {
+        throw new Error(`La compra no existe: ${ id }`);
+    }
+}
+
+/**
  * Verifica si un inventario existe en la base de datos según su identificador (id).
  * @param {string} id Identificador del inventario a comprobar.
  */
@@ -203,6 +216,7 @@ module.exports = {
     collectionsValids,
     productsValids,
     existSaleById,
+    existPurchaseById,
     
     existeUsuarioPorId
 }

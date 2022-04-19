@@ -11,6 +11,7 @@ const Establishment = require('./establishment');
 // const Inventory = require('./inventory');
 const Provider = require('./users/provider');
 const Sale = require('./sale');
+const Purchase = require('./purchase');
 
 module.exports = {
     User,
@@ -24,5 +25,6 @@ module.exports = {
     Establishment,
     // Inventory,
     Provider,
-    Sale
+    Sale,
+    Purchase
 };

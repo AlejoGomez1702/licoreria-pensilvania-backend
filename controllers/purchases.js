@@ -49,93 +49,70 @@ const createPurchase = async(req, res = response ) => {
     res.status(201).json( purchase );
 };
 
-// /**
-//  * Obtiene todas las compras que tiene registradas el negocio del usuario logueado.
-//  * Solo pueden mostrarsen a los administradores.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-// const getAllSales = async(req, res = response ) => {
-//     const { limit = 10, from = 0 } = req.query;
-//     const { establishment } = req.user;
+/**
+ * Obtiene todas las compras que tiene registradas el negocio del usuario logueado.
+ * Solo pueden mostrarsen a los administradores.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const getAllPurchases = async(req, res = response ) => {
+    const { limit = 10, from = 0 } = req.query;
+    const { establishment } = req.user;
 
-//     // Saqueme las compras activas del establecimiento del usuario logueado
-//     const query = { $and: [{ 'state': true }, { establishment }] };
+    // Saqueme las compras activas del establecimiento del usuario logueado
+    const query = { $and: [{ 'state': true }, { establishment }] };
 
-//     let [ total, sales, statistics, statisticsInversion ] = await Promise.all([
-//         Sale.countDocuments(query),
-//         Sale.find(query)
-//                     .populate('establishment', 'name')
-//                     .populate('user', 'name')
-//                     .skip( Number( from ) )
-//                     .limit( Number( limit ) ),
-//         // Agrupar las compras por dias.
-//         Sale.aggregate([
-//             {
-//                 $match: query
-//             },
-//             {
-//                 $group: {
-//                     _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
-//                     totalAmount: { $sum: '$total' },  // Valor total de las compras del dia
-//                     count: { $sum: 1 } // Cuantas compras se hicieron en el dia
-//                 }
-//             }
-//         ]),
-//         // Agrupar las compras por dias y sacar la inversion.
-//         Sale.aggregate([
-//             {
-//                 $match: query
-//             },
-//             {
-//                 $group: {
-//                     _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
-//                     totalAmount: { $sum: '$total_inversion' },  // Valor total de las compras del dia
-//                     count: { $sum: 1 } // Cuantas compras se hicieron en el dia
-//                 }
-//             }
-//         ])
-//     ]);
+    let [ total, purchases, statistics ] = await Promise.all([
+        Purchase.countDocuments(query),
+        Purchase.find(query)
+                    .populate('establishment', 'name')
+                    .populate('user', 'name')
+                    .skip( Number( from ) )
+                    .limit( Number( limit ) ),
+        // Agrupar las compras por dias.
+        Purchase.aggregate([
+            {
+                $match: query
+            },
+            {
+                $group: {
+                    _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
+                    totalAmount: { $sum: '$total' },  // Valor total de las compras del dia
+                    count: { $sum: 1 } // Cuantas compras se hicieron en el dia
+                }
+            }
+        ])
+    ]);
 
-//     statistics = statistics.map(element => {
-//         return {
-//             totalAmount: element.totalAmount,
-//             count: element.count,
-//             ...element._id
-//         };
-//     });
+    statistics = statistics.map(element => {
+        return {
+            totalAmount: element.totalAmount,
+            count: element.count,
+            ...element._id
+        };
+    });
 
-//     statisticsInversion = statisticsInversion.map(element => {
-//         return {
-//             totalAmount: element.totalAmount,
-//             count: element.count,
-//             ...element._id
-//         };
-//     });
+    res.json({
+        total,
+        purchases,
+        statistics
+    });
+};
 
+/**
+ * Obtiene una compra de la base de datos.
+ */
+ const getPurchaseById = async(req, res = response ) => {
 
-//     res.json({
-//         total,
-//         sales,
-//         statistics,
-//         statisticsInversion
-//     });
-// };
+    // Saqueme la venta de ese establecimiento que este activo cuyo id concuerde.
+    const query = req.queryPurchase;
+    const purchase = await Purchase.findOne( query )
+                            .populate('establishment', 'name')
+                            .populate('user', 'name');
 
-// /**
-//  * Obtiene una compra de la base de datos.
-//  */
-//  const getSaleById = async(req, res = response ) => {
-
-//     // Saqueme la compra de ese establecimiento que este activo cuyo id concuerde.
-//     const query = req.querySale;
-//     const sale = await Sale.findOne( query )
-//                             .populate('establishment', 'name')
-//                             .populate('user', 'name');
-
-//     return res.json( sale );
-// };
+    return res.json( purchase );
+};
 
 // /**
 //  * Actualiza un % de volumen alcoholico especifico de la base de datos.
@@ -175,8 +152,8 @@ const createPurchase = async(req, res = response ) => {
 
 module.exports = {
     createPurchase,
-    // getAllSales,
-    // getSaleById
+    getAllPurchases,
+    getPurchaseById
     // updateAlcoholById,
     // deleteAlcoholById
 };

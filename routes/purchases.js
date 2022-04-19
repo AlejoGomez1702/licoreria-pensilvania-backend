@@ -1,46 +1,46 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createSale, getAllSales, getSaleById } = require('../controllers/sales');
-const { existSaleById } = require('../helpers');
+const { createPurchase, getAllPurchases, getPurchaseById } = require('../controllers/purchases');
+const { existPurchaseById } = require('../helpers');
 const { validateJWT, isActiveUser, validateFields, isAdminRole, validateJWTEstablishment } = require('../middlewares');
-const { validateSaleByIdQuery } = require('../middlewares/validate-sale-query');
+const { validatePurchaseByIdQuery } = require('../middlewares/validate-purchase-query');
 
 const router = Router();
 
 /**
  * Crear una nueva compra en la BD.
- * {{ url }}/api/sales
+ * {{ url }}/api/purchases
  */
 router.post('/', [ 
     validateJWT,
     isActiveUser,
     check('products').not().isEmpty().isArray(),
     validateFields
-], createSale );
+], createPurchase );
 
-// /**
-//  * Obtener todas las compras del negocio del usuario logueado.
-//  * {{ url }}/api/products
-//  */
-//  router.get('/', [
-//     validateJWT,
-//     isActiveUser,
-//     isAdminRole,
-//     validateFields
-// ], getAllSales );
+/**
+ * Obtener todas las compras del negocio del usuario logueado.
+ * {{ url }}/api/purchases
+ */
+ router.get('/', [
+    validateJWT,
+    isActiveUser,
+    isAdminRole,
+    validateFields
+], getAllPurchases );
 
-// /**
-//  * Obtener una compra especifica de la BD.
-//  * {{ url }}/api/sales/:id
-//  */
-//  router.get('/:id',[
-//     check('id', 'No es un id de Mongo válido').isMongoId(),
-//     check('id').custom( existSaleById ),
-//     // validatePublicData,
-//     validateJWTEstablishment,
-//     validateSaleByIdQuery,
-//     validateFields
-// ], getSaleById );
+/**
+ * Obtener una compra especifica de la BD.
+ * {{ url }}/api/purchases/:id
+ */
+ router.get('/:id',[
+    check('id', 'No es un id de Mongo válido').isMongoId(),
+    check('id').custom( existPurchaseById ),
+    // validatePublicData,
+    validateJWTEstablishment,
+    validatePurchaseByIdQuery,
+    validateFields
+], getPurchaseById );
 
 // // /**
 // //  * Actualizar un producto especifico de la BD.

@@ -5,7 +5,6 @@ const ClientSchema = Schema({
     dni: {
         type: String,
         trim: true,
-        required: [true, 'El Dni es obligatorio'],
         unique: true
     },
 
@@ -24,8 +23,7 @@ const ClientSchema = Schema({
 
     address: {
         type: String,
-        trim: true,
-        required: [true, 'El celular es obligatorio']
+        trim: true
     },
     
     state: {

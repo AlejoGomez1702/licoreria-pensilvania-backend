@@ -1,33 +1,33 @@
 const { response } = require('express');
 const { Client } = require('../../models');
 
-// /**
-//  * Crea un nuevo proveedor en la base de datos.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-// const createProvider = async(req, res = response ) => {
+/**
+ * Crea un nuevo cliente en la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+const createClient = async(req, res = response ) => {
 
-//     const { state, user, ...body } = req.body;
+    const { state, user, ...body } = req.body;
 
-//     // Generar la data a guardar
-//     const data = {
-//         ...body,
-//         user: req.user._id,
-//         establishment: req.user.establishment
-//     }
+    // Generar la data a guardar
+    const data = {
+        ...body,
+        user: req.user._id,
+        establishment: req.user.establishment
+    }
 
-//     const provider = new Provider( data );
+    const client = new Client( data );
 
-//     // Guardar DB
-//     await provider.save();
+    // Guardar DB
+    await client.save();
 
-//     res.status(201).json( provider );
-// };
+    return res.status(201).json( client );
+};
 
 /**
- * Obtiene todos los proveedores registrados en un establecimiento.
+ * Obtiene todos los clientees registrados en un establecimiento.
  * @param {*} req 
  * @param {*} res 
  * @returns 
@@ -49,14 +49,14 @@ const { Client } = require('../../models');
             .limit( Number( limit ) )
     ]);
 
-    res.json({
+    return res.json({
         total,
         clients
     });
 };
 
 // /**
-//  * Obtiene un proveedor de la base de datos.
+//  * Obtiene un cliente de la base de datos.
 //  * @param {*} req 
 //  * @param {*} res 
 //  * @returns 
@@ -66,7 +66,7 @@ const { Client } = require('../../models');
 //     const { id } = req.params;
 //     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
 //     const establishment = req.user.establishment;
-//     // Saqueme el proveedor del establecimiento que este activo cuyo id concuerde.
+//     // Saqueme el cliente del establecimiento que este activo cuyo id concuerde.
 //     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 //     const provider = await Provider.findOne( query )
 //                                     .populate('establishment', 'name')
@@ -75,50 +75,49 @@ const { Client } = require('../../models');
 //     res.json( provider );
 // };
 
-// /**
-//  * Actualiza la información de un proveedor en la base de datos.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-//  const updateProviderById = async( req, res = response ) => {
+/**
+ * Actualiza la información de un cliente en la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ const updateClientById = async( req, res = response ) => {
 
-//     const { id } = req.params;
-//     const { state, user, ...data } = req.body;
-//     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
-//     const establishment = req.user.establishment;
-//     // Actualiceme el proveedor cuyo id coincida, peertenezca al establecimiento del usuario y este activo
-//     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
+    const { id } = req.params;
+    const { state, user, ...data } = req.body;
+    // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
+    const establishment = req.user.establishment;
+    // Actualiceme el cliente cuyo id coincida, peertenezca al establecimiento del usuario y este activo
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
-//     data.user = req.user._id;
+    data.user = req.user._id;
 
-//     const provider = await Provider.findOneAndUpdate(query, data, { new: true });
+    const client = await Client.findOneAndUpdate(query, data, { new: true });
 
-//     res.json( provider );
-// };
+    return res.json( client );
+};
 
-// /**
-//  * Elimina un proveedor de la base de datos.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-//  const deleteProviderById = async(req, res = response ) => {
+/**
+ * Elimina un cliente de la base de datos.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ const deleteClientById = async(req, res = response ) => {
 
-//     const { id } = req.params;
-//     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
-//     const establishment = req.user.establishment;
-//     // Elimineme el proveedor cuyo id coincida, pertenezca al establecimiento del usuario y este activo
-//     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
-//     const providerDeleted = await Provider.findOneAndUpdate( query, { state: false }, {new: true });
+    const { id } = req.params;
+    const establishment = req.user.establishment;
+    // Elimineme el cliente cuyo id coincida, pertenezca al establecimiento del usuario y este activo
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
+    const clientDeleted = await Client.findOneAndUpdate( query, { state: false }, {new: true });
 
-//     res.json( providerDeleted );
-// };
+    res.json( clientDeleted );
+};
 
 // // *********** END-POINTS ESPECIALIZADOS *********** END-POINTS ESPECIALIZADOS ************** //
 
 // /**
-//  * Actualiza la información de productos de un proveedor en la base de datos.
+//  * Actualiza la información de productos de un cliente en la base de datos.
 //  * @param {*} req 
 //  * @param {*} res 
 //  * @returns 
@@ -129,7 +128,7 @@ const { Client } = require('../../models');
 //     const { state, user, ...data } = req.body;
 //     // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
 //     const establishment = req.user.establishment;
-//     // Actualiceme el proveedor cuyo id coincida, peertenezca al establecimiento del usuario y este activo
+//     // Actualiceme el cliente cuyo id coincida, peertenezca al establecimiento del usuario y este activo
 //     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
 //     data.user = req.user._id;
@@ -140,11 +139,11 @@ const { Client } = require('../../models');
 // };
 
 module.exports = {
-    // createProvider,
+    createClient,
     getAllClients,
     // getProviderById,
-    // updateProviderById,
-    // deleteProviderById,
+    updateClientById,
+    deleteClientById
     // // Especializados
     // updateProviderProductsById
 };

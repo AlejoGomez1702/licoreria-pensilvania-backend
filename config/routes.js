@@ -14,6 +14,7 @@ const paths = {
     units:              '/api/units',
     uploads:            '/api/uploads',   
     providers:          '/api/providers',
+    clients:            '/api/clients',
     searchs:            '/api/searchs',
     sales:              '/api/sales',
     purchases:          '/api/purchases'   
@@ -35,6 +36,7 @@ const loadRoutes = ( app ) => {
     app.use( paths.units, require('../routes/products/units'));
     app.use( paths.uploads, require('../routes/uploads'));
     app.use( paths.providers, require('../routes/users/providers'));
+    app.use( paths.clients, require('../routes/users/clients'));
     app.use( paths.searchs, require('../routes/searchs'));
     app.use( paths.sales, require('../routes/sales'));
     app.use( paths.purchases, require('../routes/purchases'));

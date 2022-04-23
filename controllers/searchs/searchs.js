@@ -1,9 +1,11 @@
 const { response } = require('express');
 const { Product } = require('../../models');
+const { searchClientsByDni } = require('./search-clients');
 const { searchProducts } = require('./search-products');
 
 const validCollections = [
     'products',
+    'clients'
 ];
 
 /**
@@ -29,9 +31,10 @@ const search = ( req, res = response ) => {
             searchProducts(term, req, res);
         break;
 
-        // case 'categorias':
-        //     buscarCategorias(termino, res);
-        // break;
+        case 'clients':
+            searchClientsByDni(term, req, res);
+        break;
+
         // case 'productos':
         //     buscarProductos(termino, res);
         // break;

@@ -5,7 +5,8 @@ const ClientSchema = Schema({
     dni: {
         type: String,
         trim: true,
-        unique: true
+        unique: true,
+        required: [true, 'La CC o NIT es obligatorio']
     },
 
     name: {

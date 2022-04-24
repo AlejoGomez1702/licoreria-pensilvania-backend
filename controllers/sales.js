@@ -31,6 +31,11 @@ const createSale = async(req, res = response ) => {
         total_inversion
     }
 
+    if( req.body.clientId )
+    {
+        data.client = req.body.clientId;
+    }
+
     const sale = new Sale( data );
 
     // Refrescar el inventario, restando los productos de la venta.
@@ -75,6 +80,7 @@ const getAllSales = async(req, res = response ) => {
         Sale.find(query)
                     .populate('establishment', 'name')
                     .populate('user', 'name')
+                    .populate ('client', 'name' )
                     .skip( Number( from ) )
                     .limit( Number( limit ) ),
         // Agrupar las ventas por dias.

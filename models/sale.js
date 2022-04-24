@@ -20,6 +20,13 @@ const SaleSchema = Schema({
         required: true
     },
 
+    // Cliente asociado a la venta
+    client: {
+        type: Schema.Types.ObjectId,
+        ref: 'Client',
+        required: true
+    },
+
     state: {
         type: Boolean,
         default: true,

@@ -17,7 +17,8 @@ const paths = {
     clients:            '/api/clients',
     searchs:            '/api/searchs',
     sales:              '/api/sales',
-    purchases:          '/api/purchases'   
+    purchases:          '/api/purchases',
+    movements:          '/api/movements'   
 };
 
 const loadRoutes = ( app ) => {
@@ -40,6 +41,8 @@ const loadRoutes = ( app ) => {
     app.use( paths.searchs, require('../routes/searchs'));
     app.use( paths.sales, require('../routes/sales'));
     app.use( paths.purchases, require('../routes/purchases'));
+    app.use( paths.movements, require('../routes/movements'));
+
 };
 
 module.exports = {

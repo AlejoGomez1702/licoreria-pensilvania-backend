@@ -10,6 +10,7 @@ const Provider = require('./users/provider');
 const Client = require('./users/client');
 const Sale = require('./sale');
 const Purchase = require('./purchase');
+const Movement = require('./movement');
 
 module.exports = {
     User,
@@ -23,5 +24,6 @@ module.exports = {
     Provider,
     Client,
     Sale,
-    Purchase
+    Purchase,
+    Movement
 };

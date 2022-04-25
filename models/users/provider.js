@@ -12,7 +12,7 @@ const ProviderSchema = Schema({
         type: String
     },
 
-    identification: {
+    dni: {
         type: String,
         trim: true,
         required: [true, 'El NIT o CC es obligatorio'],
@@ -22,8 +22,7 @@ const ProviderSchema = Schema({
     email: {
         type: String,
         trim: true,
-        unique: true,
-        default: ''
+        unique: true
     },
 
     cellphone: {
@@ -42,8 +41,7 @@ const ProviderSchema = Schema({
     products: [{
         type: Schema.Types.ObjectId,
         ref: 'Product',
-        default: [],
-        required: true
+        default: []
     }],
     // Usuario que creó el proveedor
     user: {

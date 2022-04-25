@@ -20,6 +20,7 @@ const createPurchase = async(req, res = response ) => {
     const data = {
         products,
         user: req.user._id,
+        provider: req.body.providerId,
         establishment: req.user.establishment,
         total
     }
@@ -67,6 +68,7 @@ const getAllPurchases = async(req, res = response ) => {
         Purchase.countDocuments(query),
         Purchase.find(query)
                     .populate('establishment', 'name')
+                    .populate('provider', 'name')
                     .populate('user', 'name')
                     .skip( Number( from ) )
                     .limit( Number( limit ) ),

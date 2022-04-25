@@ -13,8 +13,8 @@ const router = Router();
  */
 router.post('/', [ 
     validateJWT,
-    check('name','El nombre es obligatorio').not().isEmpty().isString(),
-    check('identification','El NIT o CC es obligatorio').not().isEmpty().isString(),
+    check('dni','El NIT o CC es obligatorio').not().isEmpty().isString(),
+    check('name','El nombre es obligatorio').not().isEmpty().isString(),    
     check('cellphone','El número de teléfono es obligatorio').not().isEmpty().isNumeric(),
     isActiveUser,
     validateExistProvider,
@@ -48,8 +48,8 @@ router.post('/', [
  router.put('/:id',[
     validateJWT,
     check('id').custom( existProviderById ),
-    check('name','El nombre es obligatorio').not().isEmpty().isString(),
-    check('identification','El NIT o CC es obligatorio').not().isEmpty().isString(),
+    check('dni','El NIT o CC es obligatorio').not().isEmpty().isString(),
+    check('name','El nombre es obligatorio').not().isEmpty().isString(),    
     check('cellphone','El número de teléfono es obligatorio').not().isEmpty().isNumeric(),
     validateExistProvider,
     isActiveUser,

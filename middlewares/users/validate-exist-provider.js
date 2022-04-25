@@ -17,6 +17,7 @@ const validateExistProvider = async( req = request, res = response, next ) => {
         const establishment = req.user.establishment;
         // Si existe un proveedor con los mismos atributos en la base de datos.
         const query = { $and: [
+            { dni: req.body.dni },
             { name: req.body.name },
             { email: req.body.email },
             { cellphone: req.body.cellphone },

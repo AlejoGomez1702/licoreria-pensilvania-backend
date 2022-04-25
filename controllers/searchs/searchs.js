@@ -2,10 +2,12 @@ const { response } = require('express');
 const { Product } = require('../../models');
 const { searchClientsByDni } = require('./search-clients');
 const { searchProducts } = require('./search-products');
+const { searchProvidersByDni } = require('./search-providers');
 
 const validCollections = [
     'products',
-    'clients'
+    'clients',
+    'providers'
 ];
 
 /**
@@ -35,12 +37,16 @@ const search = ( req, res = response ) => {
             searchClientsByDni(term, req, res);
         break;
 
+        case 'providers':
+            searchProvidersByDni(term, req, res);
+        break;
+
         // case 'productos':
         //     buscarProductos(termino, res);
         // break;
 
         default:
-            res.status(500).json({
+            return res.status(500).json({
                 error: 'Se le olvido hacer esta búsqueda'
             });
         break;

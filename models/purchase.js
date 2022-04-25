@@ -20,6 +20,13 @@ const PurchaseSchema = Schema({
         required: true
     },
 
+    // Proveedor que creó la venta
+    provider: {
+        type: Schema.Types.ObjectId,
+        ref: 'Provider',
+        required: true
+    },
+
     state: {
         type: Boolean,
         default: true,

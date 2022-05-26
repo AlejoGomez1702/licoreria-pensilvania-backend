@@ -18,6 +18,13 @@ const SuperCategorySchema = Schema({
     },
     img: {
         type: String
+    },
+    // Tipo de establecimiento
+    establishment_type: {
+        type: String,
+        trim: true,
+        required: true,
+        emun: ['SPIRIT_TYPE', 'NATURIST_TYPE']
     }
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});

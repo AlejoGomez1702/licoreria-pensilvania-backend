@@ -29,7 +29,15 @@ const EstablishmentSchema = Schema({
         type: String,
         trim: true,
         unique: true
+    },
+
+    type: {
+        type: String,
+        trim: true,
+        required: true,
+        emun: ['SPIRIT_TYPE', 'NATURIST_TYPE']
     }
+
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
 EstablishmentSchema.methods.toJSON = function() {

@@ -5,7 +5,7 @@ const Product = require('./products/product');
 // ************** PRODUCTS **************** //
 const Alcohol = require('./products/alcohol');
 const Unit = require('./products/unit');
-const Establishment = require('./establishment');
+const Establishment = require('./establishments/establishment');
 const Provider = require('./users/provider');
 const Client = require('./users/client');
 const Sale = require('./sale');

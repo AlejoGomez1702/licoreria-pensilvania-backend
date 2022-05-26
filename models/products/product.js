@@ -6,13 +6,6 @@ const ProductSchema = Schema({
         trim: true,
         required: [true, 'El nombre es obligatorio']
     },
-    // Caracteristicas como por ejemplo los años de añejamiento, ediciones especiales, etc... 
-        // features: {
-        //     type: [String],
-        //     trim: true,
-        //     required: false
-        //     // required: [true, 'Las caracteristicas son obligatorias']
-        // },
 
     img: {
         type: String,
@@ -112,5 +105,12 @@ ProductSchema.methods.toJSON = function() {
 
     return data;
 }
+
+ProductSchema.index({
+    name: "text",
+    description: "text",
+    "unit.unit":"text",
+    "category.name":"text"
+});
 
 module.exports = model( 'Product', ProductSchema );

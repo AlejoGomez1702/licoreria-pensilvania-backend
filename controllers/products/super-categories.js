@@ -11,6 +11,7 @@ const SuperCategory = require('../../models/products/super-category');
 const getAllSuperCategories = async(req, res = response ) => {
 
     const { establishment } = req.query; 
+    console.log(establishment);
 
     const establishmentDB = await Establishment.findById( establishment );
     const type = establishmentDB.type;

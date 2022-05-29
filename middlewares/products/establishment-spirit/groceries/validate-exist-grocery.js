@@ -1,11 +1,11 @@
 const { response, request } = require('express');
-const { stringCapitalize } = require('../../helpers/string-capitalize');
-const { Product } = require('../../models');
+const { stringCapitalize } = require('../../../../helpers/string-capitalize');
+const { Product } = require('../../../../models');
 
 /**
  * Realiza la validacion de que exista ya un licor que se intenta crear
  */
-const validateExistCigarette = async( req = request, res = response, next ) => {
+const validateExistGrocery = async( req = request, res = response, next ) => {
     try 
     {        
         req.body.name = stringCapitalize(req.body.name);
@@ -54,5 +54,5 @@ const validateExistCigarette = async( req = request, res = response, next ) => {
 };
 
 module.exports = {
-    validateExistCigarette
+    validateExistGrocery
 };

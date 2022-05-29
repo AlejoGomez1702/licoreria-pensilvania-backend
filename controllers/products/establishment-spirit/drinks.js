@@ -1,10 +1,10 @@
 const { response } = require('express');
-const { Product } = require('../../models');
+const { Product } = require('../../../models');
 
 /**
- * Crea un nuevo cigarrillo en la base de datos.
+ * Crea una nueva bebida en la base de datos.
  */
- const createCigarette = async (req, res = response ) => {
+ const createDrink = async (req, res = response ) => {
     const { state, user, establishment, file, ...body } = req.body;
 
     // Generar la data a guardar
@@ -12,89 +12,90 @@ const { Product } = require('../../models');
         ...body,
         establishment: req.user.establishment,
         user: req.user._id,
-        supercategory: '6141686c752e94b6aa17123f'
+        supercategory: '61d7a5ea2c38bdb5f64dcf7c'
     };
 
-    const cigarette = new Product( data );
+    const drink = new Product( data );
 
     try 
     {
         // Guardar DB
-        await cigarette.save();
-        return res.status(201).json( cigarette );
+        await drink.save();
+        return res.status(201).json( drink );
     } 
     catch (error) 
     {
         console.log(error)
-        return res.status(401).json( {error: 'No se pudo crear el cigarrillo en la base de datos'} );
+        return res.status(401).json( {error: 'No se pudo crear la bebida en la base de datos'} );
     }    
 };
 
 /**
  * Obtiene todos los cigarrillos registrados en un establecimiento.
  */
- const getAllCigarettes = async(req, res = response ) => {
+ const getAllDrinks = async(req, res = response ) => {
 
     const { limit = 10, from = 0 } = req.query;
-    const query = req.queryProduct;
+    // Establecimiento del que se desea obtener los licores
+    const query = req.queryDrink;
 
-    const [ total, cigarettes ] = await Promise.all([
+    const [ total, products ] = await Promise.all([
         Product.countDocuments(query),
         Product.find(query)
-                        .populate('establishment', 'name')
-                        .populate('category', 'name')
-                        .populate('unit', 'unit units')
-                        .skip( Number( from ) )  // desde donde
-                        .limit( Number( limit ) ) // Cuantos
+            .populate('establishment', 'name')
+            .populate('category', 'name')
+            .populate('unit', 'unit ml')
+            .skip( Number( from ) )  // desde donde
+            .limit( Number( limit ) ) // Cuantos
     ]);
 
-    return res.json({
+    res.json({
         total,
-        cigarettes
+        products
     });
 };
 
 /**
- * Obtiene un cigarrillo de la base de datos.
+ * Obtiene una bebida de la base de datos.
  */
- const getCigaretteById = async(req, res = response ) => {
+ const getDrinkById = async(req, res = response ) => {
 
     // Saqueme el producto de ese establecimiento que este activo cuyo id concuerde.
     const query = req.queryProduct;
-    const cigarette = await Product.findOne( query )
+    const drink = await Product.findOne( query )
                             .populate('establishment', 'name')
                             .populate('category', 'name')
                             .populate('unit', 'unit');
 
-    return res.json( cigarette );
+    return res.json( drink );
 };
 
 /**
- * Actualiza la información de un cigarrillo en la base de datos.
+ * Actualiza la información de una bebida en la base de datos.
  */
- const updateCigaretteById = async( req, res = response ) => {
+ const updateDrinkById = async( req, res = response ) => {
 
     const { id } = req.params;
     const { state, user, ...data } = req.body;
     const { establishment } = req.user;
-    // Actualiceme el cigarrillo cuyo id coincida, peertenezca al inventario del usuario y este activo
+    // Actualiceme la bebida cuyo id coincida, peertenezca al inventario del usuario y este activo
     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
     data.user = req.user._id;
 
-    const cigarette = await Product.findOneAndUpdate(query, data, { new: true });    
+    const drink = await Product.findOneAndUpdate(query, data, { new: true });    
 
-    return res.json( cigarette );
+    return res.json( drink );
 };
 
 /**
- * Elimina un cigarrillo de la base de datos.
+ * Elimina una bebida de la base de datos.
  * Se hace un borrado suave, se actualiza el campo state a false para indicar la eliminación.
  * @param {*} req 
  * @param {*} res 
  * @returns 
  */
- const deleteCigaretteById = async(req, res = response ) => {
+ const deleteDrinkById = async(req, res = response ) => {
 
     const { id } = req.params;
     const establishment = req.user.establishment;
@@ -106,9 +107,9 @@ const { Product } = require('../../models');
 };
 
 module.exports = {
-    createCigarette,
-    getAllCigarettes,
-    getCigaretteById,
-    updateCigaretteById,
-    deleteCigaretteById
+    getAllDrinks,
+    createDrink,
+    getDrinkById,
+    updateDrinkById,
+    deleteDrinkById
 };

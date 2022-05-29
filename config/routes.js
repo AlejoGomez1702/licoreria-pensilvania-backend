@@ -11,6 +11,8 @@ const paths = {
     cigarettes:         '/api/cigarettes',
     drinks:             '/api/drinks',
     groceries:          '/api/groceries',
+    naturists:          '/api/naturists',
+    sexshops:           '/api/sexshops',
     units:              '/api/units',
     uploads:            '/api/uploads',   
     providers:          '/api/providers',
@@ -30,10 +32,12 @@ const loadRoutes = ( app ) => {
     app.use( paths.auth, require('../routes/auth/auth'));
     app.use( paths.superCategories, require('../routes/products/super-categories'));
     app.use( paths.categories, require('../routes/products/categories'));
-    app.use( paths.spirits, require('../routes/products/spirits'));
-    app.use( paths.cigarettes, require('../routes/products/cigarettes'));
-    app.use( paths.drinks, require('../routes/products/drinks'));
-    app.use( paths.groceries, require('../routes/products/groceries'));
+    app.use( paths.spirits, require('../routes/products/establishment-spirit/spirits'));
+    app.use( paths.cigarettes, require('../routes/products/establishment-spirit/cigarettes'));
+    app.use( paths.drinks, require('../routes/products/establishment-spirit/drinks'));
+    app.use( paths.groceries, require('../routes/products/establishment-spirit/groceries'));
+    app.use( paths.naturists, require('../routes/products/establishment-naturist/naturists'));
+    app.use( paths.sexshops, require('../routes/products/establishment-naturist/sexshops'));
     app.use( paths.units, require('../routes/products/units'));
     app.use( paths.uploads, require('../routes/uploads'));
     app.use( paths.providers, require('../routes/users/providers'));

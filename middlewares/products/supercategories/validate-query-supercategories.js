@@ -29,6 +29,14 @@ const validateQuerySupercategories = async( req = request, res = response, next 
         case 'grocery':
             supercategory = '61d7b1a02c38bdb5f64dcfb0';
         break;
+
+        case 'naturist':
+            supercategory = '628ee88875cf2ef75b1209fc';
+        break;
+
+        case 'sexshop':
+            supercategory = '628ee89c75cf2ef75b1209fd';
+        break;
     
         default: break;        
     }

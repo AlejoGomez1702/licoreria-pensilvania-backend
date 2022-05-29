@@ -1,6 +1,6 @@
 const { response, request } = require('express');
-const { stringCapitalize } = require('../../helpers/string-capitalize');
-const { Product } = require('../../models');
+const { stringCapitalize } = require('../../../../helpers/string-capitalize');
+const { Product } = require('../../../../models');
 
 /**
  * Realiza la validacion de que exista ya un licor que se intenta crear

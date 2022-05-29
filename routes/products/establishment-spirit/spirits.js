@@ -4,12 +4,12 @@ const { check } = require('express-validator');
 const { 
     validateJWT, validateFields, isAdminRole, isActiveUser, validateImageUploadProduct,
     validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
-} = require('../../middlewares');
+} = require('../../../middlewares');
 
-const { existProductById, existCategoryById, existUnitById } = require('../../helpers/db-validators');
-const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById, deleteSpiritById } = require('../../controllers/products/spirits');
-const { validateExistSpirit } = require('../../middlewares/products/validate-exist-spirit');
-const { validateSpiritQuery, validateSpiritByIdQuery } = require('../../middlewares/products/spirits/validate-query');
+const { existProductById, existCategoryById, existUnitById } = require('../../../helpers/db-validators');
+const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById, deleteSpiritById } = require('../../../controllers/products/establishment-spirit/spirits');
+const { validateExistSpirit } = require('../../../middlewares/products/establishment-spirit/spirits/validate-exist-spirit');
+const { validateSpiritQuery, validateSpiritByIdQuery } = require('../../../middlewares/products/establishment-spirit/spirits/validate-query');
 
 const router = Router();
 

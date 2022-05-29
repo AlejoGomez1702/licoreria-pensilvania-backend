@@ -1,10 +1,10 @@
 const { response } = require('express');
-const { Product } = require('../../models');
+const { Product } = require('../../../models');
 
 /**
- * Crea un nuevo comestible en la base de datos.
+ * Crea un nuevo cigarrillo en la base de datos.
  */
- const createGrocery = async (req, res = response ) => {
+ const createCigarette = async (req, res = response ) => {
     const { state, user, establishment, file, ...body } = req.body;
 
     // Generar la data a guardar
@@ -12,33 +12,33 @@ const { Product } = require('../../models');
         ...body,
         establishment: req.user.establishment,
         user: req.user._id,
-        supercategory: '61d7b1a02c38bdb5f64dcfb0'
+        supercategory: '6141686c752e94b6aa17123f'
     };
 
-    const grocery = new Product( data );
+    const cigarette = new Product( data );
 
     try 
     {
         // Guardar DB
-        await grocery.save();
-        return res.status(201).json( grocery );
+        await cigarette.save();
+        return res.status(201).json( cigarette );
     } 
     catch (error) 
     {
         console.log(error)
-        return res.status(401).json( {error: 'No se pudo crear el comestible en la base de datos'} );
+        return res.status(401).json( {error: 'No se pudo crear el cigarrillo en la base de datos'} );
     }    
 };
 
 /**
- * Obtiene todos los comestibles registrados en un establecimiento.
+ * Obtiene todos los cigarrillos registrados en un establecimiento.
  */
- const getAllGroceries = async(req, res = response ) => {
+ const getAllCigarettes = async(req, res = response ) => {
 
     const { limit = 10, from = 0 } = req.query;
     const query = req.queryProduct;
 
-    const [ total, groceries ] = await Promise.all([
+    const [ total, cigarettes ] = await Promise.all([
         Product.countDocuments(query),
         Product.find(query)
                         .populate('establishment', 'name')
@@ -50,51 +50,51 @@ const { Product } = require('../../models');
 
     return res.json({
         total,
-        groceries
+        cigarettes
     });
 };
 
 /**
- * Obtiene un comestible de la base de datos.
+ * Obtiene un cigarrillo de la base de datos.
  */
- const getGroceryById = async(req, res = response ) => {
+ const getCigaretteById = async(req, res = response ) => {
 
     // Saqueme el producto de ese establecimiento que este activo cuyo id concuerde.
     const query = req.queryProduct;
-    const grocery = await Product.findOne( query )
+    const cigarette = await Product.findOne( query )
                             .populate('establishment', 'name')
                             .populate('category', 'name')
                             .populate('unit', 'unit');
 
-    return res.json( grocery );
+    return res.json( cigarette );
 };
 
 /**
- * Actualiza la información de un comestible en la base de datos.
+ * Actualiza la información de un cigarrillo en la base de datos.
  */
- const updateGroceryById = async( req, res = response ) => {
+ const updateCigaretteById = async( req, res = response ) => {
 
     const { id } = req.params;
     const { state, user, ...data } = req.body;
     const { establishment } = req.user;
-    // Actualiceme el comestible cuyo id coincida, peertenezca al inventario del usuario y este activo
+    // Actualiceme el cigarrillo cuyo id coincida, peertenezca al inventario del usuario y este activo
     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
     data.user = req.user._id;
 
-    const grocery = await Product.findOneAndUpdate(query, data, { new: true });    
+    const cigarette = await Product.findOneAndUpdate(query, data, { new: true });    
 
-    return res.json( grocery );
+    return res.json( cigarette );
 };
 
 /**
- * Elimina un comestible de la base de datos.
+ * Elimina un cigarrillo de la base de datos.
  * Se hace un borrado suave, se actualiza el campo state a false para indicar la eliminación.
  * @param {*} req 
  * @param {*} res 
  * @returns 
  */
- const deleteGroceryById = async(req, res = response ) => {
+ const deleteCigaretteById = async(req, res = response ) => {
 
     const { id } = req.params;
     const establishment = req.user.establishment;
@@ -106,9 +106,9 @@ const { Product } = require('../../models');
 };
 
 module.exports = {
-    createGrocery,
-    getAllGroceries,
-    getGroceryById,
-    updateGroceryById,
-    deleteGroceryById
+    createCigarette,
+    getAllCigarettes,
+    getCigaretteById,
+    updateCigaretteById,
+    deleteCigaretteById
 };

@@ -1,16 +1,16 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createGrocery, getAllGroceries, getGroceryById, updateGroceryById, deleteGroceryById } = require('../../controllers/products/groceries');
-const { existCategoryById, existUnitById, existProductById } = require('../../helpers');
-const { validateJWT, isActiveUser, validateFields, validateImageUploadProduct, validateJWTEstablishment, isAdminRole, validateImageEditProduct } = require('../../middlewares');
-const { validateGroceryQuery, validateGroceryByIdQuery } = require('../../middlewares/products/groceries/validate-query');
-const { validateExistGrocery } = require('../../middlewares/products/validate-exist-grocery');
+const { getAllDrinks, createDrink, getDrinkById, updateDrinkById, deleteDrinkById } = require('../../../controllers/products/establishment-spirit/drinks');
+const { existCategoryById, existUnitById, existProductById } = require('../../../helpers');
+const { validateJWTEstablishment, validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct } = require('../../../middlewares');
+const { validateDrinkQuery, validateDrinkByIdQuery } = require('../../../middlewares/products/establishment-spirit/drinks/validate-query');
+const { validateExistDrink } = require('../../../middlewares/products/establishment-spirit/drinks/validate-exist-drink');
 
 const router = Router();
 
 /**
- * Crear un nuevo comestible en la BD.
- * {{ url }}/api/groceries
+ * Crear una nueva bebida en la BD.
+ * {{ url }}/api/drinks
  */
  router.post('/', [ 
     validateJWT,
@@ -20,37 +20,37 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
-    validateExistGrocery,
+    validateExistDrink,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
-], createGrocery );
+], createDrink );
 
 /**
- * Obtener todos los comestibles de la BD.
- * {{ url }}/api/groceries
+ * Obtener todas las bebidas de la BD.
+ * {{ url }}/api/drinks
  */
  router.get('/', [
     validateJWTEstablishment,
-    validateGroceryQuery
-], getAllGroceries );
+    validateDrinkQuery
+], getAllDrinks );
 
 /**
- * Obtener un comestible especifico de la BD.
- * {{ url }}/api/groceries/:id
+ * Obtener una bebida especifico de la BD.
+ * {{ url }}/api/drinks/:id
  */
  router.get('/:id',[
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     // validatePublicData,
     validateJWTEstablishment,
-    validateGroceryByIdQuery,
+    validateDrinkByIdQuery,
     validateFields
-], getGroceryById );
+], getDrinkById );
 
 /**
- * Actualizar un comestible especifico de la BD.
- * {{ url }}/api/groceries/:id
+ * Actualizar un cigarrillo especifico de la BD.
+ * {{ url }}/api/cigarettes/:id
  */
  router.put('/:id',[
     validateJWT,
@@ -62,15 +62,15 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    validateExistGrocery,    
+    validateExistDrink,    
     validateImageEditProduct,
     validateImageUploadProduct,
     validateFields
-], updateGroceryById );
+], updateDrinkById );
 
 /**
  * Eliminar un producto especifico de la BD.
- * {{ url }}/api/groceries/:id
+ * {{ url }}/api/products/:id
  */
  router.delete('/:id',[
     validateJWT,
@@ -79,6 +79,6 @@ const router = Router();
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     validateFields,
-], deleteGroceryById );
+], deleteDrinkById );
 
 module.exports = router;

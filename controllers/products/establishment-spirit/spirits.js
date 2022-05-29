@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { Product } = require('../../models');
+const { Product } = require('../../../models');
 
 /**
  * Crea un nuevo licor en la base de datos.
@@ -42,7 +42,7 @@ const createSpirit = async (req, res = response ) => {
     // console.log(query);
     // let spirits = [];
 
-    const [ total, spirits ] = await Promise.all([
+    const [ total, products ] = await Promise.all([
         Product.countDocuments(query),
         Product.find(query)            
                         .populate('establishment', 'name')
@@ -54,7 +54,7 @@ const createSpirit = async (req, res = response ) => {
 
     return res.json({
         total,
-        spirits
+        products
     });
 };
 

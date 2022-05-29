@@ -1,11 +1,11 @@
 const { response, request } = require('express');
-const { stringCapitalize } = require('../../helpers/string-capitalize');
-const { Product } = require('../../models');
+const { stringCapitalize } = require('../../../../helpers/string-capitalize');
+const { Product } = require('../../../../models');
 
 /**
  * Realiza la validacion de que exista ya un licor que se intenta crear
  */
-const validateExistDrink = async( req = request, res = response, next ) => {
+const validateExistNaturist = async( req = request, res = response, next ) => {
     try 
     {        
         req.body.name = stringCapitalize(req.body.name);
@@ -27,9 +27,9 @@ const validateExistDrink = async( req = request, res = response, next ) => {
 
         const query = { $and: fields}; 
     
-        const spiritDB = await Product.findOne( query );
+        const productDB = await Product.findOne( query );
          
-        if ( spiritDB ) 
+        if ( productDB ) 
         {
             if( !req.body.img )
             {
@@ -54,5 +54,5 @@ const validateExistDrink = async( req = request, res = response, next ) => {
 };
 
 module.exports = {
-    validateExistDrink
+    validateExistNaturist
 };

@@ -7,6 +7,12 @@ const ProductSchema = Schema({
         required: [true, 'El nombre es obligatorio']
     },
 
+    id: {
+        type: String,
+        trim: true,
+        unique: true
+    },
+
     img: {
         type: String,
         // required: [true, 'La imagen del producto es obligatoria'],

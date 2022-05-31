@@ -3,42 +3,68 @@ const { stringCapitalize } = require('../../helpers/string-capitalize');
 const { Product } = require('../../models');
 
 /**
- * Realiza la validacion del inventario que pertenece a un negocio.
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- * @returns 
+ * Realiza la validacion de que exista ya un licor que se intenta crear
  */
 const validateExistProduct = async( req = request, res = response, next ) => {
     try 
     {        
         req.body.name = stringCapitalize(req.body.name);
-        // Saqueme el inventario cuyo establecimiento sea el del usuario logueado.
-        const inventory = req.inventory;
-        // Si existe un producto con los mismos atributos en la base de datos.
-        const query = { $and: [
+        const establishment = req.user.establishment;
+        // Si existe un licor con los mismos atributos en la base de datos.
+        let fields = [
             { name: req.body.name },
             { category: req.body.category },
-            { alcohol: req.body.alcohol },
             { unit: req.body.unit },
-            { inventory }
-        ]}; 
-    
-        const productDB = await Product.findOne( query );
-         
-        if ( productDB ) 
+            { establishment }
+        ];
+
+        const { barcode, stock, purchase_price, sale_price, current_existence } = req.body;
+        if( barcode ) fields.push( {barcode} );
+        if( stock ) fields.push( {stock} );
+        if( purchase_price ) fields.push( {purchase_price} );
+        if( sale_price ) fields.push( {sale_price} );
+        if( current_existence ) fields.push( {current_existence} );
+
+        switch ( req.supercategoryName ) 
         {
-            // console.log('Verificando includes');
-            // Verificando que tenga exactamente las mismas caracteristicas
-            const reqFeatures = req.body.features;
-            const featuresDB = productDB.features;
-            for (const feature of reqFeatures) 
+            case 'spirit':
+                fields.push( { vol_alcohol: req.body.vol_alcohol } )
+            break;
+
+            // case 'cigarette':
+            //     supercategory = '6141686c752e94b6aa17123f';
+            // break;
+
+            // case 'drink':
+            //     supercategory = '61d7a5ea2c38bdb5f64dcf7c';
+            // break;
+
+            // case 'grocery':
+            //     supercategory = '61d7b1a02c38bdb5f64dcfb0';
+            // break;
+        
+            // case 'naturist':
+            //     supercategory = '628ee88875cf2ef75b1209fc';
+            // break;
+
+            // case 'sexshop':
+            //     supercategory = '628ee89c75cf2ef75b1209fd';
+            // break;
+        
+            default: break;          
+        }
+
+
+        const query = { $and: fields}; 
+    
+        const product = await Product.findOne( query );
+         
+        if ( product ) 
+        {
+            if( !req.body.img )
             {
-                if( !featuresDB.includes( feature ) )
-                {
-                    next();
-                    return;
-                }                
+                next();
+                return;
             }
 
             return res.status(400).json({
@@ -50,11 +76,12 @@ const validateExistProduct = async( req = request, res = response, next ) => {
     } 
     catch (error) 
     {
-        res.status(401).json({
-            error: 'Error validando producto',
+        console.log(error);
+        res.status(400).json({
+            error: 'Error validando el producto',
         });
     }
-}
+};
 
 module.exports = {
     validateExistProduct

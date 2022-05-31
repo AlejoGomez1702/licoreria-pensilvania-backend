@@ -2,9 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { createGrocery, getAllGroceries, getGroceryById, updateGroceryById, deleteGroceryById } = require('../../../controllers/products/establishment-spirit/groceries');
 const { existCategoryById, existUnitById, existProductById } = require('../../../helpers');
-const { validateJWT, isActiveUser, validateFields, validateImageUploadProduct, validateJWTEstablishment, isAdminRole, validateImageEditProduct } = require('../../../middlewares');
+const { validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct, validateExistProduct } = require('../../../middlewares');
 const { validateGroceryQuery, validateGroceryByIdQuery } = require('../../../middlewares/products/establishment-spirit/groceries/validate-query');
-const { validateExistGrocery } = require('../../../middlewares/products/establishment-spirit/groceries/validate-exist-grocery');
 
 const router = Router();
 
@@ -20,7 +19,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
-    validateExistGrocery,
+    validateExistProduct,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -31,7 +30,7 @@ const router = Router();
  * {{ url }}/api/groceries
  */
  router.get('/', [
-    validateJWTEstablishment,
+    validateJWT,
     validateGroceryQuery
 ], getAllGroceries );
 
@@ -43,7 +42,7 @@ const router = Router();
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     // validatePublicData,
-    validateJWTEstablishment,
+    validateJWT,
     validateGroceryByIdQuery,
     validateFields
 ], getGroceryById );
@@ -62,7 +61,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    validateExistGrocery,    
+    validateExistProduct,    
     validateImageEditProduct,
     validateImageUploadProduct,
     validateFields

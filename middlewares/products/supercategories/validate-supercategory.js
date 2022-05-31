@@ -7,9 +7,13 @@ const { response, request } = require('express');
  * @param {*} next 
  * @returns 
  */
-const validateSupercategory = async( req = request, res = response, next ) => {
+const validateSupercategory = ( req = request, res = response, next ) => {
 
     let { supercategory = '' } = req.query;
+    req.supercategoryName = supercategory;
+
+    // console.log("body: ", req.body);
+    // console.log("query: ", req.query);
     
     switch ( supercategory ) 
     {
@@ -29,7 +33,15 @@ const validateSupercategory = async( req = request, res = response, next ) => {
             supercategory = '61d7b1a02c38bdb5f64dcfb0';
         break;
     
-        default: break;        
+        case 'naturist':
+            supercategory = '628ee88875cf2ef75b1209fc';
+        break;
+
+        case 'sexshop':
+            supercategory = '628ee89c75cf2ef75b1209fd';
+        break;
+    
+        default: break;          
     }
 
     req.supercategory = supercategory;

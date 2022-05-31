@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { createPurchase, getAllPurchases, getPurchaseById } = require('../controllers/purchases');
 const { existPurchaseById } = require('../helpers');
-const { validateJWT, isActiveUser, validateFields, isAdminRole, validateJWTEstablishment } = require('../middlewares');
+const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
 const { validatePurchaseByIdQuery } = require('../middlewares/validate-purchase-query');
 
 const router = Router();
@@ -37,7 +37,7 @@ router.post('/', [
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existPurchaseById ),
     // validatePublicData,
-    validateJWTEstablishment,
+    validateJWT,
     validatePurchaseByIdQuery,
     validateFields
 ], getPurchaseById );

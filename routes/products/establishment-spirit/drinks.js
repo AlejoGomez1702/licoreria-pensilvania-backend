@@ -2,9 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { getAllDrinks, createDrink, getDrinkById, updateDrinkById, deleteDrinkById } = require('../../../controllers/products/establishment-spirit/drinks');
 const { existCategoryById, existUnitById, existProductById } = require('../../../helpers');
-const { validateJWTEstablishment, validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct } = require('../../../middlewares');
+const { validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct, validateExistProduct } = require('../../../middlewares');
 const { validateDrinkQuery, validateDrinkByIdQuery } = require('../../../middlewares/products/establishment-spirit/drinks/validate-query');
-const { validateExistDrink } = require('../../../middlewares/products/establishment-spirit/drinks/validate-exist-drink');
 
 const router = Router();
 
@@ -20,7 +19,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
-    validateExistDrink,
+    validateExistProduct,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -31,7 +30,7 @@ const router = Router();
  * {{ url }}/api/drinks
  */
  router.get('/', [
-    validateJWTEstablishment,
+    validateJWT,
     validateDrinkQuery
 ], getAllDrinks );
 
@@ -43,7 +42,7 @@ const router = Router();
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     // validatePublicData,
-    validateJWTEstablishment,
+    validateJWT,
     validateDrinkByIdQuery,
     validateFields
 ], getDrinkById );
@@ -62,7 +61,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    validateExistDrink,    
+    validateExistProduct,    
     validateImageEditProduct,
     validateImageUploadProduct,
     validateFields

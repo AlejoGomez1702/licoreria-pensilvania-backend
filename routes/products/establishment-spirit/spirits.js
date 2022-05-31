@@ -3,12 +3,11 @@ const { check } = require('express-validator');
 
 const { 
     validateJWT, validateFields, isAdminRole, isActiveUser, validateImageUploadProduct,
-    validatePublicData, validateJWTEstablishment, validateImageEditProduct, capitalizeProductName
+    validatePublicData, validateImageEditProduct, validateExistProduct
 } = require('../../../middlewares');
 
 const { existProductById, existCategoryById, existUnitById } = require('../../../helpers/db-validators');
 const { getAllSpirits, getSpiritById, getAllSpiritsFeatures, createSpirit, updateSpiritById, deleteSpiritById } = require('../../../controllers/products/establishment-spirit/spirits');
-const { validateExistSpirit } = require('../../../middlewares/products/establishment-spirit/spirits/validate-exist-spirit');
 const { validateSpiritQuery, validateSpiritByIdQuery } = require('../../../middlewares/products/establishment-spirit/spirits/validate-query');
 
 const router = Router();
@@ -26,7 +25,7 @@ router.post('/', [
     check('vol_alcohol','Debe especificar un % de volumen alcoholico').not().isEmpty().isFloat({min: 0, max: 100}),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
-    validateExistSpirit,
+    validateExistProduct,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -38,7 +37,7 @@ router.post('/', [
  */
  router.get('/', [
     // validatePublicData,
-    validateJWTEstablishment,
+    validateJWT,
     validateSpiritQuery
 ], getAllSpirits );
 
@@ -50,7 +49,7 @@ router.post('/', [
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     // validatePublicData,
-    validateJWTEstablishment,
+    validateJWT,
     validateSpiritByIdQuery,
     validateFields
 ], getSpiritById );
@@ -70,7 +69,7 @@ router.post('/', [
     check('vol_alcohol','Debe especificar un % de volumen alcoholico').not().isEmpty().isFloat({min: 0, max: 100}),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    validateExistSpirit,    
+    validateExistProduct,    
     validateImageEditProduct,
     validateImageUploadProduct,
     validateFields
@@ -99,7 +98,7 @@ router.post('/', [
  */
 router.get('/all/features', [
     validatePublicData,
-    validateJWTEstablishment
+    validateJWT
 ], getAllSpiritsFeatures );
 
 

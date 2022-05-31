@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { createMovement, getAllMovements } = require('../controllers/movements');
 const { createSale, getAllSales, getSaleById } = require('../controllers/sales');
 const { existSaleById } = require('../helpers');
-const { validateJWT, isActiveUser, validateFields, isAdminRole, validateJWTEstablishment } = require('../middlewares');
+const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
 const { validateSaleByIdQuery } = require('../middlewares/validate-sale-query');
 
 const router = Router();
@@ -40,7 +40,7 @@ router.post('/', [
 //     check('id', 'No es un id de Mongo válido').isMongoId(),
 //     check('id').custom( existSaleById ),
 //     // validatePublicData,
-//     validateJWTEstablishment,
+//     validateJWT,
 //     validateSaleByIdQuery,
 //     validateFields
 // ], getSaleById );

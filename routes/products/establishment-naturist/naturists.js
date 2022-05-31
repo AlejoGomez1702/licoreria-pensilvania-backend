@@ -3,8 +3,7 @@ const { check } = require('express-validator');
 const { createNaturist } = require('../../../controllers/products/establishment-naturist/naturists');
 const { getAllCigarettes, createCigarette, getCigaretteById, updateCigaretteById, deleteCigaretteById } = require('../../../controllers/products/establishment-spirit/cigarettes');
 const { existCategoryById, existUnitById, existProductById } = require('../../../helpers');
-const { validateJWTEstablishment, validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct } = require('../../../middlewares');
-const { validateExistNaturist } = require('../../../middlewares/products/establishment-naturist/naturists/validate-exist-naturist');
+const { validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct, validateExistProduct } = require('../../../middlewares');
 const { validateNaturistQuery } = require('../../../middlewares/products/establishment-naturist/naturists/validate-query');
 const { validateCigaretteQuery, validateCigarreteByIdQuery } = require('../../../middlewares/products/establishment-spirit/cigarettes/validate-query');
 
@@ -22,7 +21,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
-    validateExistNaturist,
+    validateExistProduct,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -33,7 +32,7 @@ const router = Router();
  * {{ url }}/api/naturists
  */
  router.get('/', [
-    validateJWTEstablishment,
+    validateJWT,
     validateNaturistQuery
 ], getAllCigarettes );
 
@@ -45,7 +44,7 @@ const router = Router();
 //     check('id', 'No es un id de Mongo válido').isMongoId(),
 //     check('id').custom( existProductById ),
 //     // validatePublicData,
-//     validateJWTEstablishment,
+//     validateJWT,
 //     validateCigarreteByIdQuery,
 //     validateFields
 // ], getCigaretteById );

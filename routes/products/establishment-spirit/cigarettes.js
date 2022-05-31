@@ -2,9 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { getAllCigarettes, createCigarette, getCigaretteById, updateCigaretteById, deleteCigaretteById } = require('../../../controllers/products/establishment-spirit/cigarettes');
 const { existCategoryById, existUnitById, existProductById } = require('../../../helpers');
-const { validateJWTEstablishment, validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct } = require('../../../middlewares');
+const { validateJWT, isActiveUser, validateFields, validateImageUploadProduct, isAdminRole, validateImageEditProduct, validateExistProduct } = require('../../../middlewares');
 const { validateCigaretteQuery, validateCigarreteByIdQuery } = require('../../../middlewares/products/establishment-spirit/cigarettes/validate-query');
-const { validateExistCigarette } = require('../../../middlewares/products/establishment-spirit/cigarettes/validate-exist-cigarette');
 
 const router = Router();
 
@@ -20,7 +19,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),       
-    validateExistCigarette,
+    validateExistProduct,
     validateFields,
     // La imagen es la ultima que se valida ya que si no esta todo correcto no se debe subir al servicio
     validateImageUploadProduct
@@ -31,7 +30,7 @@ const router = Router();
  * {{ url }}/api/cigarettes
  */
  router.get('/', [
-    validateJWTEstablishment,
+    validateJWT,
     validateCigaretteQuery
 ], getAllCigarettes );
 
@@ -43,7 +42,7 @@ const router = Router();
     check('id', 'No es un id de Mongo válido').isMongoId(),
     check('id').custom( existProductById ),
     // validatePublicData,
-    validateJWTEstablishment,
+    validateJWT,
     validateCigarreteByIdQuery,
     validateFields
 ], getCigaretteById );
@@ -62,7 +61,7 @@ const router = Router();
     check('category').custom( existCategoryById ),
     check('unit','No existe la unidad de medida especificada').isMongoId(),
     check('unit').custom( existUnitById ),
-    validateExistCigarette,    
+    validateExistProduct,    
     validateImageEditProduct,
     validateImageUploadProduct,
     validateFields

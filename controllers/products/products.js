@@ -57,61 +57,61 @@ const { Product } = require('../../models');
     });
 };
 
-// /**
-//  * Obtiene un producto naturista de la base de datos.
-//  */
-//  const getCigaretteById = async(req, res = response ) => {
+/**
+ * Obtiene un producto de la base de datos.
+ */
+ const getProductById = async(req, res = response ) => {
 
-//     // Saqueme el producto de ese establecimiento que este activo cuyo id concuerde.
-//     const query = req.queryProduct;
-//     const cigarette = await Product.findOne( query )
-//                             .populate('establishment', 'name')
-//                             .populate('category', 'name')
-//                             .populate('unit', 'unit');
+    // Saqueme el producto de ese establecimiento que este activo cuyo id concuerde.
+    const query = req.queryProduct;
+    const product = await Product.findOne( query )
+                            .populate('establishment', 'name')
+                            .populate('category', 'name')
+                            .populate('unit', 'unit');
 
-//     return res.json( cigarette );
-// };
+    return res.json( product );
+};
 
-// /**
-//  * Actualiza la información de un producto naturista en la base de datos.
-//  */
-//  const updateCigaretteById = async( req, res = response ) => {
+/**
+ * Actualiza la información de un producto en la base de datos.
+ */
+ const updateProductById = async( req, res = response ) => {
 
-//     const { id } = req.params;
-//     const { state, user, ...data } = req.body;
-//     const { establishment } = req.user;
-//     // Actualiceme el producto naturista cuyo id coincida, peertenezca al inventario del usuario y este activo
-//     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
+    const { id } = req.params;
+    const { state, user, ...data } = req.body;
+    const { establishment } = req.user;
+    // Actualiceme el producto cuyo id coincida, pertenezca al inventario del usuario y este activo
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
 
-//     data.user = req.user._id;
+    data.user = req.user._id;
 
-//     const cigarette = await Product.findOneAndUpdate(query, data, { new: true });    
+    const product = await Product.findOneAndUpdate(query, data, { new: true });    
 
-//     return res.json( cigarette );
-// };
+    return res.json( product );
+};
 
-// /**
-//  * Elimina un producto naturista de la base de datos.
-//  * Se hace un borrado suave, se actualiza el campo state a false para indicar la eliminación.
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @returns 
-//  */
-//  const deleteCigaretteById = async(req, res = response ) => {
+/**
+ * Elimina un producto de la base de datos.
+ * Se hace un borrado suave, se actualiza el campo state a false para indicar la eliminación.
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+ const deleteProductById = async(req, res = response ) => {
 
-//     const { id } = req.params;
-//     const establishment = req.user.establishment;
-//     // Elimineme el producto cuyo id coincida, pertenezca al establecimiento del usuario y este activo
-//     const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
-//     const productDeleted = await Product.findOneAndUpdate( query, { state: false }, {new: true });
+    const { id } = req.params;
+    const establishment = req.user.establishment;
+    // Elimineme el producto cuyo id coincida, pertenezca al establecimiento del usuario y este activo
+    const query = { $and: [{ '_id': id }, { establishment }, { 'state': true }] };
+    const productDeleted = await Product.findOneAndUpdate( query, { state: false }, {new: true });
 
-//     return res.json( productDeleted );
-// };
+    return res.json( productDeleted );
+};
 
 module.exports = {
     createProduct,
     getAllProducts,
-    // getCigaretteById,
-    // updateCigaretteById,
-    // deleteCigaretteById
+    getProductById,
+    updateProductById,
+    deleteProductById
 };

@@ -7,7 +7,7 @@ const ProductSchema = Schema({
         required: [true, 'El nombre es obligatorio']
     },
 
-    id: {
+    code: {
         type: String,
         trim: true,
         unique: true

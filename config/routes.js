@@ -37,12 +37,12 @@ const loadRoutes = ( app ) => {
     app.use( paths.categories, require('../routes/products/categories'));
     app.use( paths.products, require('../routes/products/products'));
 
-    app.use( paths.spirits, require('../routes/products/establishment-spirit/spirits'));
-    app.use( paths.cigarettes, require('../routes/products/establishment-spirit/cigarettes'));
-    app.use( paths.drinks, require('../routes/products/establishment-spirit/drinks'));
-    app.use( paths.groceries, require('../routes/products/establishment-spirit/groceries'));
-    app.use( paths.naturists, require('../routes/products/establishment-naturist/naturists'));
-    app.use( paths.sexshops, require('../routes/products/establishment-naturist/sexshops'));
+    // app.use( paths.spirits, require('../routes/products/establishment-spirit/spirits'));
+    // app.use( paths.cigarettes, require('../routes/products/establishment-spirit/cigarettes'));
+    // app.use( paths.drinks, require('../routes/products/establishment-spirit/drinks'));
+    // app.use( paths.groceries, require('../routes/products/establishment-spirit/groceries'));
+    // app.use( paths.naturists, require('../routes/products/establishment-naturist/naturists'));
+    // app.use( paths.sexshops, require('../routes/products/establishment-naturist/sexshops'));
 
     app.use( paths.units, require('../routes/products/units'));
     app.use( paths.uploads, require('../routes/uploads'));

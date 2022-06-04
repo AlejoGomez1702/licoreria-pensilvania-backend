@@ -6,6 +6,9 @@ const { Product } = require('../../models');
  * Realiza la validacion de que exista ya un licor que se intenta crear
  */
 const validateExistProduct = async( req = request, res = response, next ) => {
+
+    console.log("Validando el exist product");
+
     try 
     {        
         req.body.name = stringCapitalize(req.body.name);
@@ -76,8 +79,8 @@ const validateExistProduct = async( req = request, res = response, next ) => {
     } 
     catch (error) 
     {
-        console.log(error);
-        res.status(400).json({
+        console.log("El error: ",error);
+        return res.status(400).json({
             error: 'Error validando el producto',
         });
     }

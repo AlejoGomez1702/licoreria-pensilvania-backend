@@ -7,7 +7,7 @@
  */
 const validateProductQuery = async( req = request, res = response, next ) => {
     
-    const { category = '', sercheable = false } = req.query;
+    const { category = '', nameSearch = '', sercheable = false } = req.query;
     // Establecimiento del que se desea obtener los licores
     const establishment = req.user.establishment;
     const supercategory = req.supercategory;

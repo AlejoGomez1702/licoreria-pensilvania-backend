@@ -9,7 +9,7 @@
     // const { sercheable = false } = req.query;
     const { id } = req.params;
     // Establecimiento del que se desea obtener los licores
-    const establishment = req.establishmentId;
+    const establishment = req.user.establishment;
     let query = {
         $and: [
             { '_id': id },

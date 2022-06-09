@@ -64,7 +64,7 @@ const { Product } = require('../../models');
 //  const getSpiritById = async(req, res = response ) => {
 
 //     // const { id } = req.params;
-//     // const establishment = req.establishmentId;
+//     // const establishment = req.user.establishment;
 //     // Saqueme el licor de ese establecimiento que este activo cuyo id concuerde.
 //     const query = req.querySpirit;
 //     const spirit = await Product.findOne( query )
@@ -119,7 +119,7 @@ const { Product } = require('../../models');
 //  */
 //  const getAllSpiritsFeatures = async(req, res = response ) => {
 
-//     const establishment = req.establishmentId;
+//     const establishment = req.user.establishment;
 //     // Saqueme los licores de ese negocio que esten activos
 //     const query = { $and : [{establishment}, {state: true}] };
 //     const featuresData = await Spirit.find( query ).select('features');

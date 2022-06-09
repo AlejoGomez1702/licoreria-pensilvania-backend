@@ -23,8 +23,7 @@ const SaleSchema = Schema({
     // Cliente asociado a la venta
     client: {
         type: Schema.Types.ObjectId,
-        ref: 'Client',
-        required: true
+        ref: 'Client'
     },
 
     state: {

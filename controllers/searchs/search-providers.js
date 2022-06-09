@@ -22,7 +22,7 @@ const { Provider } = require("../../models");
     //     });
     // }
 
-    const establishment = req.establishmentId;
+    const establishment = req.user.establishment;
     let basicQuery = [{ state: true }, { establishment }];
     
     // Buscar por coincidencia
@@ -36,7 +36,7 @@ const { Provider } = require("../../models");
                             });
                             // .populate('category', 'name')
                             // .populate('unit', 'unit');
-
+                            
     return res.json( providerMatch );
 };
 

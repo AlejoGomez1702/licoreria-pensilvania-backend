@@ -22,7 +22,7 @@ const { Product, Client } = require("../../models");
     //     });
     // }
 
-    const establishment = req.establishmentId;
+    const establishment = req.user.establishment;
     let basicQuery = [{ state: true }, { establishment }];
     
     // Buscar por coincidencia

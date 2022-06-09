@@ -14,7 +14,7 @@ const validatePublicData = async ( req = request, res = response, next ) => {
             const establishment = await Establishment.findOne({ name: 'Licorería Pensilvania' });
             if( establishment )
             {
-                req.establishmentId = establishment.id;
+                req.user.establishment = establishment.id;
                 next();
             }
             else

@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const { createSale, getAllSales, getSaleById } = require('../controllers/sales');
 const { existSaleById } = require('../helpers');
 const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
+const { validateSaleBasicQuery } = require('../middlewares/sales/validate-sale-basic-query');
 const { validateSaleByIdQuery } = require('../middlewares/validate-sale-query');
 
 const router = Router();
@@ -26,7 +27,8 @@ router.post('/', [
     validateJWT,
     isActiveUser,
     isAdminRole,
-    validateFields
+    validateFields,
+    validateSaleBasicQuery
 ], getAllSales );
 
 /**

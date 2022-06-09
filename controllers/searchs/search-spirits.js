@@ -8,7 +8,7 @@ const { Product } = require('../../models');
  * @param {*} res 
  * @returns 
  */
- const searchSpirits = async( term = '', res = response, other = false, establishmentId ) => {
+ const searchSpirits = async( term = '', res = response, other = false, user.establishment ) => {
 
     // Buscar por ID
     const isMongoID = ObjectId.isValid( term );
@@ -24,7 +24,7 @@ const { Product } = require('../../models');
     // Buscar por coincidencia
     const regex = new RegExp( term, 'i' );
 
-    let establishmentValidation = (other) ? { $ne: establishmentId } : establishmentId;
+    let establishmentValidation = (other) ? { $ne: user.establishment } : user.establishment;
     let query = {
                             $or: [
                                 { name: regex }, 

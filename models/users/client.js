@@ -18,8 +18,7 @@ const ClientSchema = Schema({
     cellphone: {
         type: String,
         trim: true,
-        required: [true, 'El celular es obligatorio'],
-        unique: true
+        required: [true, 'El celular es obligatorio']
     },
 
     address: {

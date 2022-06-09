@@ -36,6 +36,13 @@ const EstablishmentSchema = Schema({
         trim: true,
         required: true,
         emun: ['SPIRIT_TYPE', 'NATURIST_TYPE']
+    },
+
+    schedule: {
+        type: { 
+            start_time: String,
+            end_time: String
+        }
     }
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});

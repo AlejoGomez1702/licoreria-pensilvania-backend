@@ -9,9 +9,29 @@ const { Establishment } = require("../../models");
  */
  const validateSaleBasicQuery = async( req = request, res = response, next ) => {
 
+    const { start = '', end = '' } = req.query;
+    console.log("start: ", req.query);
+
     const { establishment } = req.user;
     // Saqueme las ventas activas del establecimiento del usuario logueado
-    const query = { $and: [{ 'state': true }, { establishment }] };
+    let query = {
+        $and: [
+            { 'state': true }, 
+            { establishment }
+        ]
+    };
+
+    // Si hay un rango de fechas en especifico en el que se desean las ventas
+    if( start && end )
+    {
+        query = {
+            $and: [
+                { 'state': true }, 
+                { establishment },
+                { created_at: { $gte: start, $lte: end } }
+            ]
+        };
+    }
 
     // Verificar si las ventas se realizan en  horario diferente
     // si el establecimiento tieno el campo schedule 

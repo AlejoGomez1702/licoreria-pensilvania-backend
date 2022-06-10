@@ -69,11 +69,10 @@ const createSale = async(req, res = response ) => {
  * @returns 
  */
 const getAllSales = async(req, res = response ) => {
-    const { limit = 10, from = 0 } = req.query;
-    const { establishment } = req.user;
 
-    // Saqueme las ventas activas del establecimiento del usuario logueado
-    const query = { $and: [{ 'state': true }, { establishment }] };
+    const { limit = 10, from = 0 } = req.query;
+    // Saqueme las ventas activas del establecimiento del usuario logueado y este en el rango de fechas
+    const query = req.querySale;
 
     let [ total, sales, statistics, statisticsInversion ] = await Promise.all([
         Sale.countDocuments(query),

@@ -53,7 +53,7 @@ const { Product } = require("../../models");
         Product.find(productQuery)
                         .populate('establishment', 'name')
                         .populate('category', 'name')
-                        .populate('unit', 'unit units')
+                        .populate('unit', 'unit ml units grams')
                         .skip( Number( from ) )  // desde donde
                         .limit( Number( limit ) ) // Cuantos
     ]);

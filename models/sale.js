@@ -26,6 +26,11 @@ const SaleSchema = Schema({
         ref: 'Client'
     },
 
+    // Dinero abonado que deja el cliente
+    deposit: {
+        type: Number
+    },
+
     state: {
         type: Boolean,
         default: true,

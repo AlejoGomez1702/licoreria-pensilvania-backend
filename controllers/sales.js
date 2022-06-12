@@ -10,6 +10,7 @@ const { Sale, Product } = require('../models');
 const createSale = async(req, res = response ) => {
 
     const products = req.body.products;
+    console.log("Request",req.body);
 
     // Calculando el total de la venta
     let total = 0;
@@ -34,6 +35,11 @@ const createSale = async(req, res = response ) => {
     if( req.body.clientId )
     {
         data.client = req.body.clientId;
+    }
+
+    if( req.body.deposit )
+    {
+        data.deposit = req.body.deposit;
     }
 
     const sale = new Sale( data );

@@ -13,6 +13,18 @@ const PurchaseSchema = Schema({
         ref: 'Product',
         required: true
     },
+
+    total: {
+        type: Number,
+        required: true
+    },
+
+    state: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+
     // Usuario que creó la venta
     user: {
         type: Schema.Types.ObjectId,
@@ -24,17 +36,6 @@ const PurchaseSchema = Schema({
     provider: {
         type: Schema.Types.ObjectId,
         ref: 'Provider',
-        required: true
-    },
-
-    state: {
-        type: Boolean,
-        default: true,
-        required: true
-    },
-
-    total: {
-        type: Number,
         required: true
     },
 

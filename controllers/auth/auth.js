@@ -19,7 +19,7 @@ const login = async(req, res = response) => {
     {      
         // Verificar si el email existe
         const user = await User.findOne( { $or: [{ email }, { username: email }] } )
-                                .populate('establishment');
+                                .populate('establishment', 'name');
 
         if ( !user ) //El usuario no existe.
         {
@@ -52,7 +52,7 @@ const login = async(req, res = response) => {
         };
         const token = await generateJWT( payload, remember );
 
-        res.json({
+        return res.json({
             user,
             token
         });
@@ -60,20 +60,30 @@ const login = async(req, res = response) => {
     catch (error) 
     {
         // console.log(error)
-        res.status(500).json({
+        return res.status(500).json({
             msg: 'error',
             error
         });
     }   
 };
 
-const getLoggedUser = (req, res = response) => {
+const getLoggedUser = async(req, res = response) => {
 
-    const user = req.user;
-
-    return res.json({
-        user
-    });
+    try 
+    {
+        const user = await User.findById( req.user.id )
+                                .populate('establishment', 'name');
+        return res.json({
+            user
+        });
+    } 
+    catch (error) 
+    {
+        return res.status(500).json({
+            msg: 'error',
+            error
+        });    
+    }
 };
 
 module.exports = {

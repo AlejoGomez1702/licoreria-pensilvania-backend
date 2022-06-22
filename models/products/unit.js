@@ -12,7 +12,7 @@ const UnitSchema = Schema({
         type: Number,
         // required: [true, 'La Cantidad de mililitros(ml) es obligatoria'],
         min: 0,
-        max: 10000
+        max: 1000000
     },
     // Obligatorio cuando la supercategoria es 'Cigarrillos'.
     units: {
@@ -20,7 +20,7 @@ const UnitSchema = Schema({
         min: 1,
         max: 1000
     },
-    
+    // Productos que se miden por gramaje
     grams: {
         type: Number,
         min: 1,
@@ -30,12 +30,6 @@ const UnitSchema = Schema({
     state: {
         type: Boolean,
         default: true,
-        required: true
-    },
-    // Establecimiento que creó la categoria
-    establishment: {
-        type: Schema.Types.ObjectId,
-        ref: 'Establishment',
         required: true
     },
     // A que Supercategoria pertenece la unidad de medida

@@ -1,44 +1,53 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = Schema({
+
     name: {
         type: String,
         trim: true,
         required: [true, 'El nombre es obligatorio']
     },
+
     username: {
         type: String,
         trim: true,
         unique: true
     },
+
     email: {
         type: String,
         trim: true,
         required: [true, 'El correo es obligatorio'],
         unique: true
     },
+
     password: {
         type: String,
         trim: true,
         required: [true, 'La contraseña es obligatoria'],
     },
+
     img: {
         type: String,
     },
+
     rol: {
         type: String,
         trim: true,
         required: true,
         emun: ['ADMIN_ROLE', 'USER_ROLE']
     },
+
     state: {
         type: Boolean,
         default: true
     },
+
     google: {
         type: Boolean,
         default: false
     },
+    
     // Establecimiento al que pertenece el usuario
     establishment: {
         type: Schema.Types.ObjectId,

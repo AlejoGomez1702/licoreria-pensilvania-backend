@@ -10,7 +10,6 @@ const { Sale, Product } = require('../models');
 const createSale = async(req, res = response ) => {
 
     const products = req.body.products;
-    console.log("Request",req.body);
 
     // Calculando el total de la venta
     let total = 0;

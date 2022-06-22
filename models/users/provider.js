@@ -1,37 +1,38 @@
 const { Schema, model } = require('mongoose');
 
 const ProviderSchema = Schema({
-    name: {
-        type: String,
-        trim: true,
-        required: [true, 'El nombre es obligatorio'],
-        unique: true
-    },
-
-    img: {
-        type: String
-    },
-
     dni: {
         type: String,
         trim: true,
-        required: [true, 'El NIT o CC es obligatorio'],
-        unique: true
+        required: [true, 'El NIT o CC es obligatorio']
+    },
+
+    name: {
+        type: String,
+        trim: true,
+        required: [true, 'El nombre es obligatorio']
     },
 
     email: {
         type: String,
-        trim: true,
-        unique: true
+        trim: true
     },
 
     cellphone: {
         type: String,
         trim: true,
-        required: [true, 'El celular es obligatorio'],
-        unique: true
+        required: [true, 'El celular es obligatorio']
+    },
+
+    address: {
+        type: String,
+        trim: true
     },
     
+    img: {
+        type: String
+    },
+
     state: {
         type: Boolean,
         default: true,

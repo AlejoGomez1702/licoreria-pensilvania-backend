@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const ProductSchema = Schema({
+
     name: {
         type: String,
         trim: true,
@@ -9,8 +10,7 @@ const ProductSchema = Schema({
 
     code: {
         type: String,
-        trim: true,
-        unique: true
+        trim: true
     },
 
     img: {
@@ -20,8 +20,7 @@ const ProductSchema = Schema({
 
     description: {
         type: String,
-        trim: true,
-        default: ''
+        trim: true
     },
 
     state: {
@@ -47,8 +46,7 @@ const ProductSchema = Schema({
 
     barcode: {
         type: String,   
-        trim: true,
-        default: '' 
+        trim: true
     },
 
     stock: {

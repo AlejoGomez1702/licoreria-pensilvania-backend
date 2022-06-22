@@ -8,14 +8,10 @@ const EstablishmentSchema = Schema({
         unique: true
     },
 
-    state: {
-        type: Boolean,
-        default: true,
-        required: true
-    },
-
-    img: {
+    email: {
         type: String,
+        trim: true,
+        unique: true
     },
 
     cellphone: {
@@ -25,11 +21,14 @@ const EstablishmentSchema = Schema({
         unique: true
     },
 
-    email: {
+    address: {
         type: String,
-        trim: true,
-        unique: true
+        trim: true
     },
+
+    img: {
+        type: String,
+    },    
 
     type: {
         type: String,
@@ -43,6 +42,12 @@ const EstablishmentSchema = Schema({
             start_time: String,
             end_time: String
         }
+    },
+
+    state: {
+        type: Boolean,
+        default: true,
+        required: true
     }
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});

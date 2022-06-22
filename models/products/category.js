@@ -4,25 +4,16 @@ const CategorySchema = Schema({
     name: {
         type: String,
         trim: true,
-        required: [true, 'El nombre es obligatorio'],
-        unique: true
+        required: [true, 'El nombre es obligatorio']
     },
 
     img: {
-        type: String,
-        default: ''
+        type: String
     },
 
     state: {
         type: Boolean,
         default: true,
-        required: true
-    },
-
-    // Establecimiento que creó la categoria
-    establishment: {
-        type: Schema.Types.ObjectId,
-        ref: 'Establishment',
         required: true
     },
 

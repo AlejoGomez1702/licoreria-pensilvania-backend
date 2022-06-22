@@ -15,6 +15,12 @@ const ClientSchema = Schema({
         required: [true, 'El nombre es obligatorio']
     },
 
+    email: {
+        type: String,
+        trim: true,
+        unique: true
+    },
+
     cellphone: {
         type: String,
         trim: true,
@@ -25,13 +31,17 @@ const ClientSchema = Schema({
         type: String,
         trim: true
     },
+
+    img: {
+        type: String
+    },
     
     state: {
         type: Boolean,
         default: true,
         required: true
     },
-    // Usuario que creó el cliente
+    // Usuario que registró el cliente
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',

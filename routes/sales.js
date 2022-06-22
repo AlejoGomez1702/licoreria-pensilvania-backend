@@ -20,6 +20,7 @@ router.post('/', [
 ], createSale );
 
 /**
+ * ********* ADMINISTRADOR *********
  * Obtener todas las ventas del negocio del usuario logueado.
  * {{ url }}/api/products
  */

@@ -13,6 +13,28 @@ const SaleSchema = Schema({
         ref: 'Product',
         required: true
     },
+
+    // Dinero abonado que deja el cliente
+    deposit: {
+        type: Number
+    },
+
+    total: {
+        type: Number,
+        required: true
+    },
+
+    total_inversion: {
+        type: Number,
+        required: true
+    },
+
+    state: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+
     // Usuario que creó la venta
     user: {
         type: Schema.Types.ObjectId,
@@ -24,27 +46,6 @@ const SaleSchema = Schema({
     client: {
         type: Schema.Types.ObjectId,
         ref: 'Client'
-    },
-
-    // Dinero abonado que deja el cliente
-    deposit: {
-        type: Number
-    },
-
-    state: {
-        type: Boolean,
-        default: true,
-        required: true
-    },
-
-    total: {
-        type: Number,
-        required: true
-    },
-
-    total_inversion: {
-        type: Number,
-        required: true
     },
 
     // Negocio en el que se hizo la venta

@@ -8,7 +8,11 @@ const SaleSchema = Schema({
             product_name: String,
             count: Number,
             purchase_price: Number,
-            sale_price: Number
+            sale_price: Number,
+            second_sale_price: Number,
+            other_price: Number,
+            is_second_price: Boolean,
+            count_second_price: Number
         }],
         ref: 'Product',
         required: true

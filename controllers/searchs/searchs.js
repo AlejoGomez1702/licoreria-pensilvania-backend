@@ -2,7 +2,7 @@ const { response } = require('express');
 const { Product } = require('../../models');
 const { searchClientsByDni } = require('./search-clients');
 const { searchProducts } = require('./search-products');
-const { searchProvidersByDni } = require('./search-providers');
+const { searchProvidersByName } = require('./search-providers');
 
 const validCollections = [
     'products',
@@ -38,12 +38,8 @@ const search = ( req, res = response ) => {
         break;
 
         case 'providers':
-            searchProvidersByDni(term, req, res);
+            searchProvidersByName(term, req, res);
         break;
-
-        // case 'productos':
-        //     buscarProductos(termino, res);
-        // break;
 
         default:
             return res.status(500).json({

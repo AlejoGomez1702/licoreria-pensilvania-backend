@@ -9,18 +9,37 @@ const { Sale, Product } = require('../models');
  */
 const createSale = async(req, res = response ) => {
 
-    const products = req.body.products;
-
-    // Calculando el total de la venta
+    let countSecondPrice = 0;
     let total = 0;
-    products.forEach(p => {
-        total += p.count * p.sale_price;
-    });
-
-    // Calculando la inversion total de la venta
     let total_inversion = 0;
-    products.forEach(p => {
-        total_inversion += p.count * p.purchase_price;
+
+    console.log("Venta: ", req.body);
+    const products = req.body.products;
+    // Revisando los productos de la venta uno a uno.
+    products.forEach( async (product) => {
+        if( product.is_second_price ) // Si vienen productos con precio secundario
+        {
+            // Cantidad de productos con precio secundario
+            countSecondPrice = product.count_second_price;
+            const secondPrices = countSecondPrice * product.second_sale_price;
+            const otherPrice = (product.other_price) ? product.other_price : product.sale_price;
+            const normalPrices = (product.count - countSecondPrice) * otherPrice;
+
+            total += secondPrices + normalPrices;
+        }
+        else
+        {
+            if( product.other_price )
+            {
+                total += product.count * product.other_price;     
+            }
+            else
+            {
+                total += product.count * product.sale_price;     
+            }                   
+        }
+
+        total_inversion += product.count * product.purchase_price;
     });
 
     const data = {
@@ -63,7 +82,7 @@ const createSale = async(req, res = response ) => {
         console.log(error);        
     }
 
-    res.status(201).json( sale );
+    return res.status(201).json( sale );
 };
 
 /**

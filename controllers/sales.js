@@ -97,6 +97,11 @@ const getAllSales = async(req, res = response ) => {
     const { limit = 10, from = 0 } = req.query;
     // Saqueme las ventas activas del establecimiento del usuario logueado y este en el rango de fechas
     const query = req.querySale;
+    // const queryWithDate = req.queryWithDate;
+    console.log("Query Venta: ", query);
+    console.log("Fechas: ", query.$and[2]);
+    // console.log("Fechas with sale: ", queryWithDate.$and[2]);
+
 
     let [ total, sales, statistics, statisticsInversion ] = await Promise.all([
         Sale.countDocuments(query),
@@ -134,6 +139,14 @@ const getAllSales = async(req, res = response ) => {
         ])
     ]);
 
+    // total, sales, statistics, statisticsInversion
+    // console.log("total", total);
+    // console.log("sales", sales);
+    // console.log("statistics", statistics);
+    // console.log("statisticsInversion", statisticsInversion);
+
+
+
     statistics = statistics.map(element => {
         return {
             totalAmount: element.totalAmount,
@@ -149,6 +162,9 @@ const getAllSales = async(req, res = response ) => {
             ...element._id
         };
     });
+
+    // console.log("statistics222", statistics);
+    // console.log("statisticsInversion222", statisticsInversion);
 
 
     res.json({

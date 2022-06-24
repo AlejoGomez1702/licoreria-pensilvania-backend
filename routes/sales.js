@@ -3,7 +3,11 @@ const { check } = require('express-validator');
 const { createSale, getAllSales, getSaleById } = require('../controllers/sales');
 const { existSaleById } = require('../helpers');
 const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
+const { validateDefaultDates } = require('../middlewares/sales/validate-default-dates');
+const { ValidateRangeDates, validateRangeDates } = require('../middlewares/sales/validate-range-dates');
 const { validateSaleBasicQuery } = require('../middlewares/sales/validate-sale-basic-query');
+const { validateScheduleDates } = require('../middlewares/sales/validate-schedule-dates');
+const { validateSendDates } = require('../middlewares/sales/validate-send-dates');
 const { validateSaleByIdQuery } = require('../middlewares/validate-sale-query');
 
 const router = Router();
@@ -29,6 +33,10 @@ router.post('/', [
     isActiveUser,
     isAdminRole,
     validateFields,
+    validateSendDates,
+    validateScheduleDates,
+    validateRangeDates,
+    validateDefaultDates,   
     validateSaleBasicQuery
 ], getAllSales );
 

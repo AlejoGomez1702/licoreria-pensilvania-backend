@@ -1,4 +1,4 @@
-const { Establishment } = require("../../models");
+const moment = require('moment');
 
 /**
  * Realiza la validación para saber cual va ser la consulta para encontrar los productos(licores).
@@ -9,8 +9,17 @@ const { Establishment } = require("../../models");
  */
  const validateSaleBasicQuery = async( req = request, res = response, next ) => {
 
-    const { start = '', end = '' } = req.query;
-    console.log("start: ", req.query);
+    const startDate = req.startDateFull.toDate();
+    const endDate = req.endDateFull.toDate();
+
+    // const startDate = new Date( startDateString );
+    // const endDate = new Date( endDateString );
+
+    // const { start, end } = req.queryEstablishmentDate;
+    // req.startDateFull = startDateFull;
+    // req.endDateFull = endDateFull;
+    console.log("Fecha inicio: ", startDate);
+    console.log("Fecha final: ", endDate);
 
     const { establishment } = req.user;
     // Saqueme las ventas activas del establecimiento del usuario logueado
@@ -21,40 +30,31 @@ const { Establishment } = require("../../models");
         ]
     };
 
+    let queryWithDate = {};
+
     // Si hay un rango de fechas en especifico en el que se desean las ventas
-    if( start && end )
+    if( startDate && endDate )
     {
         query = {
             $and: [
                 { 'state': true }, 
                 { establishment },
-                { created_at: { $gte: start, $lte: end } }
+                { created_at: { $gte: startDate, $lte: endDate } }
             ]
         };
+
+        // queryWithDate = {
+        //     $and: [
+        //         { 'state': true }, 
+        //         { establishment },
+        //         { created_at: { $gte: start, $lte: end } }
+        //     ]
+        // };
+
+        // req.queryWithDate = queryWithDate;
     }
 
-    // Verificar si las ventas se realizan en  horario diferente
-    // si el establecimiento tieno el campo schedule 
-    const establishmentDB = await Establishment.findById( establishment );
-    if( establishmentDB.schedule )
-    {
-        console.log(establishmentDB.schedule);
-    }
-
-
-    // // const { sercheable = false } = req.query;
-    // const { id } = req.params;
-    // // Establecimiento del que se desea obtener los licores
-    // const establishment = req.user.establishment;
-    // let query = {
-    //     $and: [
-    //         { '_id': id },
-    //         { establishment },
-    //         { 'state': true }
-    //     ]
-    // };
-
-    req.querySale = query;
+    req.querySale = query;    
     next();
 };
 

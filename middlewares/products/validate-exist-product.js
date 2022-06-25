@@ -8,6 +8,7 @@ const { Product } = require('../../models');
 const validateExistProduct = async( req = request, res = response, next ) => {
 
     console.log("Validando el exist product");
+    console.log("El bodyy: ", req.body);
 
     try 
     {        
@@ -16,17 +17,20 @@ const validateExistProduct = async( req = request, res = response, next ) => {
         // Si existe un licor con los mismos atributos en la base de datos.
         let fields = [
             { name: req.body.name },
-            { category: req.body.category },
-            { unit: req.body.unit },
             { establishment }
         ];
 
-        const { barcode, stock, purchase_price, sale_price, current_existence } = req.body;
+        console.log("Fieldddsss: ", fields.category, fields.unit);
+
+        const { barcode, stock, purchase_price, sale_price, current_existence, category, unit } = req.body;
         if( barcode ) fields.push( {barcode} );
         if( stock ) fields.push( {stock} );
         if( purchase_price ) fields.push( {purchase_price} );
         if( sale_price ) fields.push( {sale_price} );
         if( current_existence ) fields.push( {current_existence} );
+
+        if( category ) fields.push( {category} );
+        if( unit ) fields.push( {unit} );
 
         switch ( req.supercategoryName ) 
         {
@@ -79,7 +83,7 @@ const validateExistProduct = async( req = request, res = response, next ) => {
     } 
     catch (error) 
     {
-        console.log("El error: ",error);
+        console.log("El errorrrrr: ",error);
         return res.status(400).json({
             error: 'Error validando el producto',
         });

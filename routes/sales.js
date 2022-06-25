@@ -5,6 +5,7 @@ const { existSaleById } = require('../helpers');
 const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
 const { validateDefaultDates } = require('../middlewares/sales/validate-default-dates');
 const { ValidateRangeDates, validateRangeDates } = require('../middlewares/sales/validate-range-dates');
+const { validateSaleAggregateQuery } = require('../middlewares/sales/validate-sale-aggregate-query');
 const { validateSaleBasicQuery } = require('../middlewares/sales/validate-sale-basic-query');
 const { validateScheduleDates } = require('../middlewares/sales/validate-schedule-dates');
 const { validateSendDates } = require('../middlewares/sales/validate-send-dates');
@@ -33,11 +34,14 @@ router.post('/', [
     isActiveUser,
     isAdminRole,
     validateFields,
+    // Middlewares para la gestion del rango de fechas de las ventas:
     validateSendDates,
     validateScheduleDates,
     validateRangeDates,
     validateDefaultDates,   
-    validateSaleBasicQuery
+    // --- End Middlewares ---    
+    validateSaleBasicQuery,
+    validateSaleAggregateQuery
 ], getAllSales );
 
 /**

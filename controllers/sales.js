@@ -97,11 +97,7 @@ const getAllSales = async(req, res = response ) => {
     const { limit = 10, from = 0 } = req.query;
     // Saqueme las ventas activas del establecimiento del usuario logueado y este en el rango de fechas
     const query = req.querySale;
-    // const queryWithDate = req.queryWithDate;
-    console.log("Query Venta: ", query);
-    console.log("Fechas: ", query.$and[2]);
-    // console.log("Fechas with sale: ", queryWithDate.$and[2]);
-
+    const queryAggregate = req.saleAggregateQuery;
 
     let [ total, sales, statistics, statisticsInversion ] = await Promise.all([
         Sale.countDocuments(query),
@@ -112,40 +108,10 @@ const getAllSales = async(req, res = response ) => {
                     .skip( Number( from ) )
                     .limit( Number( limit ) ),
         // Agrupar las ventas por dias.
-        Sale.aggregate([
-            {
-                $match: query
-            },
-            {
-                $group: {
-                    _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
-                    totalAmount: { $sum: '$total' },  // Valor total de las ventas del dia
-                    count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
-                }
-            }
-        ]),
+        Sale.aggregate( queryAggregate ),
         // Agrupar las ventas por dias y sacar la inversion.
-        Sale.aggregate([
-            {
-                $match: query
-            },
-            {
-                $group: {
-                    _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
-                    totalAmount: { $sum: '$total_inversion' },  // Valor total de las ventas del dia
-                    count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
-                }
-            }
-        ])
+        Sale.aggregate( queryAggregate )
     ]);
-
-    // total, sales, statistics, statisticsInversion
-    // console.log("total", total);
-    // console.log("sales", sales);
-    // console.log("statistics", statistics);
-    // console.log("statisticsInversion", statisticsInversion);
-
-
 
     statistics = statistics.map(element => {
         return {
@@ -163,11 +129,7 @@ const getAllSales = async(req, res = response ) => {
         };
     });
 
-    // console.log("statistics222", statistics);
-    // console.log("statisticsInversion222", statisticsInversion);
-
-
-    res.json({
+    return res.json({
         total,
         sales,
         statistics,

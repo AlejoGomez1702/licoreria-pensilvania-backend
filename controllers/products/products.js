@@ -39,6 +39,7 @@ const { Product } = require('../../models');
  const getAllProducts = async(req, res = response ) => {
 
     const { limit = 10, from = 0 } = req.query;
+    console.log("Limit: ", limit, "from", from);
     const query = req.queryProduct;
 
     const [ total, products ] = await Promise.all([

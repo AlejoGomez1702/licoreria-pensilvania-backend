@@ -7,76 +7,56 @@
  */
 const validateProductQuery = async( req = request, res = response, next ) => {
     
-    const { category = '', nameSearch = '', sercheable = false } = req.query;
+    const { category = '', nameSearch = '', sercheable = false, onlyWithPriceProblems = false } = req.query;
     // Establecimiento del que se desea obtener los licores
     const establishment = req.user.establishment;
     const supercategory = req.supercategory;
 
-    // ID de la supercategoria -> Licores
-    // const supercategory = '61414fa3752e94b6aa171231';
+    let conditionsList = [
+        { state: true },
+        { supercategory }
+    ];
 
     let query = {};
     if( sercheable ) // Se quiere buscar los productos de otros negocios.
     {
-        query = { 
-            $and : [
-                { state: true }, 
-                { establishment : { $ne: establishment } },
-                { supercategory }
-            ],            
-        }
+        conditionsList.push( { establishment : { $ne: establishment } } );
     }
     else
     {
-        // Saqueme los productos de ese establecimiento que esten activos
-        query = {
-            $and : [
-                { establishment },
-                { state: true },
-                { supercategory }
-            ]
-        };
-
-        if( category ) // si se desean buscar licores por categoria.
-        {
-            query = {
-                $and : [
-                    { establishment }, 
-                    { state: true }, 
-                    { category }, 
-                    { supercategory }
-                ]
-            };
-        }
+        conditionsList.push( { establishment } );
     }
 
+    if( category )
+    {
+        conditionsList.push( { category } );
+    }
+
+    console.log("onliWithSaleProblems: ", typeof(onlyWithPriceProblems));
+
+    if( onlyWithPriceProblems == 'true' )
+    {
+        console.log("solo problemas");
+        // Productos con problemas en los precios.
+        // (purchase_price > sale_price) 
+        // (purchase_price > second_sale_price)  
+        // (purchase_price <= 1) 
+        // (sale_price <= 1)
+        conditionsList.push({
+            $or: [
+                // { $where : "this.purchase_price > this.sale_price" },
+                // { $where: "this.purchase_price > this.sale_price" },
+                { $expr: { $gt: [ '$purchase_price', '$sale_price' ] } },
+                { purchase_price: { $lt: 2 } },
+                { sale_price: { $lt: 2 } }
+            ]
+        });
+    }
+
+    query = { $and: conditionsList };
     req.queryProduct = query;
     next();
 };
-
-// /**
-//  * Realiza la validación para saber cual va ser la consulta para encontrar los productos(licores).
-//  * @param {*} req 
-//  * @param {*} res 
-//  * @param {*} next 
-//  * @returns 
-//  */
-//  const validateSpiritByIdQuery = async( req = request, res = response, next ) => {
-//     const { sercheable = false } = req.query;
-//     const { id } = req.params;
-//     // Establecimiento del que se desea obtener los licores
-//     const establishment = req.user.establishment;
-//     let query = {
-//         $and: [
-//             { '_id': id },
-//             { 'establishment': (sercheable) ? { $ne: establishment } : establishment },
-//             { 'state': true }
-//         ]
-//     };
-
-//     req.queryProduct = query;
-//     next();
-// };
 
 module.exports = {
     validateProductQuery,

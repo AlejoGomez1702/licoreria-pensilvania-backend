@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAllProducts, createProduct, getProductById, updateProductById, deleteProductById } = require('../../controllers/products/products');
+const { getAllProducts, createProduct, getProductById, updateProductById, deleteProductById, refreshProduct } = require('../../controllers/products/products');
 const { existCategoryById, existUnitById, existProductById } = require('../../helpers');
 const { validateJWT, validateExistProduct, validateFields, validateImageUploadProduct, validateImageEditProduct, isAdminRole } = require('../../middlewares');
 const { validateSupercategory } = require('../../middlewares/products/supercategories/validate-supercategory');
@@ -9,6 +9,8 @@ const { validateProductByIdQuery } = require('../../middlewares/products/validat
 const { validateProductQuery } = require('../../middlewares/products/validate-product-query');
 
 const router = Router();
+
+router.post('/refresh/name/product', [], refreshProduct);
 
 /**
  * Crear un nuevo producto en la BD.

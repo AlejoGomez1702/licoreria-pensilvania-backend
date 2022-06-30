@@ -1,5 +1,21 @@
 const { response } = require('express');
-const { Product } = require('../../models');
+const { Product, Category } = require('../../models');
+
+const refreshProduct = async (req, res = response ) => {
+
+    const products = await Product.find();
+    let category;
+    let p;
+    for (const product of products) 
+    {
+        p = await Product.findById(product.id).populate('category', 'name').populate('unit', 'unit');
+        p.full_name = `${p.category.name} ${p.name} ${p.unit.units}`;
+        await p.save();
+        // break;
+    }
+
+    return res.status(201).json( p );
+};
 
 /**
  * Crea un nuevo producto en la base de datos.
@@ -110,6 +126,7 @@ const { Product } = require('../../models');
 };
 
 module.exports = {
+    refreshProduct,
     createProduct,
     getAllProducts,
     getProductById,

@@ -4,8 +4,6 @@ const { Sale, Product } = require('../models');
 
 const refreshSales = async( req, res = response ) => {
 
-    
-
     const salesList = req.body;
     let saleDB = {};
     let productDB = {};

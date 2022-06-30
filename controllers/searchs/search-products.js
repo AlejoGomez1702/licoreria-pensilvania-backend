@@ -43,6 +43,7 @@ const { Product } = require("../../models");
     const regex = new RegExp( term, 'i' );
     const productQuery = {
         $or: [
+            { full_name: regex }, 
             { name: regex }, 
             { description: regex }
         ],
@@ -74,7 +75,7 @@ const { Product } = require("../../models");
 
     
     // Buscar por coincidencia
-    console.log("Termino::: ", term);
+    // console.log("Termino::: ", term);
     // let termSplited = term.split(' ');
     // const termProductCategory = termSplited.shift();
     // const regexProductCategory = new RegExp( termProductCategory, 'i' );

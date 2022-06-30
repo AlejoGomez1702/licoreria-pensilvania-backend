@@ -8,6 +8,10 @@ const ProductSchema = Schema({
         required: [true, 'El nombre es obligatorio']
     },
 
+    full_name: {
+        type: String
+    },
+
     code: {
         type: String,
         trim: true

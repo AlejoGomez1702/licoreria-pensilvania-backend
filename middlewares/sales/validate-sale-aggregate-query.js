@@ -11,7 +11,7 @@ const moment = require('moment');
 
     const query = req.querySale;
 
-    const saleAggregateQuery = [
+    const saleTotalQuery = [
         {
             $match: query
         },
@@ -22,10 +22,24 @@ const moment = require('moment');
                 count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
             }
         }
-    ]
+    ];
 
-    req.saleAggregateQuery = saleAggregateQuery;
-    console.log("Query agregate: ", req.saleAggregateQuery);    
+    const saleInversionQuery = [
+        {
+            $match: query
+        },
+        {
+            $group: {
+                _id: { day: { $dayOfYear: "$created_at"}, year: { $year: "$created_at" } },
+                totalAmount: { $sum: '$total_inversion' },  // Valor total de las ventas del dia
+                count: { $sum: 1 } // Cuantas ventas se hicieron en el dia
+            }
+        }
+    ];
+
+    req.saleTotalQuery = saleTotalQuery;
+    req.saleInversionQuery = saleInversionQuery;
+    console.log("Query agregate: ", req.saleTotalQuery);    
     next();
 };
 

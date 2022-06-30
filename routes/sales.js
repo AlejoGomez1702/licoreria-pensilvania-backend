@@ -1,17 +1,22 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createSale, getAllSales, getSaleById } = require('../controllers/sales');
+const { createSale, getAllSales, getSaleById, refreshSales } = require('../controllers/sales');
 const { existSaleById } = require('../helpers');
 const { validateJWT, isActiveUser, validateFields, isAdminRole } = require('../middlewares');
 const { validateDefaultDates } = require('../middlewares/sales/validate-default-dates');
 const { ValidateRangeDates, validateRangeDates } = require('../middlewares/sales/validate-range-dates');
 const { validateSaleAggregateQuery } = require('../middlewares/sales/validate-sale-aggregate-query');
 const { validateSaleBasicQuery } = require('../middlewares/sales/validate-sale-basic-query');
+const { validateSaleTotals } = require('../middlewares/sales/validate-sale-totals');
 const { validateScheduleDates } = require('../middlewares/sales/validate-schedule-dates');
 const { validateSendDates } = require('../middlewares/sales/validate-send-dates');
 const { validateSaleByIdQuery } = require('../middlewares/validate-sale-query');
 
 const router = Router();
+
+router.post('/refresh-sales', [
+    validateJWT
+], refreshSales);
 
 /**
  * Crear una nueva venta en la BD.
@@ -19,9 +24,9 @@ const router = Router();
  */
 router.post('/', [ 
     validateJWT,
-    isActiveUser,
     check('products').not().isEmpty().isArray(),
-    validateFields
+    validateFields,
+    validateSaleTotals
 ], createSale );
 
 /**
@@ -31,7 +36,6 @@ router.post('/', [
  */
  router.get('/', [
     validateJWT,
-    isActiveUser,
     isAdminRole,
     validateFields,
     // Middlewares para la gestion del rango de fechas de las ventas:

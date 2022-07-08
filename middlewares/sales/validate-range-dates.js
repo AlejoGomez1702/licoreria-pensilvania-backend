@@ -16,13 +16,14 @@ const moment = require('moment');
     // Hay un rango de fechas seleccionado para sacar las ventas
     if( isDateRangeSelected )
     {
-        const { starDateFrontend, endDateFrontend } = req.rangeSelected;
+        const { startDateFrontend, endDateFrontend } = req.rangeSelected;
         
-        startDateFull = moment( starDateFrontend );
+        startDateFull = moment( startDateFrontend );
         endDateFull = moment( endDateFrontend );
     }
     else
     {
+        // Saqueme las ventas del mes en curso
         const todayDate = moment().startOf('day');
         const daysToSubstract = todayDate.get('D') - 1;
         startDateFull = todayDate.subtract( daysToSubstract, 'days' ); // 2022-06-01T00:00:00-05:00

@@ -4,7 +4,8 @@ const { createUnit, getAllUnits, getUnitById, updateUnitById, deleteUnitById } =
 const { existUnitById } = require('../../helpers/db-validators');
 
 const { validateJWT, validateFields, isAdminRole, isActiveUser, validateCreateUnit } = require('../../middlewares');
-const { validateQuerySupercategories } = require('../../middlewares/products/supercategories/validate-query-supercategories');
+const { validateQueryCategories } = require('../../middlewares/products/supercategories/validate-query-categories');
+const { validateSupercategory } = require('../../middlewares/products/supercategories/validate-supercategory');
 
 const router = Router();
 
@@ -25,7 +26,8 @@ const router = Router();
  * {{ url }}/api/units
  */
 router.get('/', [
-    validateQuerySupercategories  // Validar el query que se ejecutará dependiendo los parametros.
+    validateSupercategory,
+    validateQueryCategories  // Validar el query que se ejecutará dependiendo los parametros.
 ], getAllUnits);
 
 /**

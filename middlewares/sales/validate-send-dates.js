@@ -8,20 +8,35 @@
  const validateSendDates = async( req = request, res = response, next ) => {
 
     let {
-        start: starDateFrontend = '', // Fecha inicial pedida desde el frontend Hora:(00:00:00)
-        end: endDateFrontend = ''  // Fecha final pedida desde el frontend Hora:(00:00:00)
+        start: startDateFrontend = '', // Fecha inicial pedida desde el frontend Hora:(00:00:00)
+        end: endDateFrontend = '',  // Fecha final pedida desde el frontend Hora:(00:00:00)
+        // Time
+        startTime: startDateTimeFrontend = '',
+        endTime: endDateTimeFrontend = ''
     } = req.query;
 
     req.isDateRangeSelected = false;
+    req.isDateTimeRangeSelected = false;
 
-    if(starDateFrontend && endDateFrontend)
+    if(startDateFrontend && endDateFrontend)
     {
         req.isDateRangeSelected = true;
         req.rangeSelected = {
-            starDateFrontend,
+            startDateFrontend,
             endDateFrontend
         };
+
+        if(startDateTimeFrontend && endDateTimeFrontend)
+        {
+            req.isDateTimeRangeSelected = true;
+            req.rangeTimeSelected = {
+                startDateTimeFrontend,
+                endDateTimeFrontend
+            };
+        }
     }
+
+    console.log("Range time Selected:: ", req.rangeTimeSelected );
 
     next();
 };

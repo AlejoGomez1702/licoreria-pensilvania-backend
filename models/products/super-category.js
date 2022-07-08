@@ -1,11 +1,16 @@
 const { Schema, model } = require('mongoose');
 
 const SuperCategorySchema = Schema({
-    name: {
+    code: {
         type: String,
         trim: true,
         required: [true, 'El nombre es obligatorio'],
         unique: true
+    },
+    name: {
+        type: String,
+        trim: true,
+        required: [true, 'El nombre es obligatorio']
     },
     icon: {
         type: String,

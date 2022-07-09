@@ -14,7 +14,12 @@ const validateSupercategory = async ( req = request, res = response, next ) => {
     req.supercategoryName = supercategory;
 
     const supercategoryDB = await SuperCategory.findOne({ code: supercategory });
-    supercategory = supercategoryDB.id;
+
+    if(supercategoryDB)
+    {
+        req.supercategory = supercategoryDB.id;
+    }
+        
 
     // console.log("body: ", req.body);
     // console.log("query: ", req.query);
@@ -47,8 +52,7 @@ const validateSupercategory = async ( req = request, res = response, next ) => {
     
     //     default: break;          
     // }
-
-    req.supercategory = supercategory;
+    
     next();
 };
 

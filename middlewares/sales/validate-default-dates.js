@@ -10,11 +10,33 @@ const moment = require('moment');
  */
  const validateDefaultDates = async( req = request, res = response, next ) => {
   
-    const anotherSchedule = req.anotherSchedule;
     let startDateFull = req.startDateFull; // Fecha inicial de selección
     let endDateFull = req.endDateFull; // Fecha final (Si es undefined NO se a seleccionado un rango de fechas)
 
-    if( anotherSchedule ) // El negocio tiene otro horario establecido.
+    // Las ventas por defecto, no hay un rango seleccionado
+    if( startDateFull && !endDateFull )
+    {
+        startDateFull = startDateFull.clone();
+        endDateFull = startDateFull.clone().add( 1, 'month' );
+    }
+
+    // Hay un rango seleccionado
+    if(  req.isDateTimeRangeSelected )
+    {
+        const { startDateTimeFrontend, endDateTimeFrontend } = req.rangeTimeSelected;
+        // sumarle las horas minutos y segundos a la fecha inicial
+        startDateFull = startDateFull.clone().add( startDateTimeFrontend.hours(), 'h' )
+                                             .add( startDateTimeFrontend.minutes(), 'm' )
+                                             .add( startDateTimeFrontend.seconds(), 's' );
+
+        // sumarle las horas minutos y segundos a la fecha final
+        endDateFull = endDateFull.clone().add( endDateTimeFrontend.hours(), 'h' )
+                                         .add( endDateTimeFrontend.minutes(), 'm' )
+                                         .add( endDateTimeFrontend.seconds(), 's' );
+    }
+
+    // El negocio tiene otro horario establecido y no esta seleccionado un rango de horas. 
+    if( req.anotherSchedule  && !req.isDateTimeRangeSelected ) 
     {
         const originStartDate = startDateFull.clone();
         const scheduleData = req.anotherScheduleData;
@@ -38,17 +60,11 @@ const moment = require('moment');
                                             .add( minutesEnd, 'minutes' ).add( secondsEnd, 'seconds' );
         }     
     }
-    else
-    {
-        startDateFull = startDateFull.clone();
-        endDateFull = startDateFull.clone().add( 1, 'month' );
-    }   
 
     req.startDateFull = startDateFull;
     req.endDateFull = endDateFull;
     console.log("startDateFull: ", startDateFull);
     console.log("endDateFull: ", endDateFull);
-
 
     next();
 };

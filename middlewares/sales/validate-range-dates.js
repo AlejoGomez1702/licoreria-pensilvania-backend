@@ -9,12 +9,11 @@ const moment = require('moment');
  */
  const validateRangeDates = async( req = request, res = response, next ) => {
 
-    const isDateRangeSelected = req.isDateRangeSelected;  
     let startDateFull = undefined; // Fecha inicial de selección
-    let endDateFull = undefined; // Fecha final (Si es undefined NO se a seleccionado un rango de fechas)
+    let endDateFull = undefined; // Fecha final 
 
     // Hay un rango de fechas seleccionado para sacar las ventas
-    if( isDateRangeSelected )
+    if( req.isDateRangeSelected )
     {
         const { startDateFrontend, endDateFrontend } = req.rangeSelected;
         

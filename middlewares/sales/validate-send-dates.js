@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 /**
  * Realiza la validación para saber cual va ser la consulta para encontraQueryr los productos(licores).
  * @param {*} req 
@@ -30,8 +32,8 @@
         {
             req.isDateTimeRangeSelected = true;
             req.rangeTimeSelected = {
-                startDateTimeFrontend,
-                endDateTimeFrontend
+                startDateTimeFrontend: moment(startDateTimeFrontend),
+                endDateTimeFrontend: moment(endDateTimeFrontend)
             };
         }
     }
